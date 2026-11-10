@@ -1,4 +1,4 @@
-import { ImperiumGameTestSuite } from './gametest/ImperiumGameTestSuite.js';
+import { ImperiumGameTestSuite } from "./gametest/ImperiumGameTestSuite.js";
 import { WorldGenManager } from './environment/WorldGenManager.js';
 import { SoldierInteractionUI } from './ui/SoldierInteractionUI.js';
 import { BlueprintBuilder } from './territory/BlueprintBuilder.js';
@@ -205,12 +205,78 @@ world.afterEvents.entityDie.subscribe((event) => {
 });
 
 
-// Headless BDS Otomatik Test Tetikleyicisi (scriptevent imperium:run_tests veya dunya acilisi)
-system.afterEvents.scriptEventReceive.subscribe((event) => {
-    if (event.id === 'imperium:run_tests') {
-        const players = world.getAllPlayers();
-        if (players.length > 0) {
-            ImperiumGameTestSuite.runAllSimulatedPlayerScenarios(players[0]);
+function createHeadlessBDSSimPlayer() {
+    const dim = world.getDimension("overworld");
+    const slots = new Array(36).fill(undefined);
+    const props = new Map();
+    const tags = new Set();
+    return {
+        id: "bds_sim_player_01",
+        name: "Sultan_Headless_BDS",
+        typeId: "minecraft:player",
+        location: { x: 0, y: 70, z: 0 },
+        dimension: dim,
+        isSprinting: true,
+        addTag(t) { tags.add(t); },
+        hasTag(t) { return tags.has(t); },
+        removeTag(t) { tags.delete(t); },
+        getTags() { return Array.from(tags); },
+        setDynamicProperty(k, v) { props.set(k, v); },
+        getDynamicProperty(k) { return props.get(k); },
+        getViewDirection() { return { x: 0, y: 0.2, z: 1 }; },
+        applyKnockback() {},
+        triggerEvent() {},
+        addEffect() {},
+        applyDamage() {},
+        sendMessage(m) {},
+        runCommand(cmd) {
+            if (cmd.startsWith("give @s ")) {
+                const parts = cmd.split(" ");
+                const itemType = parts[2];
+                const amt = parseInt(parts[3] || "1", 10);
+                for (let i = 0; i < slots.length; i++) {
+                    if (slots[i] && slots[i].typeId === itemType) { slots[i].amount += amt; return { successCount: 1 }; }
+                }
+                for (let i = 0; i < slots.length; i++) {
+                    if (!slots[i]) { slots[i] = { typeId: itemType, amount: amt }; return { successCount: 1 }; }
+                }
+            }
+            try { return dim.runCommand(cmd); } catch (e) { return { successCount: 0 }; }
+        },
+        getComponent(id) {
+            if (id === "inventory") {
+                return {
+                    container: {
+                        size: 36,
+                        getItem(i) { return slots[i]; },
+                        setItem(i, v) { slots[i] = v; }
+                    }
+                };
+            }
+            if (id === "health") return { currentValue: 20, effectiveMax: 32 };
+            if (id === "equippable") return { getEquipment: () => ({ typeId: "megamod:spartan_dory" }) };
+            return null;
         }
+    };
+}
+
+let testsExecuted = false;
+function triggerHeadlessTests() {
+    if (testsExecuted) return;
+    testsExecuted = true;
+    const players = world.getAllPlayers();
+    const targetPlayer = players.length > 0 ? players[0] : createHeadlessBDSSimPlayer();
+    ImperiumGameTestSuite.runAllSimulatedPlayerScenarios(targetPlayer);
+}
+
+system.afterEvents.scriptEventReceive.subscribe((event) => {
+    if (event.id === "imperium:run_tests") {
+        triggerHeadlessTests();
     }
+});
+
+world.afterEvents.worldInitialize.subscribe(() => {
+    system.runTimeout(() => {
+        triggerHeadlessTests();
+    }, 40);
 });

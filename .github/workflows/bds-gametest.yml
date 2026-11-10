@@ -36,6 +36,7 @@ jobs:
       - name: Run Headless BDS GameTest & Content-Log Check
         run: |
           if [ -f "./bds/bedrock_server" ]; then
+            set -o pipefail
             python3 bds_run.py --bds-dir ./bds | tee bds_console.log
           fi
 
