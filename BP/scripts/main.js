@@ -237,3 +237,14 @@ world.afterEvents.entityHurt.subscribe((event) => {
 world.afterEvents.entityDie.subscribe((event) => {
  MilitaryController.handleEntityDie(event);
 });
+
+world.beforeEvents.playerBreakBlock.subscribe((event) => {
+ const player = event.player;
+ const block = event.block;
+ if (!player || !block) return;
+ const allowed = PolygonClaimEngine.canPlayerModifyBlock(player, block.location);
+ if (!allowed) {
+ event.cancel = true;
+ player.sendMessage('§c[Sinir Muhafizi] Bu topraklar baska bir hanedana aittir! Izinsiz yikim yasaktir.');
+ }
+});

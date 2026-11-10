@@ -156,6 +156,10 @@ export const world = {
     getAllPlayers() { return [simPlayer]; },
     sendMessage(msg) {},
     getDimension() { return mockDimension; },
+    beforeEvents: {
+        playerBreakBlock: { subscribe(fn) {} },
+        playerInteractWithBlock: { subscribe(fn) {} }
+    },
     afterEvents: {
         worldInitialize: { subscribe(fn) {} },
         playerSpawn: { subscribe(fn) {} },

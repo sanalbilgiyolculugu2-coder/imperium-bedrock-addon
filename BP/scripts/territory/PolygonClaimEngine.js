@@ -282,4 +282,19 @@ export class PolygonClaimEngine {
  const newArea = k.flags.length >= 3 ? this.calculatePolygonArea(k.flags) : 0;
  return { success: true, newArea: newArea, diffArea: 0, paid: 0, refund: 0 };
  }
+ static canPlayerModifyBlock(player, blockPos) {
+ if (!player || !blockPos) return true;
+ const all = this.getAllKingdoms();
+ const pt = { x: blockPos.x, z: blockPos.z };
+ for (const [ownerId, k] of Object.entries(all)) {
+ if (!k || !k.flags || k.flags.length < 3) continue;
+ if (this.isPointInsidePolygon(pt, k.flags)) {
+ if (ownerId === player.id) return true;
+ const rank = player.getDynamicProperty('imperium:clan_rank');
+ if (rank) return true;
+ return false;
+ }
+ }
+ return true;
+ }
 }
