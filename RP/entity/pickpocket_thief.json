@@ -10,7 +10,7 @@
         "default": "textures/entity/imperium/pickpocket_thief"
       },
       "geometry": {
-        "default": "geometry.imperium.swordsman_infantry"
+        "default": "geometry.imperium.soldier_humanoid"
       },
       "animations": {
         "idle": "animation.imperium.soldier.idle",

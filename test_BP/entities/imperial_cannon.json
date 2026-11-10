@@ -134,11 +134,6 @@
       "minecraft:behavior.float": {
         "priority": 0
       },
-      "minecraft:behavior.melee_attack": {
-        "priority": 2,
-        "speed_multiplier": 1.15,
-        "track_target": true
-      },
       "minecraft:behavior.hurt_by_target": {
         "priority": 1
       },
@@ -208,7 +203,35 @@
           "deals_damage": false
         }
       },
-      "minecraft:is_tamed": {}
+      "minecraft:is_tamed": {},
+      "minecraft:rideable": {
+        "seat_count": 1,
+        "family_types": [
+          "player",
+          "soldier"
+        ],
+        "seats": [
+          {
+            "position": [
+              0.0,
+              0.8,
+              -0.6
+            ]
+          }
+        ]
+      },
+      "minecraft:behavior.ranged_attack": {
+        "priority": 1,
+        "attack_interval_min": 3.0,
+        "attack_interval_max": 5.0,
+        "attack_radius": 40.0
+      },
+      "minecraft:shooter": {
+        "def": "minecraft:small_fireball"
+      },
+      "minecraft:loot": {
+        "table": "loot_tables/entities/imperial_cannon_loot.json"
+      }
     },
     "events": {
       "minecraft:entity_spawned": {

@@ -125,7 +125,7 @@
         "allow_name_tag_renaming": true
       },
       "minecraft:loot": {
-        "table": "loot_tables/entities/soldier_basic.json"
+        "table": "loot_tables/entities/war_horse_loot.json"
       },
       "minecraft:physics": {},
       "minecraft:pushable": {

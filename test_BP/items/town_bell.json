@@ -14,7 +14,20 @@
         "value": "item.megamod:town_bell.name"
       },
       "minecraft:max_stack_size": 1,
-      "minecraft:hand_equipped": false
+      "minecraft:hand_equipped": false,
+      "minecraft:block_placer": {
+        "block": "megamod:town_bell_block",
+        "use_on": [
+          "minecraft:dirt",
+          "minecraft:grass_block",
+          "minecraft:stone",
+          "minecraft:cobblestone",
+          "minecraft:sand",
+          "minecraft:gravel",
+          "minecraft:planks",
+          "minecraft:stone_bricks"
+        ]
+      }
     }
   }
 }

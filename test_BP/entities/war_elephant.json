@@ -208,7 +208,10 @@
           "deals_damage": false
         }
       },
-      "minecraft:is_tamed": {}
+      "minecraft:is_tamed": {},
+      "minecraft:loot": {
+        "table": "loot_tables/entities/war_elephant_loot.json"
+      }
     },
     "events": {
       "minecraft:entity_spawned": {

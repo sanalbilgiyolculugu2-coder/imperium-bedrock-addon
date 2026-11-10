@@ -10,7 +10,7 @@
         "default": "textures/entity/imperium/pirate_raider"
       },
       "geometry": {
-        "default": "geometry.imperium.soldier"
+        "default": "geometry.imperium.soldier_humanoid"
       },
       "render_controllers": [
         "controller.render.imperium.default"

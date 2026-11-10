@@ -10,7 +10,7 @@
         "default": "textures/entity/imperium/regular_footman"
       },
       "geometry": {
-        "default": "geometry.imperium.swordsman_infantry"
+        "default": "geometry.imperium.soldier_humanoid"
       },
       "animations": {
         "idle": "animation.imperium.soldier.idle",

@@ -155,6 +155,62 @@
           }
         }
       }
+    },
+    "animation.imperium.soldier.shield_block": {
+      "loop": true,
+      "bones": {
+        "leftarm": {
+          "rotation": [
+            -25.0,
+            45.0,
+            -30.0
+          ],
+          "position": [
+            1.5,
+            0.5,
+            -2.0
+          ]
+        },
+        "body": {
+          "rotation": [
+            0.0,
+            -10.0,
+            0.0
+          ]
+        }
+      }
+    },
+    "animation.imperium.soldier.look_at_target": {
+      "loop": true,
+      "bones": {
+        "head": {
+          "rotation": [
+            "query.target_x_rotation",
+            "query.target_y_rotation",
+            0.0
+          ]
+        }
+      }
+    },
+    "animation.imperium.wheel.roll": {
+      "loop": true,
+      "anim_time_update": "query.modified_move_speed",
+      "bones": {
+        "wheel_left": {
+          "rotation": [
+            "query.anim_time * 180.0",
+            0.0,
+            0.0
+          ]
+        },
+        "wheel_right": {
+          "rotation": [
+            "query.anim_time * 180.0",
+            0.0,
+            0.0
+          ]
+        }
+      }
     }
   }
 }

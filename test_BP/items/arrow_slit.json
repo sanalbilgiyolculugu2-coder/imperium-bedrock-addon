@@ -12,7 +12,20 @@
       "minecraft:display_name": {
         "value": "item.megamod:arrow_slit.name"
       },
-      "minecraft:max_stack_size": 16
+      "minecraft:max_stack_size": 16,
+      "minecraft:block_placer": {
+        "block": "megamod:arrow_slit_block",
+        "use_on": [
+          "minecraft:dirt",
+          "minecraft:grass_block",
+          "minecraft:stone",
+          "minecraft:cobblestone",
+          "minecraft:sand",
+          "minecraft:gravel",
+          "minecraft:planks",
+          "minecraft:stone_bricks"
+        ]
+      }
     }
   }
 }
