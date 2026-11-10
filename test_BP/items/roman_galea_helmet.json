@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "roman_galea_helmet"
-      },
+      "minecraft:icon": "roman_galea_helmet",
       "minecraft:display_name": {
         "value": "item.megamod:roman_galea_helmet.name"
       },

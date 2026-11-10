@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "ottoman_yatagan"
-      },
+      "minecraft:icon": "ottoman_yatagan",
       "minecraft:display_name": {
         "value": "item.megamod:ottoman_yatagan.name"
       },

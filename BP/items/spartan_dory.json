@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "spartan_dory"
-      },
+      "minecraft:icon": "spartan_dory",
       "minecraft:display_name": {
         "value": "item.megamod:spartan_dory.name"
       },

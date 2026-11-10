@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "toll_gate"
-      },
+      "minecraft:icon": "toll_gate",
       "minecraft:display_name": {
         "value": "item.megamod:toll_gate.name"
       },

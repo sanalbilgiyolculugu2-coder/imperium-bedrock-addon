@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "couch_lance"
-      },
+      "minecraft:icon": "couch_lance",
       "minecraft:display_name": {
         "value": "item.megamod:couch_lance.name"
       },

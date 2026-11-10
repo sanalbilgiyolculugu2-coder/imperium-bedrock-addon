@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "relic_excalibur"
-      },
+      "minecraft:icon": "relic_excalibur",
       "minecraft:display_name": {
         "value": "item.megamod:relic_excalibur.name"
       },

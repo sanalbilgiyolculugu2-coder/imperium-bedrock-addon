@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "salted_fish"
-      },
+      "minecraft:icon": "salted_fish",
       "minecraft:display_name": {
         "value": "item.megamod:salted_fish.name"
       },

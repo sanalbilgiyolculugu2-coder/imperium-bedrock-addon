@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "harbor_dock"
-      },
+      "minecraft:icon": "harbor_dock",
       "minecraft:display_name": {
         "value": "item.megamod:harbor_dock.name"
       },

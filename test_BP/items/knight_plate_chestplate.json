@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "knight_plate_chestplate"
-      },
+      "minecraft:icon": "knight_plate_chestplate",
       "minecraft:display_name": {
         "value": "item.megamod:knight_plate_chestplate.name"
       },

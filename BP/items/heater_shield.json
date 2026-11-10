@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "heater_shield"
-      },
+      "minecraft:icon": "heater_shield",
       "minecraft:display_name": {
         "value": "item.megamod:heater_shield.name"
       },

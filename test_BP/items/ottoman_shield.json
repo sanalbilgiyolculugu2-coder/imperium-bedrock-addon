@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "ottoman_shield"
-      },
+      "minecraft:icon": "ottoman_shield",
       "minecraft:display_name": {
         "value": "item.megamod:ottoman_shield.name"
       },

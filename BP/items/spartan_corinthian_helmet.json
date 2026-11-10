@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "spartan_corinthian_helmet"
-      },
+      "minecraft:icon": "spartan_corinthian_helmet",
       "minecraft:display_name": {
         "value": "item.megamod:spartan_corinthian_helmet.name"
       },

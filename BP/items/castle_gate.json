@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "castle_gate"
-      },
+      "minecraft:icon": "castle_gate",
       "minecraft:display_name": {
         "value": "item.megamod:castle_gate.name"
       },

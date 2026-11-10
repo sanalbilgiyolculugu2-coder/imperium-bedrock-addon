@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "two_handed_claymore"
-      },
+      "minecraft:icon": "two_handed_claymore",
       "minecraft:display_name": {
         "value": "item.megamod:two_handed_claymore.name"
       },

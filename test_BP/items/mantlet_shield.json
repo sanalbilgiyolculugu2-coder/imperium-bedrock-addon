@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "mantlet_shield"
-      },
+      "minecraft:icon": "mantlet_shield",
       "minecraft:display_name": {
         "value": "item.megamod:mantlet_shield.name"
       },

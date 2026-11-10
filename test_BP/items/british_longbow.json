@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "british_longbow"
-      },
+      "minecraft:icon": "british_longbow",
       "minecraft:display_name": {
         "value": "item.megamod:british_longbow.name"
       },

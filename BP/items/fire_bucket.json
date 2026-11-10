@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "fire_bucket"
-      },
+      "minecraft:icon": "fire_bucket",
       "minecraft:display_name": {
         "value": "item.megamod:fire_bucket.name"
       },

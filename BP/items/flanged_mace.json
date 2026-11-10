@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "flanged_mace"
-      },
+      "minecraft:icon": "flanged_mace",
       "minecraft:display_name": {
         "value": "item.megamod:flanged_mace.name"
       },

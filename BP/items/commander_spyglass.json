@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "commander_spyglass"
-      },
+      "minecraft:icon": "commander_spyglass",
       "minecraft:display_name": {
         "value": "item.megamod:commander_spyglass.name"
       },

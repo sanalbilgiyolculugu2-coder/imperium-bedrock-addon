@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "lorica_segmentata_chestplate"
-      },
+      "minecraft:icon": "lorica_segmentata_chestplate",
       "minecraft:display_name": {
         "value": "item.megamod:lorica_segmentata_chestplate.name"
       },

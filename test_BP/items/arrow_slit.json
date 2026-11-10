@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "arrow_slit"
-      },
+      "minecraft:icon": "arrow_slit",
       "minecraft:display_name": {
         "value": "item.megamod:arrow_slit.name"
       },

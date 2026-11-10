@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "tactical_map_table"
-      },
+      "minecraft:icon": "tactical_map_table",
       "minecraft:display_name": {
         "value": "item.megamod:tactical_map_table.name"
       },

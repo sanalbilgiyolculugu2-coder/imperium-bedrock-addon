@@ -307,6 +307,7 @@ def run_real_bds(bds_dir):
         if "server started." in low and not server_started:
             server_started = True
             print("[+] Gercek BDS sunucusu basariyla basladi! scriptevent imperium:run_tests gonderiliyor...")
+            proc.stdin.write("tickingarea add circle 0 70 0 4 imperium_test\n")
             proc.stdin.write("scriptevent imperium:run_tests\n")
             proc.stdin.flush()
         if server_started and (test_summary is not None or time.time() - start_time > 25):

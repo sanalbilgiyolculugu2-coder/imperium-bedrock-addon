@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "viking_chain_hauberk"
-      },
+      "minecraft:icon": "viking_chain_hauberk",
       "minecraft:display_name": {
         "value": "item.megamod:viking_chain_hauberk.name"
       },

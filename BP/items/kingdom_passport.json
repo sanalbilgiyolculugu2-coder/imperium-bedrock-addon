@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "kingdom_passport"
-      },
+      "minecraft:icon": "kingdom_passport",
       "minecraft:display_name": {
         "value": "item.megamod:kingdom_passport.name"
       },

@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "battle_axe"
-      },
+      "minecraft:icon": "battle_axe",
       "minecraft:display_name": {
         "value": "item.megamod:battle_axe.name"
       },

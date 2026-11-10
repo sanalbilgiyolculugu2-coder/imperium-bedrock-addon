@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "relic_fatih_sword"
-      },
+      "minecraft:icon": "relic_fatih_sword",
       "minecraft:display_name": {
         "value": "item.megamod:relic_fatih_sword.name"
       },

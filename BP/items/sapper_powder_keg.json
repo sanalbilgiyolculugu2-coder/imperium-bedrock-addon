@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "sapper_powder_keg"
-      },
+      "minecraft:icon": "sapper_powder_keg",
       "minecraft:display_name": {
         "value": "item.megamod:sapper_powder_keg.name"
       },

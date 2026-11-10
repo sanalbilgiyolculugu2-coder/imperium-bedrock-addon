@@ -9,12 +9,18 @@
     ],
     "pattern": [
       " I ",
-      " I ",
+      "NGN",
       " S "
     ],
     "key": {
       "I": {
         "item": "minecraft:iron_ingot"
+      },
+      "G": {
+        "item": "minecraft:iron_ingot"
+      },
+      "N": {
+        "item": "minecraft:gold_nugget"
       },
       "S": {
         "item": "minecraft:stick"

@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "relic_caesar_gladius"
-      },
+      "minecraft:icon": "relic_caesar_gladius",
       "minecraft:display_name": {
         "value": "item.megamod:relic_caesar_gladius.name"
       },

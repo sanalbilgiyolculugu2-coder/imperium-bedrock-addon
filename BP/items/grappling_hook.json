@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "grappling_hook"
-      },
+      "minecraft:icon": "grappling_hook",
       "minecraft:display_name": {
         "value": "item.megamod:grappling_hook.name"
       },

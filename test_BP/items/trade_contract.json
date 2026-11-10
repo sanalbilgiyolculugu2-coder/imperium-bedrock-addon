@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "trade_contract"
-      },
+      "minecraft:icon": "trade_contract",
       "minecraft:display_name": {
         "value": "item.megamod:trade_contract.name"
       },

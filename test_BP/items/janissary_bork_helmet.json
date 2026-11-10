@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "janissary_bork_helmet"
-      },
+      "minecraft:icon": "janissary_bork_helmet",
       "minecraft:display_name": {
         "value": "item.megamod:janissary_bork_helmet.name"
       },

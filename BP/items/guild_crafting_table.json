@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "guild_crafting_table"
-      },
+      "minecraft:icon": "guild_crafting_table",
       "minecraft:display_name": {
         "value": "item.megamod:guild_crafting_table.name"
       },

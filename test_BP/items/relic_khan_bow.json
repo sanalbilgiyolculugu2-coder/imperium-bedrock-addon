@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "relic_khan_bow"
-      },
+      "minecraft:icon": "relic_khan_bow",
       "minecraft:display_name": {
         "value": "item.megamod:relic_khan_bow.name"
       },

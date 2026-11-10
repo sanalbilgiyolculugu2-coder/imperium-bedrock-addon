@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "smoked_meat"
-      },
+      "minecraft:icon": "smoked_meat",
       "minecraft:display_name": {
         "value": "item.megamod:smoked_meat.name"
       },

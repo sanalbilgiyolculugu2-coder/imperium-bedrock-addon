@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "viking_nasal_helmet"
-      },
+      "minecraft:icon": "viking_nasal_helmet",
       "minecraft:display_name": {
         "value": "item.megamod:viking_nasal_helmet.name"
       },

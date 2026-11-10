@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "spartan_bronze_cuirass"
-      },
+      "minecraft:icon": "spartan_bronze_cuirass",
       "minecraft:display_name": {
         "value": "item.megamod:spartan_bronze_cuirass.name"
       },

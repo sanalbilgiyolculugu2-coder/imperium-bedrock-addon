@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "campaign_compass"
-      },
+      "minecraft:icon": "campaign_compass",
       "minecraft:display_name": {
         "value": "item.megamod:campaign_compass.name"
       },

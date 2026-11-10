@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "steel_crossbow"
-      },
+      "minecraft:icon": "steel_crossbow",
       "minecraft:display_name": {
         "value": "item.megamod:steel_crossbow.name"
       },

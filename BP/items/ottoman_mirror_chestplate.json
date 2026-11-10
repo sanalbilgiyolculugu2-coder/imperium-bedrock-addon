@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "ottoman_mirror_chestplate"
-      },
+      "minecraft:icon": "ottoman_mirror_chestplate",
       "minecraft:display_name": {
         "value": "item.megamod:ottoman_mirror_chestplate.name"
       },

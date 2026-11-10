@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "viking_round_shield"
-      },
+      "minecraft:icon": "viking_round_shield",
       "minecraft:display_name": {
         "value": "item.megamod:viking_round_shield.name"
       },

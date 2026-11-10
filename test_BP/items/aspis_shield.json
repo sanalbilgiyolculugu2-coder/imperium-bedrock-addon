@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "aspis_shield"
-      },
+      "minecraft:icon": "aspis_shield",
       "minecraft:display_name": {
         "value": "item.megamod:aspis_shield.name"
       },

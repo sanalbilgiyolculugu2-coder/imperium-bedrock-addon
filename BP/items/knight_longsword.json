@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "knight_longsword"
-      },
+      "minecraft:icon": "knight_longsword",
       "minecraft:display_name": {
         "value": "item.megamod:knight_longsword.name"
       },

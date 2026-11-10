@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "horse_saddlebag"
-      },
+      "minecraft:icon": "horse_saddlebag",
       "minecraft:display_name": {
         "value": "item.megamod:horse_saddlebag.name"
       },

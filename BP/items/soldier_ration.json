@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "soldier_ration"
-      },
+      "minecraft:icon": "soldier_ration",
       "minecraft:display_name": {
         "value": "item.megamod:soldier_ration.name"
       },

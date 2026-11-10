@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "roman_gladius"
-      },
+      "minecraft:icon": "roman_gladius",
       "minecraft:display_name": {
         "value": "item.megamod:roman_gladius.name"
       },

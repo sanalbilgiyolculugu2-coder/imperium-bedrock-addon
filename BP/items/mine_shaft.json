@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "mine_shaft"
-      },
+      "minecraft:icon": "mine_shaft",
       "minecraft:display_name": {
         "value": "item.megamod:mine_shaft.name"
       },

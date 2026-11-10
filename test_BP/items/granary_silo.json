@@ -1,22 +1,20 @@
 {
-    "format_version": "1.20.80",
-    "minecraft:item": {
-        "description": {
-            "identifier": "megamod:granary_silo",
-            "menu_category": {
-                "category": "items",
-                "group": "itemGroup.name.misc"
-            }
-        },
-        "components": {
-            "minecraft:icon": {
-                "texture": "granary_silo"
-            },
-            "minecraft:display_name": {
-                "value": "item.megamod:granary_silo.name"
-            },
-            "minecraft:max_stack_size": 16,
-            "minecraft:hand_equipped": false
-        }
+  "format_version": "1.20.80",
+  "minecraft:item": {
+    "description": {
+      "identifier": "megamod:granary_silo",
+      "menu_category": {
+        "category": "items",
+        "group": "itemGroup.name.misc"
+      }
+    },
+    "components": {
+      "minecraft:icon": "granary_silo",
+      "minecraft:display_name": {
+        "value": "item.megamod:granary_silo.name"
+      },
+      "minecraft:max_stack_size": 16,
+      "minecraft:hand_equipped": false
     }
+  }
 }

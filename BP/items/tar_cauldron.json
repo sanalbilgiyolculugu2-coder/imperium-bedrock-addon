@@ -1,22 +1,20 @@
 {
-    "format_version": "1.20.80",
-    "minecraft:item": {
-        "description": {
-            "identifier": "megamod:tar_cauldron",
-            "menu_category": {
-                "category": "items",
-                "group": "itemGroup.name.misc"
-            }
-        },
-        "components": {
-            "minecraft:icon": {
-                "texture": "tar_cauldron"
-            },
-            "minecraft:display_name": {
-                "value": "item.megamod:tar_cauldron.name"
-            },
-            "minecraft:max_stack_size": 16,
-            "minecraft:hand_equipped": false
-        }
+  "format_version": "1.20.80",
+  "minecraft:item": {
+    "description": {
+      "identifier": "megamod:tar_cauldron",
+      "menu_category": {
+        "category": "items",
+        "group": "itemGroup.name.misc"
+      }
+    },
+    "components": {
+      "minecraft:icon": "tar_cauldron",
+      "minecraft:display_name": {
+        "value": "item.megamod:tar_cauldron.name"
+      },
+      "minecraft:max_stack_size": 16,
+      "minecraft:hand_equipped": false
     }
+  }
 }

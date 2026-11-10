@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "royal_bank_vault"
-      },
+      "minecraft:icon": "royal_bank_vault",
       "minecraft:display_name": {
         "value": "item.megamod:royal_bank_vault.name"
       },

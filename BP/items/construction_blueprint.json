@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "construction_blueprint"
-      },
+      "minecraft:icon": "construction_blueprint",
       "minecraft:display_name": {
         "value": "item.megamod:construction_blueprint.name"
       },

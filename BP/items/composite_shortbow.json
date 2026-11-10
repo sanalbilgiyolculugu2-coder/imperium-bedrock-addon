@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "composite_shortbow"
-      },
+      "minecraft:icon": "composite_shortbow",
       "minecraft:display_name": {
         "value": "item.megamod:composite_shortbow.name"
       },

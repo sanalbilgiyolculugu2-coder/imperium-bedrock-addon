@@ -8,9 +8,7 @@
       }
     },
     "components": {
-      "minecraft:icon": {
-        "texture": "janissary_musket"
-      },
+      "minecraft:icon": "janissary_musket",
       "minecraft:display_name": {
         "value": "item.megamod:janissary_musket.name"
       },

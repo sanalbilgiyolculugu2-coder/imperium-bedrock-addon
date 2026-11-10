@@ -93,7 +93,7 @@
         "always_show": true,
         "allow_name_tag_renaming": true
       },
-      "minecraft:Physics": {},
+      "minecraft:physics": {},
       "minecraft:pushable": {
         "is_pushable": true,
         "is_pushable_by_piston": true
@@ -116,7 +116,7 @@
         "entity_types": [
           {
             "filters": {
-              " any_of": [
+              "any_of": [
                 {
                   "test": "is_family",
                   "subject": "other",
