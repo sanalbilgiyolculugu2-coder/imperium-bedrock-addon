@@ -310,7 +310,7 @@ def run_real_bds(bds_dir):
             proc.stdin.write("tickingarea add circle 0 70 0 4 imperium_test\n")
             proc.stdin.write("scriptevent imperium:run_tests\n")
             proc.stdin.flush()
-        if server_started and (test_summary is not None or time.time() - start_time > 25):
+        if server_started is True and (test_summary is not None or time.time() - start_time > 25):
             proc.stdin.write("stop\n")
             proc.stdin.flush()
             server_started = "stopping"
@@ -336,7 +336,7 @@ def run_real_bds(bds_dir):
         print(f"[FAIL] BDS uzerinde TEST_RESULT_SUMMARY alinamadi veya basarisiz oldu: {test_summary}")
         sys.exit(1)
 
-    print(f"[PASS] Gercek BDS uzerinde {test_summary[passed]}/{test_summary[total]} senaryo ve Content-Log 0 hata ile GECTI!")
+    print(f"[PASS] Gercek BDS uzerinde {test_summary['passed']}/{test_summary['total']} senaryo ve Content-Log 0 hata ile GECTI!")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
