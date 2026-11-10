@@ -1,12 +1,12 @@
 {
   "format_version": 2,
   "header": {
-    "name": "Mega Mod [RP] v1.2",
+    "name": "\u0130MPER\u0130UM: Grand Strategy [RP] v1.3",
     "description": "Minecraft Bedrock Mobile 1.26.62.1 - Kaynak Paketi",
     "uuid": "68569b0c-c120-4bfb-929e-0cd601c2dc04",
     "version": [
       1,
-      2,
+      3,
       0
     ],
     "min_engine_version": [
@@ -22,7 +22,7 @@
       "uuid": "3864d2e6-2338-4089-95e3-283da411eab7",
       "version": [
         1,
-        2,
+        3,
         0
       ]
     }

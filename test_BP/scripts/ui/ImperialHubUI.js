@@ -35,7 +35,7 @@ export class ImperialHubUI {
                `§7👉 Savunma Kulesi ve Topçu Dökümhanesi kurarak Elit Birimleri ve Şahi Topunu aç!`;
     }
 
-    static openOnboardingGuide(player) {
+    static openOnboardingGuide(player, onBusyCallback = null) {
         const kingdom = PolygonClaimEngine.getPlayerKingdom(player.id);
         const flagCount = kingdom ? kingdom.flags.length : 0;
 
@@ -56,7 +56,7 @@ export class ImperialHubUI {
             .button('§l§0👑 SARAY DİVANINA GEÇ (Ana Menü)\n§r§0Tüm krallık yönetim ekranını açar', 'textures/items/campaign_compass');
 
         form.show(player).then((res) => {
-            if (res.canceled) return;
+            if (res.canceled) { if (res.cancelationReason === 'UserBusy' && onBusyCallback) onBusyCallback(true); return; }
             if (res.selection === 0) {
                 FlagUI.placeFlagDirectly(player);
             } else {

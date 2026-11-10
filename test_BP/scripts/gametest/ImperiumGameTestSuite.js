@@ -1,3 +1,7 @@
+import { handlePlayerSpawn, handleItemUse } from '../main.js';
+import { ImperialHubUI } from '../ui/ImperialHubUI.js';
+import { FlagUI } from '../territory/FlagUI.js';
+import { BlueprintBuilder } from '../territory/BlueprintBuilder.js';
 import { world, system } from '@minecraft/server';
 import { EconomyEngine, COMMODITIES } from '../economy/EconomyEngine.js';
 import { TaxCycle } from '../economy/TaxCycle.js';

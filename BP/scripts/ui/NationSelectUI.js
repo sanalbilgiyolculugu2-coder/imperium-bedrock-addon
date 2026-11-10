@@ -3,7 +3,7 @@ import { NATIONS, NationManager } from '../nations/NationManager.js';
 import { ImperialHubUI } from './ImperialHubUI.js';
 
 export class NationSelectUI {
-    static openSelectionMenu(player) {
+    static openSelectionMenu(player, onBusyCallback = null) {
         const form = new ActionFormData()
             .title('§l§6🏛️ İMPERİUM: UYGARLIK SEÇİMİ')
             .body(
@@ -18,7 +18,7 @@ export class NationSelectUI {
         }
 
         form.show(player).then((res) => {
-            if (res.canceled) return;
+            if (res.canceled) { if (res.cancelationReason === 'UserBusy' && onBusyCallback) onBusyCallback(true); return; }
             const chosenKey = keys[res.selection];
             const chosenNation = NATIONS[chosenKey];
 
