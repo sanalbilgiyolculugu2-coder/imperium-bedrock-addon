@@ -1,0 +1,39 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "megamod:armored_warhorse",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/entity/imperium/armored_warhorse"
+      },
+      "geometry": {
+        "default": "geometry.imperium.quadruped_mount"
+      },
+      "animations": {
+        "idle": "animation.imperium.soldier.idle",
+        "walk": "animation.imperium.soldier.walk",
+        "shield_block": "animation.imperium.soldier.shield_block",
+        "attack": "animation.imperium.soldier.attack",
+        "controller": "controller.animation.imperium.soldier",
+        "look_at_target": "animation.imperium.soldier.look_at_target"
+      },
+      "scripts": {
+        "animate": [
+          "controller",
+          "look_at_target"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.imperium.default"
+      ],
+      "spawn_egg": {
+        "base_color": "#A0A5AF",
+        "overlay_color": "#8C1E1E"
+      },
+      "enable_attachables": true
+    }
+  }
+}

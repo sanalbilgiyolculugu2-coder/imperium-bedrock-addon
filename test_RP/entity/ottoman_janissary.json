@@ -1,0 +1,39 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "megamod:ottoman_janissary",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/entity/imperium/ottoman_janissary"
+      },
+      "geometry": {
+        "default": "geometry.imperium.janissary_infantry"
+      },
+      "animations": {
+        "idle": "animation.imperium.soldier.idle",
+        "walk": "animation.imperium.soldier.walk",
+        "shield_block": "animation.imperium.soldier.shield_block",
+        "attack": "animation.imperium.soldier.attack",
+        "controller": "controller.animation.imperium.soldier",
+        "look_at_target": "animation.imperium.soldier.look_at_target"
+      },
+      "scripts": {
+        "animate": [
+          "controller",
+          "look_at_target"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.imperium.default"
+      ],
+      "spawn_egg": {
+        "base_color": "#B41919",
+        "overlay_color": "#EBC32D"
+      },
+      "enable_attachables": true
+    }
+  }
+}

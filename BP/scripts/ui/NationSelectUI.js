@@ -1,16 +1,20 @@
 import { ActionFormData } from '@minecraft/server-ui';
 import { NATIONS, NationManager } from '../nations/NationManager.js';
+import { ImperialHubUI } from './ImperialHubUI.js';
 
 export class NationSelectUI {
     static openSelectionMenu(player) {
         const form = new ActionFormData()
-            .title('§6İMPERİUM §e- Uygarlık Seçimi')
-            .body('§7Yöneteceğiniz büyük imparatorluğu seçin. Her ulus kendine has özel askeri birime ve pasif avantaja sahiptir:');
+            .title('§l§6🏛️ İMPERİUM: UYGARLIK SEÇİMİ')
+            .body(
+                '§fHükümdarım, kuracağınız imparatorluğun ulusunu seçin.\n' +
+                '§eSeçiminizden hemen sonra İlk Köyünüzü nasıl kuracağınızı gösteren Kuruluş Rehberi açılacaktır:'
+            );
 
         const keys = Object.keys(NATIONS);
         for (const k of keys) {
             const n = NATIONS[k];
-            form.button(`${n.name}\n§r§0Birim: ${n.unit}`);
+            form.button(`§l§0${n.name}\n§r§0Özel Birim: ${n.unit}`, 'textures/items/kingdom_passport');
         }
 
         form.show(player).then((res) => {
@@ -19,11 +23,10 @@ export class NationSelectUI {
             const chosenNation = NATIONS[chosenKey];
 
             NationManager.setPlayerNation(player, chosenKey);
-            player.sendMessage('§6========================================');
-            player.sendMessage(`§aTebrikler! §e${chosenNation.name} §aseçildi.`);
-            player.sendMessage(`§eÖzel Birim: §f${chosenNation.unit}`);
-            player.sendMessage(`§ePasif Güç: §f${chosenNation.perk}`);
-            player.sendMessage('§6========================================');
+            player.sendMessage(`§a[Uygarlık] §e${chosenNation.name} §aseçildi! Özel Birim: §f${chosenNation.unit}`);
+
+            // Ulus seçilir seçilmez oyuncuya ne yapacağını adım adım anlatan rehberi aç!
+            ImperialHubUI.openOnboardingGuide(player);
         });
     }
 }

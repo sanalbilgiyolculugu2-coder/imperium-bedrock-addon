@@ -1,0 +1,71 @@
+{
+  "resource_pack_name": "MegaMod",
+  "texture_name": "atlas.terrain",
+  "padding": 8,
+  "num_mip_levels": 4,
+  "texture_data": {
+    "claim_flag_block": {
+      "textures": "textures/blocks/claim_flag"
+    },
+    "town_bell_block": {
+      "textures": "textures/blocks/town_bell"
+    },
+    "tar_cauldron_block": {
+      "textures": "textures/blocks/tar_cauldron"
+    },
+    "wooden_stakes_block": {
+      "textures": "textures/blocks/wooden_stakes"
+    },
+    "caltrops_block": {
+      "textures": "textures/blocks/caltrops"
+    },
+    "royal_throne_block": {
+      "textures": "textures/blocks/royal_throne"
+    },
+    "barracks_desk_block": {
+      "textures": "textures/blocks/barracks_desk"
+    },
+    "infirmary_bed_block": {
+      "textures": "textures/blocks/infirmary_bed"
+    },
+    "granary_silo_block": {
+      "textures": "textures/blocks/granary_silo"
+    },
+    "feast_table_block": {
+      "textures": "textures/blocks/feast_table"
+    },
+    "spy_kit_block": {
+      "textures": "textures/blocks/spy_kit"
+    },
+    "diplomatic_seal_block": {
+      "textures": "textures/blocks/diplomatic_seal"
+    },
+    "tactical_map_table_block": {
+      "textures": "textures/blocks/tactical_map_table"
+    },
+    "royal_bank_vault_block": {
+      "textures": "textures/blocks/royal_bank_vault"
+    },
+    "guild_crafting_table_block": {
+      "textures": "textures/blocks/guild_crafting_table"
+    },
+    "castle_gate_block": {
+      "textures": "textures/blocks/castle_gate"
+    },
+    "arrow_slit_block": {
+      "textures": "textures/blocks/arrow_slit"
+    },
+    "mantlet_shield_block": {
+      "textures": "textures/blocks/mantlet_shield"
+    },
+    "harbor_dock_block": {
+      "textures": "textures/blocks/harbor_dock"
+    },
+    "mine_shaft_block": {
+      "textures": "textures/blocks/mine_shaft"
+    },
+    "toll_gate_block": {
+      "textures": "textures/blocks/toll_gate"
+    }
+  }
+}

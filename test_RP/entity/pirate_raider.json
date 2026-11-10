@@ -1,0 +1,24 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "megamod:pirate_raider",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/entity/imperium/pirate_raider"
+      },
+      "geometry": {
+        "default": "geometry.imperium.soldier"
+      },
+      "render_controllers": [
+        "controller.render.imperium.default"
+      ],
+      "spawn_egg": {
+        "base_color": "#23282D",
+        "overlay_color": "#B41E1E"
+      }
+    }
+  }
+}

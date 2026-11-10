@@ -1,0 +1,39 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "megamod:elite_market_guard",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/entity/imperium/elite_market_guard"
+      },
+      "geometry": {
+        "default": "geometry.imperium.elite_guard"
+      },
+      "animations": {
+        "idle": "animation.imperium.soldier.idle",
+        "walk": "animation.imperium.soldier.walk",
+        "shield_block": "animation.imperium.soldier.shield_block",
+        "attack": "animation.imperium.soldier.attack",
+        "controller": "controller.animation.imperium.soldier",
+        "look_at_target": "animation.imperium.soldier.look_at_target"
+      },
+      "scripts": {
+        "animate": [
+          "controller",
+          "look_at_target"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.imperium.default"
+      ],
+      "spawn_egg": {
+        "base_color": "#D7AF2D",
+        "overlay_color": "#A01419"
+      },
+      "enable_attachables": true
+    }
+  }
+}

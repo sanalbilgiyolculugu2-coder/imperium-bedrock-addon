@@ -1,0 +1,228 @@
+{
+  "resource_pack_name": "MegaMod",
+  "texture_name": "atlas.items",
+  "texture_data": {
+    "mega_sword": {
+      "textures": "textures/items/mega_sword"
+    },
+    "copper_coin": {
+      "textures": "textures/items/copper_coin"
+    },
+    "silver_coin": {
+      "textures": "textures/items/silver_coin"
+    },
+    "gold_coin": {
+      "textures": "textures/items/gold_coin"
+    },
+    "market_terminal": {
+      "textures": "textures/items/market_terminal"
+    },
+    "claim_flag": {
+      "textures": "textures/items/claim_flag"
+    },
+    "town_bell": {
+      "textures": "textures/items/town_bell"
+    },
+    "war_horn": {
+      "textures": "textures/items/war_horn"
+    },
+    "field_bandage": {
+      "textures": "textures/items/field_bandage"
+    },
+    "infantry_spear": {
+      "textures": "textures/items/infantry_spear"
+    },
+    "scutum_shield": {
+      "textures": "textures/items/scutum_shield"
+    },
+    "advisor_parchment": {
+      "textures": "textures/items/advisor_parchment"
+    },
+    "quest_ledger": {
+      "textures": "textures/items/quest_ledger"
+    },
+    "tar_cauldron": {
+      "textures": "textures/items/tar_cauldron"
+    },
+    "wooden_stakes": {
+      "textures": "textures/items/wooden_stakes"
+    },
+    "caltrops": {
+      "textures": "textures/items/caltrops"
+    },
+    "royal_throne": {
+      "textures": "textures/items/royal_throne"
+    },
+    "barracks_desk": {
+      "textures": "textures/items/barracks_desk"
+    },
+    "infirmary_bed": {
+      "textures": "textures/items/infirmary_bed"
+    },
+    "granary_silo": {
+      "textures": "textures/items/granary_silo"
+    },
+    "feast_table": {
+      "textures": "textures/items/feast_table"
+    },
+    "spy_kit": {
+      "textures": "textures/items/spy_kit"
+    },
+    "diplomatic_seal": {
+      "textures": "textures/items/diplomatic_seal"
+    },
+    "ottoman_yatagan": {
+      "textures": "textures/items/ottoman_yatagan"
+    },
+    "roman_gladius": {
+      "textures": "textures/items/roman_gladius"
+    },
+    "knight_longsword": {
+      "textures": "textures/items/knight_longsword"
+    },
+    "two_handed_claymore": {
+      "textures": "textures/items/two_handed_claymore"
+    },
+    "couch_lance": {
+      "textures": "textures/items/couch_lance"
+    },
+    "spartan_dory": {
+      "textures": "textures/items/spartan_dory"
+    },
+    "composite_shortbow": {
+      "textures": "textures/items/composite_shortbow"
+    },
+    "british_longbow": {
+      "textures": "textures/items/british_longbow"
+    },
+    "steel_crossbow": {
+      "textures": "textures/items/steel_crossbow"
+    },
+    "janissary_musket": {
+      "textures": "textures/items/janissary_musket"
+    },
+    "battle_axe": {
+      "textures": "textures/items/battle_axe"
+    },
+    "flanged_mace": {
+      "textures": "textures/items/flanged_mace"
+    },
+    "relic_fatih_sword": {
+      "textures": "textures/items/relic_fatih_sword"
+    },
+    "relic_caesar_gladius": {
+      "textures": "textures/items/relic_caesar_gladius"
+    },
+    "relic_excalibur": {
+      "textures": "textures/items/relic_excalibur"
+    },
+    "relic_khan_bow": {
+      "textures": "textures/items/relic_khan_bow"
+    },
+    "ottoman_shield": {
+      "textures": "textures/items/ottoman_shield"
+    },
+    "heater_shield": {
+      "textures": "textures/items/heater_shield"
+    },
+    "viking_round_shield": {
+      "textures": "textures/items/viking_round_shield"
+    },
+    "aspis_shield": {
+      "textures": "textures/items/aspis_shield"
+    },
+    "janissary_bork_helmet": {
+      "textures": "textures/items/janissary_bork_helmet"
+    },
+    "ottoman_mirror_chestplate": {
+      "textures": "textures/items/ottoman_mirror_chestplate"
+    },
+    "roman_galea_helmet": {
+      "textures": "textures/items/roman_galea_helmet"
+    },
+    "lorica_segmentata_chestplate": {
+      "textures": "textures/items/lorica_segmentata_chestplate"
+    },
+    "knight_visor_helmet": {
+      "textures": "textures/items/knight_visor_helmet"
+    },
+    "knight_plate_chestplate": {
+      "textures": "textures/items/knight_plate_chestplate"
+    },
+    "spartan_corinthian_helmet": {
+      "textures": "textures/items/spartan_corinthian_helmet"
+    },
+    "spartan_bronze_cuirass": {
+      "textures": "textures/items/spartan_bronze_cuirass"
+    },
+    "viking_nasal_helmet": {
+      "textures": "textures/items/viking_nasal_helmet"
+    },
+    "viking_chain_hauberk": {
+      "textures": "textures/items/viking_chain_hauberk"
+    },
+    "commander_spyglass": {
+      "textures": "textures/items/commander_spyglass"
+    },
+    "trade_contract": {
+      "textures": "textures/items/trade_contract"
+    },
+    "salted_fish": {
+      "textures": "textures/items/salted_fish"
+    },
+    "smoked_meat": {
+      "textures": "textures/items/smoked_meat"
+    },
+    "soldier_ration": {
+      "textures": "textures/items/soldier_ration"
+    },
+    "horse_saddlebag": {
+      "textures": "textures/items/horse_saddlebag"
+    },
+    "royal_bank_vault": {
+      "textures": "textures/items/royal_bank_vault"
+    },
+    "tactical_map_table": {
+      "textures": "textures/items/tactical_map_table"
+    },
+    "guild_crafting_table": {
+      "textures": "textures/items/guild_crafting_table"
+    },
+    "castle_gate": {
+      "textures": "textures/items/castle_gate"
+    },
+    "arrow_slit": {
+      "textures": "textures/items/arrow_slit"
+    },
+    "mantlet_shield": {
+      "textures": "textures/items/mantlet_shield"
+    },
+    "sapper_powder_keg": {
+      "textures": "textures/items/sapper_powder_keg"
+    },
+    "grappling_hook": {
+      "textures": "textures/items/grappling_hook"
+    },
+    "fire_bucket": {
+      "textures": "textures/items/fire_bucket"
+    },
+    "harbor_dock": {
+      "textures": "textures/items/harbor_dock"
+    },
+    "mine_shaft": {
+      "textures": "textures/items/mine_shaft"
+    },
+    "toll_gate": {
+      "textures": "textures/items/toll_gate"
+    },
+    "construction_blueprint": {
+      "textures": "textures/items/construction_blueprint"
+    },
+    "campaign_compass": {
+      "textures": "textures/items/campaign_compass"
+    },
+    "kingdom_passport": {
+      "textures": "textures/items/kingdom_passport"
+    }
+  }
+}

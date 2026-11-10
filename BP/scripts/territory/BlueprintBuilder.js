@@ -1,88 +1,140 @@
 import { ActionFormData } from '@minecraft/server-ui';
 import { EconomyEngine } from '../economy/EconomyEngine.js';
+import { PolygonClaimEngine } from './PolygonClaimEngine.js';
+
+export const BLUEPRINTS = [
+    {
+        name: '⚔️ Askeri Kışla & Talimgah (Kademe 2 Askerleri Açar!)',
+        cost: 150,
+        unlockTag: 'barracks',
+        desc: 'Ağır Kalkanlı Piyade, Kundaklı Yaycı, Sıhhiye Hekimi ve Erzak Arabası kilidini açar.',
+        build: (dim, x, y, z) => {
+            dim.runCommand(`fill ${x - 4} ${y} ${z - 4} ${x + 4} ${y} ${z + 4} stone_bricks`);
+            dim.runCommand(`fill ${x - 4} ${y + 1} ${z - 4} ${x + 4} ${y + 3} ${z + 4} cobblestone hollow`);
+            dim.runCommand(`fill ${x - 4} ${y + 4} ${z - 4} ${x + 4} ${y + 4} ${z + 4} dark_oak_planks`);
+            dim.runCommand(`setblock ${x} ${y + 1} ${z - 4} air`);
+            dim.runCommand(`setblock ${x} ${y + 2} ${z - 4} air`);
+            dim.runCommand(`setblock ${x} ${y + 1} ${z} megamod:barracks_desk_block`);
+            dim.runCommand(`setblock ${x - 2} ${y + 1} ${z + 2} armor_stand`);
+            dim.runCommand(`setblock ${x + 2} ${y + 2} ${z} torch`);
+        }
+    },
+    {
+        name: '🏰 Savunma Kulesi & Kale Burcu (Kademe 3 Askerleri Açar!)',
+        cost: 220,
+        unlockTag: 'castle',
+        desc: 'Ağır Süvari, Ulusa Özel Elit Piyade (Yeniçeri/Lejyoner), Sancaktar ve Koçbaşı kilidini açar.',
+        build: (dim, x, y, z) => {
+            dim.runCommand(`fill ${x - 2} ${y} ${z - 2} ${x + 2} ${y + 7} ${z + 2} stone_bricks hollow`);
+            dim.runCommand(`fill ${x - 3} ${y + 7} ${z - 3} ${x + 3} ${y + 8} ${z + 3} chiseled_stone_bricks hollow`);
+            dim.runCommand(`setblock ${x} ${y + 1} ${z - 2} oak_door`);
+            dim.runCommand(`setblock ${x} ${y + 8} ${z} campfire`);
+        }
+    },
+    {
+        name: '💣 Kuşatma & Topçu Dökümhanesi (Kademe 4 İmparatorluk Ordusunu Açar!)',
+        cost: 350,
+        unlockTag: 'siege',
+        desc: 'Ulusa Özel Süvari (Sipahi/Keshik), Osmanlı Şahi Topu, Savaş Fili ve Mancınık kilidini açar.',
+        build: (dim, x, y, z) => {
+            dim.runCommand(`fill ${x - 4} ${y} ${z - 4} ${x + 4} ${y} ${z + 4} polished_blackstone_bricks`);
+            dim.runCommand(`fill ${x - 4} ${y + 1} ${z - 4} ${x + 4} ${y + 3} ${z + 4} stone_bricks hollow`);
+            dim.runCommand(`setblock ${x} ${y + 1} ${z - 4} air`);
+            dim.runCommand(`setblock ${x} ${y + 2} ${z - 4} air`);
+            dim.runCommand(`setblock ${x - 2} ${y + 1} ${z + 2} blast_furnace`);
+            dim.runCommand(`setblock ${x + 2} ${y + 1} ${z + 2} anvil`);
+            dim.runCommand(`setblock ${x} ${y + 1} ${z} smithing_table`);
+        }
+    },
+    {
+        name: '🧱 Kalın Taş Kale Suru (9 Blok Cephe)',
+        cost: 120,
+        unlockTag: 'castle',
+        desc: 'Köyünüzün etrafını çevirmek için 9 blok uzunluğunda, 5 blok yüksekliğinde mazgallı taş sur.',
+        build: (dim, x, y, z) => {
+            dim.runCommand(`fill ${x - 4} ${y} ${z} ${x + 4} ${y + 4} ${z + 1} stone_bricks`);
+            dim.runCommand(`fill ${x - 4} ${y + 5} ${z} ${x + 4} ${y + 5} ${z} cobblestone_wall`);
+        }
+    },
+    {
+        name: '🌾 Kraliyet Erzak Ambarı & Değirmen',
+        cost: 140,
+        unlockTag: null,
+        desc: 'Ordunuzun günlük buğday ve erzak kapasitesini artırır.',
+        build: (dim, x, y, z) => {
+            dim.runCommand(`fill ${x - 3} ${y} ${z - 3} ${x + 3} ${y + 4} ${z + 3} oak_planks hollow`);
+            dim.runCommand(`fill ${x - 2} ${y + 1} ${z - 2} ${x + 2} ${y + 1} ${z + 2} hay_block`);
+            dim.runCommand(`setblock ${x} ${y + 1} ${z - 3} oak_door`);
+        }
+    },
+    {
+        name: '🏪 İpek Yolu Pazar Meydanı & Çeşme',
+        cost: 130,
+        unlockTag: null,
+        desc: 'Şehir ticaretini canlandırır ve köylü mutluluğunu yükseltir.',
+        build: (dim, x, y, z) => {
+            dim.runCommand(`fill ${x - 3} ${y} ${z - 3} ${x + 3} ${y} ${z + 3} polished_andesite`);
+            dim.runCommand(`fill ${x - 3} ${y + 3} ${z - 3} ${x + 3} ${y + 3} ${z + 3} red_wool`);
+            dim.runCommand(`setblock ${x} ${y + 1} ${z} water`);
+        }
+    }
+];
 
 export class BlueprintBuilder {
     static openBlueprintMenu(player) {
-        const wallet = EconomyEngine.getPlayerMoney(player);
+        const k = PolygonClaimEngine.getPlayerKingdom(player.id);
+        const flagCount = k ? k.flags.length : 0;
+        const hasVillage = flagCount >= 3;
 
         const form = new ActionFormData()
-            .title('§1📐 MİMARİ İNŞAAT PARŞÖMENİ (HAZIR BİNA)')
-            .body(`§eCüzdanınız: §6${wallet} Bakır Dinar\n\n` +
-                  `§7Tek tıkla bulunduğunuz konumun önüne hazır krallık yapısı inşa edin (Hibrit İnşaat Sistemi):`)
-            .button('§4🏰 Gözetleme & Okçu Kulesi İnşa Et (120 Bakır)\n§r§0Taş kule + Mazgal + 1 Uzun Yaycı Nöbetçi')
-            .button('§c⚔️ Askeri Kışla Binası İnşa Et (180 Bakır)\n§r§0Taş/Meşe kışla + Kışla Talim Masası')
-            .button('§a🏥 Saha Reviri & Şifacı Çadırı (100 Bakır)\n§r§0Kırmızı/Beyaz çadır + Revir Yatağı')
-            .button('§6🏪 Korunaklı Pazar Karakolu (200 Bakır)\n§r§0Pazar alanı + Tüccar + 2 Elit Muhafız')
-            .button('§8⛓️ Krallık Zindanı Hücresi (140 Bakır)\n§r§0Demir parmaklıklı zindan + 1 Esir')
-            .button('§l§0« Kapat');
+            .title('§l§6🏗️ KÖY & KALE BİNA İNŞASI')
+            .body(
+                `${hasVillage ? '§a✅ Köy Sınırınız Aktif! İstediğiniz binayı inşa edebilirsiniz.' : '§c⚠️ ÖNCE KÖY KURMALISINIZ: Bina inşa etmek için en az 3 Köşe Bayrağı dikmelisiniz!'}\n` +
+                `§7────────────────────────────────\n` +
+                `§e▸ Kışla Durumu: ${k && k.hasBarracks ? '§a✅ İnşa Edildi (Kademe 2 Açık)' : '§c❌ Kurulmadı'}\n` +
+                `§e▸ Kale Durumu: ${k && k.hasCastle ? '§a✅ İnşa Edildi (Kademe 3 Açık)' : '§c❌ Kurulmadı'}\n` +
+                `§e▸ Dökümhane: ${k && k.hasSiege ? '§a✅ İnşa Edildi (Kademe 4 Açık)' : '§c❌ Kurulmadı'}\n` +
+                `§fİnşa etmek istediğiniz yapıyı seçin (Baktığınız yönde 6 blok önünüze kurulur):`
+            );
+
+        for (const b of BLUEPRINTS) {
+            form.button(`§l§0${b.name}\n§r§0Bedel: ${b.cost} Bakır | ${b.desc}`, 'textures/items/construction_blueprint');
+        }
 
         form.show(player).then((res) => {
-            if (res.canceled || res.selection === 5) return;
-            const px = Math.floor(player.location.x) + 3;
-            const py = Math.floor(player.location.y);
-            const pz = Math.floor(player.location.z) + 3;
-
-            if (res.selection === 0) {
-                if (!EconomyEngine.deductMoney(player, 120)) {
-                    player.sendMessage('§c[İnşaat] Kule için 120 Bakır Dinar gerekiyor!');
-                    return;
-                }
-                player.runCommand(`fill ${px} ${py} ${pz} ${px+4} ${py+7} ${pz+4} stonebrick hollow`);
-                player.runCommand(`fill ${px} ${py+8} ${pz} ${px+4} ${py+8} ${pz+4} cobblestone_wall`);
-                player.runCommand(`setblock ${px+2} ${py+1} ${pz} air`);
-                player.runCommand(`setblock ${px+2} ${py+2} ${pz} air`);
-                const archer = player.dimension.spawnEntity('megamod:british_longbowman', { x: px + 2.5, y: py + 8, z: pz + 2.5 });
-                archer.nameTag = '§b🏹 Kule Gözetleme Okçusu';
-                archer.triggerEvent('imperium:order_hold_line');
-                player.sendMessage('§a[İnşaat] 🏰 Gözetleme Kulesi inşa edildi ve tepesine Uzun Yaycı nöbetçi yerleştirildi!');
-            } else if (res.selection === 1) {
-                if (!EconomyEngine.deductMoney(player, 180)) {
-                    player.sendMessage('§c[İnşaat] Kışla için 180 Bakır Dinar gerekiyor!');
-                    return;
-                }
-                player.runCommand(`fill ${px} ${py} ${pz} ${px+6} ${py+4} ${pz+6} stonebrick hollow`);
-                player.runCommand(`setblock ${px+3} ${py+1} ${pz} air`);
-                player.runCommand(`setblock ${px+3} ${py+2} ${pz} air`);
-                player.runCommand(`setblock ${px+3} ${py+1} ${pz+3} megamod:barracks_desk_block`);
-                player.runCommand('give @s megamod:barracks_desk 1');
-                player.sendMessage('§a[İnşaat] ⚔️ Askeri Kışla binası tamamlandı!');
-            } else if (res.selection === 2) {
-                if (!EconomyEngine.deductMoney(player, 100)) {
-                    player.sendMessage('§c[İnşaat] Revir için 100 Bakır Dinar gerekiyor!');
-                    return;
-                }
-                player.runCommand(`fill ${px} ${py} ${pz} ${px+4} ${py+3} ${pz+4} white_wool hollow`);
-                player.runCommand(`setblock ${px+2} ${py+1} ${pz} air`);
-                player.runCommand(`setblock ${px+2} ${py+2} ${pz} air`);
-                player.runCommand(`setblock ${px+2} ${py+1} ${pz+2} megamod:infirmary_bed_block`);
-                player.runCommand('give @s megamod:field_bandage 4');
-                player.sendMessage('§a[İnşaat] 🏥 Saha Reviri kuruldu ve +4 Sargı Bezi verildi!');
-            } else if (res.selection === 3) {
-                if (!EconomyEngine.deductMoney(player, 200)) {
-                    player.sendMessage('§c[İnşaat] Pazar Karakolu için 200 Bakır Dinar gerekiyor!');
-                    return;
-                }
-                player.runCommand(`fill ${px} ${py-1} ${pz} ${px+6} ${py-1} ${pz+6} stone_bricks`);
-                const trader = player.dimension.spawnEntity('megamod:market_trader', { x: px + 3, y: py + 1, z: pz + 3 });
-                trader.nameTag = '§6💰 Pazar Borsa Tüccarı';
-                for (let i = 0; i < 2; i++) {
-                    const g = player.dimension.spawnEntity('megamod:elite_market_guard', { x: px + (i * 5), y: py + 1, z: pz + 2 });
-                    g.nameTag = '§4🛡️ Elit Pazar Muhafızı (1.25x)';
-                }
-                player.sendMessage('§6[İnşaat] 🏪 Yarı Güvenli Pazar Karakolu, Tüccar ve 1.25x Elit Muhafızlar kuruldu!');
-            } else if (res.selection === 4) {
-                if (!EconomyEngine.deductMoney(player, 140)) {
-                    player.sendMessage('§c[İnşaat] Zindan için 140 Bakır Dinar gerekiyor!');
-                    return;
-                }
-                player.runCommand(`fill ${px} ${py} ${pz} ${px+4} ${py+3} ${pz+4} iron_bars hollow`);
-                player.runCommand(`fill ${px} ${py} ${pz} ${px+4} ${py} ${pz+4} stonebrick`);
-                const fin = EconomyEngine.getFinance(player.id);
-                fin.prisoners += 2;
-                EconomyEngine.saveFinance(player.id, fin);
-                player.sendMessage('§4[İnşaat] ⛓️ Krallık Zindanı inşa edildi ve 2 haydut hücreye kapatıldı!');
+            if (res.canceled) return;
+            if (!hasVillage) {
+                player.sendMessage('§c[İnşaat] Önce elinizdeki 🚩 Sınır Kazığı ile 3 köşe bayrağı dikerek İlk Köyünüzü kurmalısınız!');
+                return;
             }
-            player.runCommand('playsound random.anvil_use @a ~ ~ ~ 1 0.9');
+            const chosen = BLUEPRINTS[res.selection];
+            if (!EconomyEngine.deductMoney(player, chosen.cost)) {
+                player.sendMessage(`§c[İnşaat] Yetersiz Hazine! ${chosen.name} için ${chosen.cost} Bakır Dinar gerekiyor.`);
+                return;
+            }
+
+            const view = player.getViewDirection();
+            const bx = Math.floor(player.location.x + view.x * 6);
+            const by = Math.floor(player.location.y);
+            const bz = Math.floor(player.location.z + view.z * 6);
+
+            try {
+                chosen.build(player.dimension, bx, by, bz);
+                if (chosen.unlockTag) {
+                    PolygonClaimEngine.markBuildingConstructed(player.id, chosen.unlockTag);
+                }
+                player.dimension.runCommand(`particle minecraft:huge_explosion_emitter ${bx} ${by + 2} ${bz}`);
+                player.sendMessage(`§a[İmar Dairesi] 🏗️ ${chosen.name} başarıyla inşa edildi!`);
+                if (chosen.unlockTag === 'barracks') {
+                    player.sendMessage('§6🔓 [Yeni Askerler Açıldı] §eKışla kuruldu! Artık Kışla menüsünden Ağır Piyade, Arbaletçi ve Sıhhiye Hekimi eğitebilirsiniz!');
+                } else if (chosen.unlockTag === 'castle') {
+                    player.sendMessage('§6🔓 [Yeni Askerler Açıldı] §eKale yapısı kuruldu! Artık Ağır Süvari, Ulusa Özel Elit Piyade (Yeniçeri/Lejyoner) ve Koçbaşı eğitebilirsiniz!');
+                } else if (chosen.unlockTag === 'siege') {
+                    player.sendMessage('§6🔓 [Yeni Askerler Açıldı] §eDökümhane kuruldu! Artık Osmanlı Şahi Topu, Savaş Fili ve Elit Süvari eğitebilirsiniz!');
+                }
+            } catch (e) {
+                player.sendMessage('§e[İmar] Yapı şablonu yerleştirildi.');
+            }
         });
     }
 }

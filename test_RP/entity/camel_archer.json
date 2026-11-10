@@ -1,0 +1,38 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "megamod:camel_archer",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/entity/imperium/camel_archer"
+      },
+      "geometry": {
+        "default": "geometry.imperium.camel_archer"
+      },
+      "animations": {
+        "idle": "animation.imperium.soldier.idle",
+        "walk": "animation.imperium.soldier.walk",
+        "attack": "animation.imperium.soldier.attack",
+        "controller": "controller.animation.imperium.soldier",
+        "look_at_target": "animation.imperium.soldier.look_at_target",
+        "shield_block": "animation.imperium.soldier.shield_block"
+      },
+      "scripts": {
+        "animate": [
+          "controller",
+          "look_at_target"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.imperium_default"
+      ],
+      "spawn_egg": {
+        "base_color": "#b97d23",
+        "overlay_color": "#f0cd41"
+      }
+    }
+  }
+}

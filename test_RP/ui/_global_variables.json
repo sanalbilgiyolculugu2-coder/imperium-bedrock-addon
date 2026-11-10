@@ -1,0 +1,32 @@
+{
+  "$title_text_color": [
+    0.98,
+    0.84,
+    0.35
+  ],
+  "$body_text_color": [
+    0.95,
+    0.92,
+    0.84
+  ],
+  "$dark_button_default_text_color": [
+    0.12,
+    0.08,
+    0.04
+  ],
+  "$light_button_default_text_color": [
+    0.12,
+    0.08,
+    0.04
+  ],
+  "$dark_button_hover_text_color": [
+    0.05,
+    0.03,
+    0.01
+  ],
+  "$light_button_hover_text_color": [
+    0.05,
+    0.03,
+    0.01
+  ]
+}

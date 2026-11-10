@@ -1,0 +1,24 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "megamod:war_galley",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/entity/imperium/war_galley"
+      },
+      "geometry": {
+        "default": "geometry.imperium.war_galley"
+      },
+      "render_controllers": [
+        "controller.render.imperium.default"
+      ],
+      "spawn_egg": {
+        "base_color": "#5C3A21",
+        "overlay_color": "#C81E1E"
+      }
+    }
+  }
+}

@@ -1,10 +1,11 @@
 import { SoldierInteractionUI } from '../ui/SoldierInteractionUI.js';
 import { world, system } from '@minecraft/server';
 import { ActionFormData } from '@minecraft/server-ui';
+import { PolygonClaimEngine } from '../territory/PolygonClaimEngine.js';
 
 export class MilitaryController {
     static activeSquadFilter = {}; // player.id -> 'all' | 'infantry' | 'archer' | 'cavalry'
-    static quickOrderIndex = {};   // player.id -> 0 | 1 | 2 | 3
+    static quickOrderIndex = {};   // player.id -> 0 | 1 | 2
 
     static bindSoldierToCommander(entity, player, stance = 'follow') {
         if (!entity || !player) return;
@@ -13,6 +14,7 @@ export class MilitaryController {
             entity.removeTag('stance:hold');
             entity.removeTag('stance:charge');
             entity.removeTag('stance:follow');
+            entity.removeTag('stance:patrol_village');
             entity.addTag(`stance:${stance}`);
 
             const tameComp = entity.getComponent('minecraft:tameable');
@@ -29,7 +31,7 @@ export class MilitaryController {
         } catch (e) {}
     }
 
-    // Doğal hafif mesafe kontrolü (Jerky knockback kaldırıldı! C++ follow_owner yürütür)
+    // Doğal Yürüyüş & Devriye Döngüsü: ASKERLER ASLA IŞINLANMAZ (TELEPORT YOK)!
     static initEscortLoop() {
         system.runInterval(() => {
             for (const player of world.getAllPlayers()) {
@@ -39,7 +41,7 @@ export class MilitaryController {
 
                     const allEscorts = dim.getEntities({
                         location: pLoc,
-                        maxDistance: 48,
+                        maxDistance: 64,
                         families: ['soldier']
                     });
 
@@ -47,26 +49,13 @@ export class MilitaryController {
                         const tags = unit.getTags ? unit.getTags() : [];
                         if (!tags.some(t => t.startsWith('owner:'))) {
                             this.bindSoldierToCommander(unit, player, 'follow');
-                        } else if (!tags.includes(`owner:${player.id}`)) {
-                            continue;
-                        }
-
-                        // Çok geride kalanları veya sıkışanları güvenle yanına getir
-                        const dist = Math.hypot(pLoc.x - unit.location.x, pLoc.z - unit.location.z);
-                        if (dist > 24.0 && !tags.includes('stance:hold')) {
-                            unit.teleport({
-                                x: pLoc.x + (Math.random() - 0.5) * 4,
-                                y: pLoc.y,
-                                z: pLoc.z + (Math.random() - 0.5) * 4
-                            });
                         }
                     }
                 } catch (e) {}
             }
-        }, 30);
+        }, 60);
     }
 
-    // Eğilerek (Sneak) tıklandığında ekranı dondurmayan HIZLI EMİR DÖNGÜSÜ!
     static handleWarHornUse(player) {
         if (player.isSneaking) {
             this.cycleQuickOrder(player);
@@ -87,47 +76,17 @@ export class MilitaryController {
         });
 
         if (nextIdx === 0) {
-            // YAKIN TAKİP
             for (const s of soldiers) this.bindSoldierToCommander(s, player, 'follow');
-            player.runCommand('playsound imperium.march_drum @a[r=30] ~ ~ ~ 1.0 1.0');
-            player.onScreenDisplay.setTitle('§a👣 MUHAFIZLAR: BENİ TAKİP ET', {
-                stayDuration: 40,
-                fadeInDuration: 5,
-                fadeOutDuration: 10,
-                subtitle: '§7Tüm askerler etrafınızda koruma çemberi kurdu'
-            });
+            player.sendMessage(`§a[Emir] 👣 Mesafeli Takip: ${soldiers.length} asker 5-7 blok mesafeden yürüyerek sizi takip ediyor.`);
         } else if (nextIdx === 1) {
-            // HÜCUM
-            for (const s of soldiers) {
-                s.removeTag('stance:hold');
-                s.addTag('stance:charge');
-                s.triggerEvent('imperium:order_charge');
-                s.addEffect('speed', 200, { amplifier: 1, showParticles: false });
-                s.addEffect('strength', 200, { amplifier: 0, showParticles: false });
-            }
-            player.runCommand('playsound imperium.charge_shout @a[r=35] ~ ~ ~ 1.0 1.0');
-            player.onScreenDisplay.setTitle('§c⚡ TÜM ORDU: HÜCUMA KALK!', {
-                stayDuration: 40,
-                fadeInDuration: 5,
-                fadeOutDuration: 10,
-                subtitle: '§7Askerler düşman hatlarına taarruz ediyor'
-            });
+            for (const s of soldiers) this.bindSoldierToCommander(s, player, 'hold');
+            player.sendMessage(`§e[Emir] 🛑 Olduğun Yerde Bekle: ${soldiers.length} asker mevcut konumunda nöbete geçti (peşinizden gelmez).`);
         } else if (nextIdx === 2) {
-            // KALKAN DUVARI
             for (const s of soldiers) {
-                s.removeTag('stance:charge');
-                s.removeTag('stance:follow');
-                s.addTag('stance:hold');
-                s.triggerEvent('imperium:order_hold_line');
-                s.addEffect('resistance', 400, { amplifier: 2, showParticles: false });
+                this.bindSoldierToCommander(s, player, 'charge');
+                s.addEffect('speed', 200, { amplifier: 1, showParticles: false });
             }
-            player.runCommand('playsound item.shield.block @a[r=30] ~ ~ ~ 1.0 1.0');
-            player.onScreenDisplay.setTitle('§b🛡️ TÜM ORDU: KALKAN DUVARI', {
-                stayDuration: 40,
-                fadeInDuration: 5,
-                fadeOutDuration: 10,
-                subtitle: '§7Mevcut mevzide sabit savunma hattı kuruldu (%80 ok direnci)'
-            });
+            player.sendMessage(`§c[Emir] ⚔️ Serbest Taarruz: ${soldiers.length} asker yakındaki düşmanlara hücum ediyor!`);
         }
     }
 
@@ -135,24 +94,33 @@ export class MilitaryController {
         const currentFilter = this.activeSquadFilter[player.id] || 'all';
         const filterNames = {
             'all': 'TÜM ORDU',
-            'infantry': '1: PİYADELER',
-            'archer': '2: OKÇULAR',
-            'cavalry': '3: SÜVARİLER'
+            'infantry': 'SADECE PİYADELER',
+            'archer': 'SADECE OKÇULAR',
+            'cavalry': 'SADECE SÜVARİLER'
         };
 
+        const familyFilter = currentFilter === 'all' ? 'soldier' : currentFilter;
+        const nearbySoldiers = player.dimension.getEntities({
+            location: player.location,
+            maxDistance: 64,
+            families: [familyFilter]
+        });
+
         const form = new ActionFormData()
-            .title(`§l§4📯 ORDU KOMUTA [${filterNames[currentFilter]}]`)
+            .title(`§l§4📯 ORDU KOMUTA MERKEZİ`)
             .body(
-                `§e▸ Seçili Birlik: §f${filterNames[currentFilter]}\n` +
-                `§7💡 İpucu: Eğilerek (Sneak) sağ tıkladığınızda menü açılmadan anında emir verirsiniz!`
+                `§e▸ Seçili Birlik: §f${filterNames[currentFilter]} §7(${nearbySoldiers.length} Asker)\n` +
+                `§e▸ Takip Mesafesi: §a5 - 7 Blok (Işınlanma Kapalı, Doğal Yürüyüş)\n` +
+                `§7────────────────────────────────\n` +
+                `§fOrdunuza vermek istediğiniz emri seçin:`
             )
-            .button('§l§0👣 BENİ YAKINDAN TAKİP ET (Muhafız)\n§r§0Tüm askerler seninle birlikte yürür ve korur', 'textures/items/campaign_compass')
-            .button('§l§0⚡ HÜCUM ET (Tam Taarruz)\n§r§0Düşman hatlarına hız ve güçle saldır', 'textures/items/ottoman_yatagan')
-            .button('§l§0🛡️ KALKAN DUVARI (Olduğun Yerde Koru)\n§r§0Sabit savunma hattı kur (%80 ok direnci)', 'textures/items/ottoman_shield')
-            .button('§l§0🏹 SALVO YAYLIM ATEŞİ (Okçular)\n§r§0Baktığın yöne aynı anda ok yağmuru başlat', 'textures/items/composite_shortbow')
-            .button('§l§0🐎 SÜVARİ KANAT TAARRUZU\n§r§0Atlı birlikler hızlanıp düşmanı yarar', 'textures/items/couch_lance')
-            .button('§l§0🏃 TURAN TAKTİĞİ (Sahte Ricat & Pusu)\n§r§0Düşmanı yavaşlatıp çembere al', 'textures/items/war_horn')
-            .button('§l§0🎯 BİRLİK GRUBU SEÇ (Piyade/Okçu/Süvari)', 'textures/items/claim_flag');
+            .button('§l§0👣 BENİ MESAFELİ TAKİP ET (5-7 Blok)\n§r§0Askerler dibinize girmeden 5-7m geriden yürür', 'textures/items/campaign_compass')
+            .button('§l§0🛑 OLDUĞUN YERDE BEKLE / NÖBET TUT\n§r§0Askerler peşinizden gelmeyi bırakır ve olduğu yeri korur', 'textures/items/claim_flag')
+            .button('§l§0⚔️ SERBEST TAARRUZ (Düşmanlara Saldır)\n§r§0Yakındaki tüm haydut, canavar ve düşmanlara hücum eder', 'textures/items/ottoman_yatagan')
+            .button('§l§0🛡️ KALKAN DUVARI & YAKIN SAVUNMA\n§r§0Askerler mevzide kalkan kapatır (+%80 Ok ve Hasar Direnci)', 'textures/items/ottoman_shield')
+            .button('§l§0🏕️ KÖY MERKEZİNE ÇEKİL (Karargah Nöbeti)\n§r§0Askerler köy sancağının etrafında toplanıp nöbet tutar', 'textures/items/barracks_desk')
+            .button('§l§0🏹 OKÇU YAYLIM ATEŞİ (Baktığın Hedefe)\n§r§0Tüm okçular baktığınız yöne aynı anda ok yağdırır', 'textures/items/composite_shortbow')
+            .button(`§l§0🎯 BİRLİK GRUBU SEÇ (${filterNames[currentFilter]})\n§r§0Emirleri sadece Piyade, Okçu veya Süvarilere ver`, 'textures/items/war_horn');
 
         form.show(player).then((res) => {
             if (res.canceled) return;
@@ -161,72 +129,69 @@ export class MilitaryController {
                 return;
             }
 
-            const familyFilter = currentFilter === 'all' ? 'soldier' : currentFilter;
             const soldiers = player.dimension.getEntities({
                 location: player.location,
-                maxDistance: 48,
+                maxDistance: 64,
                 families: [familyFilter]
             });
 
-            player.runCommand('particle minecraft:totem_particle ~ ~2 ~');
-            player.runCommand('playsound imperium.war_horn @a[r=40] ~ ~ ~ 1.0 1.0');
+            if (soldiers.length === 0 && res.selection !== 5) {
+                player.sendMessage('§c[Komuta] Yakınınızda (64 blok) bu gruptan emir alacak asker bulunmuyor.');
+                return;
+            }
 
             if (res.selection === 0) {
-                for (const s of soldiers) this.bindSoldierToCommander(s, player, 'follow');
-                player.sendMessage(`§a[Komuta] 👣 ${soldiers.length} Asker yakın takip moduna geçti!`);
+                for (const s of soldiers) {
+                    s.removeEffect('slowness');
+                    this.bindSoldierToCommander(s, player, 'follow');
+                }
+                player.sendMessage(`§a[Komuta] 👣 ${soldiers.length} asker 5-7 blok mesafeli yürüyüş düzenine geçti.`);
             } else if (res.selection === 1) {
                 for (const s of soldiers) {
-                    s.removeTag('stance:hold');
-                    s.addTag('stance:charge');
-                    s.triggerEvent('imperium:order_charge');
-                    s.addEffect('speed', 200, { amplifier: 1, showParticles: false });
-                    s.addEffect('strength', 200, { amplifier: 0, showParticles: false });
+                    this.bindSoldierToCommander(s, player, 'hold');
                 }
-                player.runCommand('playsound imperium.charge_shout @a[r=35] ~ ~ ~ 1.0 1.0');
-                player.sendMessage(`§c[Komuta] ⚡ ${soldiers.length} Asker HÜCUMA KALKTI!`);
+                player.sendMessage(`§e[Komuta] 🛑 ${soldiers.length} asker olduğu yerde sabit nöbete geçti. Artık peşinizden gelmeyecekler.`);
             } else if (res.selection === 2) {
                 for (const s of soldiers) {
-                    s.removeTag('stance:charge');
-                    s.removeTag('stance:follow');
-                    s.addTag('stance:hold');
-                    s.triggerEvent('imperium:order_hold_line');
-                    s.addEffect('resistance', 400, { amplifier: 2, showParticles: false });
+                    s.removeEffect('slowness');
+                    this.bindSoldierToCommander(s, player, 'charge');
+                    s.addEffect('speed', 240, { amplifier: 1, showParticles: false });
+                    s.addEffect('strength', 240, { amplifier: 0, showParticles: false });
                 }
-                player.sendMessage(`§b[Komuta] 🛡️ ${soldiers.length} Asker KALKAN DUVARI kurdu!`);
+                player.sendMessage(`§c[Komuta] ⚔️ ${soldiers.length} asker SERBEST TAARRUZA geçti! Yakındaki düşmanları temizliyorlar.`);
             } else if (res.selection === 3) {
+                for (const s of soldiers) {
+                    this.bindSoldierToCommander(s, player, 'hold');
+                    s.addEffect('resistance', 600, { amplifier: 2, showParticles: false });
+                }
+                player.runCommand('playsound item.shield.block @s ~ ~ ~ 0.8 1.0');
+                player.sendMessage(`§b[Komuta] 🛡️ ${soldiers.length} asker Kalkan Duvarı kurdu ve mevziyi tutuyor!`);
+            } else if (res.selection === 4) {
+                for (const s of soldiers) {
+                    this.bindSoldierToCommander(s, player, 'hold');
+                    s.addTag('stance:patrol_village');
+                }
+                player.sendMessage(`§6[Komuta] 🏕️ ${soldiers.length} asker Köy Garnizon Nöbetine atandı.`);
+            } else if (res.selection === 5) {
                 const archers = player.dimension.getEntities({
                     location: player.location,
-                    maxDistance: 48,
+                    maxDistance: 64,
                     families: ['archer']
                 });
+                if (archers.length === 0) {
+                    player.sendMessage('§c[Komuta] Yakınınızda yaylım ateşi açacak Okçu birliği yok!');
+                    return;
+                }
                 const viewDir = player.getViewDirection();
                 for (const a of archers) {
-                    const spawnPos = { x: a.location.x, y: a.location.y + 1.8, z: a.location.z };
-                    const arrow = player.dimension.spawnEntity('minecraft:arrow', spawnPos);
-                    arrow.applyImpulse({ x: viewDir.x * 2.2, y: 0.45, z: viewDir.z * 2.2 });
+                    try {
+                        const spawnPos = { x: a.location.x, y: a.location.y + 1.8, z: a.location.z };
+                        const arrow = player.dimension.spawnEntity('minecraft:arrow', spawnPos);
+                        arrow.applyImpulse({ x: viewDir.x * 2.4, y: Math.max(0.25, viewDir.y + 0.35), z: viewDir.z * 2.4 });
+                    } catch (e) {}
                 }
-                player.sendMessage(`§a[Komuta] 🏹 ${archers.length} Okçu SALVO yaylım ateşi açtı!`);
-            } else if (res.selection === 4) {
-                const cavs = player.dimension.getEntities({
-                    location: player.location,
-                    maxDistance: 48,
-                    families: ['cavalry']
-                });
-                for (const c of cavs) {
-                    c.removeTag('stance:hold');
-                    c.addTag('stance:charge');
-                    c.triggerEvent('imperium:order_charge');
-                    c.addEffect('speed', 240, { amplifier: 2, showParticles: false });
-                }
-                player.runCommand('playsound imperium.war_horse @a[r=35] ~ ~ ~ 1.0 1.0');
-                player.sendMessage(`§6[Komuta] 🐎 ${cavs.length} Süvari KANAT TAARRUZUNA geçti!`);
-            } else if (res.selection === 5) {
-                for (const s of soldiers) {
-                    s.addEffect('speed', 160, { amplifier: 2, showParticles: false });
-                }
-                player.runCommand('effect @e[family=bandit,r=25] slowness 10 2');
-                player.runCommand('effect @e[family=bandit,r=25] weakness 10 1');
-                player.sendMessage(`§e[Komuta] 🏃 TURAN TAKTİĞİ! Düşman çembere alındı ve zayıflatıldı!`);
+                player.runCommand('playsound random.bow @s ~ ~ ~ 1.0 0.9');
+                player.sendMessage(`§a[Komuta] 🏹 ${archers.length} Okçu baktığınız hedefe yaylım ateşi açtı!`);
             }
         });
     }
@@ -255,7 +220,6 @@ export class MilitaryController {
     static triggerRelicPower(player, itemTypeId) {
         if (itemTypeId === 'megamod:relic_fatih_sword') {
             player.runCommand('effect @e[family=soldier,r=30] strength 15 1');
-            player.runCommand('playsound imperium.charge_shout @a[r=30] ~ ~ ~ 1 0.8');
             player.sendMessage('§6[Fatih Kılıcı] §c"İleri Yeniçeriler!" §eTüm ordunun yakın dövüş hasarı 15 saniye boyunca %40 arttı!');
         } else if (itemTypeId === 'megamod:relic_caesar_gladius') {
             player.runCommand('effect @e[family=soldier,r=30] resistance 20 3');
@@ -297,7 +261,6 @@ export class MilitaryController {
     static handleEntityHurt(event) {
         const hurtEntity = event.hurtEntity;
         const attacker = event.damageSource?.damagingEntity;
-
         if (!hurtEntity) return;
 
         if (attacker && attacker.typeId === 'minecraft:player') {

@@ -4,30 +4,32 @@ import { system } from '@minecraft/server';
 import { EconomyEngine } from '../economy/EconomyEngine.js';
 import { NationManager } from '../nations/NationManager.js';
 import { PolygonClaimEngine } from '../territory/PolygonClaimEngine.js';
+import { FlagUI } from '../territory/FlagUI.js';
+import { BlueprintBuilder } from '../territory/BlueprintBuilder.js';
 
 export const BARRACKS_UNITS = [
-    { id: 'megamod:peasant_militia', name: 'Kademe 1: Köylü Milis', cost: 25, timeSec: 4 },
-    { id: 'megamod:regular_footman', name: 'Kademe 2: Düzenli Kılıçlı Piyade', cost: 55, timeSec: 6 },
-    { id: 'megamod:regular_archer', name: 'Kademe 3: Acemi Okçu', cost: 60, timeSec: 6 },
-    { id: 'megamod:shield_infantry', name: 'Kademe 4: Ağır Kalkanlı Piyade', cost: 95, timeSec: 8 },
-    { id: 'megamod:heavy_crossbowman', name: 'Kademe 5: Zırh Delen Kundaklı Yaycı', cost: 110, timeSec: 9 },
-    { id: 'megamod:heavy_cavalry', name: 'Kademe 6: Ağır Zırhlı Süvari', cost: 160, timeSec: 12 },
-    { id: 'SPECIAL_INFANTRY', name: 'Kademe 7: Ulusa Özel Elit Piyade', cost: 210, timeSec: 14 },
-    { id: 'SPECIAL_CAVALRY', name: 'Kademe 8: Ulusa Özel Elit Süvari', cost: 260, timeSec: 15 },
-    { id: 'megamod:unit_banner_bearer', name: 'Kademe 9: Birlik Sancaktarı & Çavuş', cost: 240, timeSec: 12 },
-    { id: 'megamod:battering_ram', name: 'Kuşatma: Islak Deri Çatılı Koçbaşı', cost: 350, timeSec: 15 },
-    { id: 'megamod:catapult', name: 'Kuşatma: Ağır Mancınık', cost: 420, timeSec: 16 },
-    { id: 'megamod:supply_wagon', name: 'Lojistik: Ordu Erzak Arabası', cost: 180, timeSec: 10 },
-    { id: 'megamod:combat_medic', name: 'Uzman: Ordu Sıhhiye Hekimi (Oto-Tedavi)', cost: 190, timeSec: 10 },
-    { id: 'megamod:sapper_engineer', name: 'Uzman: Lağımcı Kuşatma Mühendisi', cost: 220, timeSec: 11 },
-    { id: 'megamod:fire_brigade_soldier', name: 'Uzman: Şehir Tulumbacısı (Yangın Söndürücü)', cost: 150, timeSec: 8 },
-    { id: 'megamod:imperial_cannon', name: 'Ağır Topçu: Osmanlı Şahi Topu Bataryası', cost: 520, timeSec: 18 },
-    { id: 'megamod:war_elephant', name: 'Ağır Zırhlı: Kuleli Savaş Fili (Howdah)', cost: 600, timeSec: 20 },
-    { id: 'megamod:camel_archer', name: 'Çöl Süvarisi: Zırhlı Deve Okçusu', cost: 230, timeSec: 12 }
+    { id: 'megamod:peasant_militia', name: 'Kademe 0: Köylü Milis', cost: 25, timeSec: 3, reqTier: 0, reqLabel: 'Başlangıçta Açık' },
+    { id: 'megamod:regular_footman', name: 'Kademe 1: Düzenli Kılıçlı Piyade', cost: 55, timeSec: 5, reqTier: 1, reqLabel: 'Köy Kurulumu (3 Bayrak)' },
+    { id: 'megamod:regular_archer', name: 'Kademe 1: Acemi Okçu', cost: 60, timeSec: 5, reqTier: 1, reqLabel: 'Köy Kurulumu (3 Bayrak)' },
+    { id: 'megamod:shield_infantry', name: 'Kademe 2: Ağır Kalkanlı Piyade', cost: 95, timeSec: 7, reqTier: 2, reqLabel: 'Askeri Kışla Binası' },
+    { id: 'megamod:heavy_crossbowman', name: 'Kademe 2: Zırh Delen Kundaklı Yaycı', cost: 110, timeSec: 8, reqTier: 2, reqLabel: 'Askeri Kışla Binası' },
+    { id: 'megamod:combat_medic', name: 'Kademe 2: Ordu Sıhhiye Hekimi (Oto-Tedavi)', cost: 190, timeSec: 8, reqTier: 2, reqLabel: 'Askeri Kışla Binası' },
+    { id: 'megamod:supply_wagon', name: 'Kademe 2: Ordu Erzak Arabası', cost: 180, timeSec: 8, reqTier: 2, reqLabel: 'Askeri Kışla Binası' },
+    { id: 'megamod:fire_brigade_soldier', name: 'Kademe 2: Şehir Tulumbacısı', cost: 150, timeSec: 7, reqTier: 2, reqLabel: 'Askeri Kışla Binası' },
+    { id: 'megamod:heavy_cavalry', name: 'Kademe 3: Ağır Zırhlı Süvari', cost: 160, timeSec: 10, reqTier: 3, reqLabel: 'Savunma Kulesi / Kale Suru' },
+    { id: 'SPECIAL_INFANTRY', name: 'Kademe 3: Ulusa Özel Elit Piyade', cost: 210, timeSec: 11, reqTier: 3, reqLabel: 'Savunma Kulesi / Kale Suru' },
+    { id: 'megamod:unit_banner_bearer', name: 'Kademe 3: Birlik Sancaktarı & Çavuş', cost: 240, timeSec: 10, reqTier: 3, reqLabel: 'Savunma Kulesi / Kale Suru' },
+    { id: 'megamod:battering_ram', name: 'Kademe 3: Islak Deri Çatılı Koçbaşı', cost: 350, timeSec: 12, reqTier: 3, reqLabel: 'Savunma Kulesi / Kale Suru' },
+    { id: 'megamod:sapper_engineer', name: 'Kademe 3: Lağımcı Kuşatma Mühendisi', cost: 220, timeSec: 10, reqTier: 3, reqLabel: 'Savunma Kulesi / Kale Suru' },
+    { id: 'SPECIAL_CAVALRY', name: 'Kademe 4: Ulusa Özel Elit Süvari', cost: 260, timeSec: 12, reqTier: 4, reqLabel: 'Topçu Dökümhanesi / İmparatorluk' },
+    { id: 'megamod:catapult', name: 'Kademe 4: Ağır Mancınık', cost: 420, timeSec: 14, reqTier: 4, reqLabel: 'Topçu Dökümhanesi / İmparatorluk' },
+    { id: 'megamod:imperial_cannon', name: 'Kademe 4: Osmanlı Şahi Topu Bataryası', cost: 520, timeSec: 15, reqTier: 4, reqLabel: 'Topçu Dökümhanesi / İmparatorluk' },
+    { id: 'megamod:war_elephant', name: 'Kademe 4: Kuleli Savaş Fili (Howdah)', cost: 600, timeSec: 16, reqTier: 4, reqLabel: 'Topçu Dökümhanesi / İmparatorluk' },
+    { id: 'megamod:camel_archer', name: 'Kademe 4: Zırhlı Deve Okçusu', cost: 230, timeSec: 11, reqTier: 4, reqLabel: 'Topçu Dökümhanesi / İmparatorluk' }
 ];
 
 export class BarracksUI {
-    static MAX_ACTIVE_SOLDIERS = 50; // Mobil sıfır-lag aktif savaşçı sınırı
+    static MAX_ACTIVE_SOLDIERS = 50;
 
     static resolveSpecialUnit(nation, isCavalry) {
         const mapInfantry = {
@@ -55,10 +57,22 @@ export class BarracksUI {
         return isCavalry ? (mapCavalry[nation] || 'megamod:heavy_cavalry') : (mapInfantry[nation] || 'megamod:ottoman_janissary');
     }
 
+    static getPlayerUnlockedTier(player) {
+        const k = PolygonClaimEngine.getPlayerKingdom(player.id);
+        if (!k || !k.flags || k.flags.length < 3) return 0; // Henüz köy kurulmadı -> Sadece Köylü Milis!
+        const area = PolygonClaimEngine.calculatePolygonArea(k.flags);
+        let tier = 1; // Köy kuruldu (Kılıçlı Piyade & Okçu açık)
+        if (k.hasBarracks || area >= 250) tier = 2; // Kışla kuruldu
+        if (k.hasCastle || area >= 600) tier = Math.max(tier, 3); // Kale kuruldu
+        if (k.hasSiege || area >= 1200) tier = Math.max(tier, 4); // İmparatorluk / Dökümhane
+        return tier;
+    }
+
     static openBarracksMenu(player) {
         const nation = NationManager.getPlayerNation(player) || 'osmanli';
-        const discount = nation === 'roma' ? 0.9 : 1.0; // Roma -%10 indirim
+        const discount = nation === 'roma' ? 0.9 : 1.0;
         const money = EconomyEngine.getPlayerMoney(player);
+        const unlockedTier = this.getPlayerUnlockedTier(player);
 
         const activeSoldiers = player.dimension.getEntities({
             location: player.location,
@@ -66,41 +80,51 @@ export class BarracksUI {
             families: ['soldier']
         }).length;
 
+        const tierDescriptions = [
+            '§c0 - Göçebe (Sadece Milis Açık -> Önce 3 Bayrak dikip Köy kurun!)',
+            '§e1 - Köy Kuruldu (Piyade & Okçu Açık -> Kademe 2 için Askeri Kışla inşa edin!)',
+            '§a2 - Askeri Kışla Aktif (Ağır Piyade & Arbalet Açık -> Kademe 3 için Kale/Kule inşa edin!)',
+            '§b3 - Kale Garnizonu Aktif (Süvari & Yeniçeri/Elit Açık -> Kademe 4 için Dökümhane kurun!)',
+            '§64 - İmparatorluk Ordusu (Tüm Elit Birimler, Şahi Topu ve Savaş Fili Açık!)'
+        ];
+
         const form = new ActionFormData()
-            .title('§4⚔️ İMPERİUM KIŞLA & TALİMGAH')
-            .body(`§eCüzdan: §6${money} Bakır Dinar\n` +
-                  `§eAktif Savaşçı: §a${activeSoldiers}/${this.MAX_ACTIVE_SOLDIERS} §7(Fazlası Rezerv Orduya katılır)\n` +
-                  `${nation === 'roma' ? '§a[Roma Pasifi: -%10 Eğitim İndirimi Aktif]\n' : ''}` +
-                  `§7Eğitmek istediğiniz askeri birliği seçin:`);
+            .title('§l§4⚔️ KIŞLA & ASKER EĞİTİMİ')
+            .body(
+                `§e▸ Hazine: §6${money} Bakır Dinar §7| §eOrdu: §a${activeSoldiers}/${this.MAX_ACTIVE_SOLDIERS}\n` +
+                `§e▸ Kışla Seviyeniz: ${tierDescriptions[unlockedTier]}\n` +
+                `§7────────────────────────────────\n` +
+                `§fEğitmek istediğiniz birliği seçin (Kilitli birimleri açmak için üzerine tıklayın):`
+            );
 
         for (const u of BARRACKS_UNITS) {
             const finalCost = Math.round(u.cost * discount);
-            form.button(`§l§0⚔️ ${u.name}\n§r§0Bedel: ${finalCost} Bakır | Süre: ${u.timeSec}sn`, 'textures/items/ottoman_yatagan');
+            const isUnlocked = unlockedTier >= u.reqTier;
+            if (isUnlocked) {
+                form.button(`§l§0✅ ${u.name}\n§r§0Bedel: ${finalCost} Bakır | Süre: ${u.timeSec}sn`, 'textures/items/ottoman_yatagan');
+            } else {
+                form.button(`§l§8🔒 ${u.name}\n§r§cGereksinim: ${u.reqLabel}`, 'textures/items/claim_flag');
+            }
         }
-
-        form.button('§l§4🚨 ACİL SEFERBERLİK (Anında 3 Milis)\n§r§0Bedel: 100 Bakır Dinar', 'textures/items/war_horn');
 
         form.show(player).then((res) => {
             if (res.canceled) return;
+            const chosen = BARRACKS_UNITS[res.selection];
+            if (!chosen) return;
 
-            if (res.selection === BARRACKS_UNITS.length) {
-                if (!EconomyEngine.deductMoney(player, 100)) {
-                    player.sendMessage('§c[Kışla] Acil seferberlik için 100 Bakır Dinar gerekiyor!');
-                    return;
+            if (unlockedTier < chosen.reqTier) {
+                player.sendMessage(`§c[Kışla Kilidi] 🔒 '${chosen.name}' birimini eğitmek için önce §e${chosen.reqLabel} §ctamamlamalısınız!`);
+                if (chosen.reqTier === 1) {
+                    FlagUI.openFlagMenu(player);
+                } else {
+                    BlueprintBuilder.openBlueprintMenu(player);
                 }
-                for (let i = 0; i < 3; i++) {
-                    const e = player.dimension.spawnEntity('megamod:peasant_militia', player.location);
-                    e.nameTag = `§e[Muhafız] Köylü Milis`;
-                    MilitaryController.bindSoldierToCommander(e, player, 'follow');
-                }
-                player.sendMessage('§6[Kışla] §aAcil Seferberlik! 3 Köylü Milis silahlandırılıp saflara katıldı!');
                 return;
             }
 
-            const chosen = BARRACKS_UNITS[res.selection];
             const finalCost = Math.round(chosen.cost * discount);
             if (!EconomyEngine.deductMoney(player, finalCost)) {
-                player.sendMessage(`§c[Kışla] Yetersiz altın! Gereken: ${finalCost} Bakır.`);
+                player.sendMessage(`§c[Kışla] Yetersiz hazine! Gereken: ${finalCost} Bakır Dinar.`);
                 return;
             }
 
@@ -108,7 +132,7 @@ export class BarracksUI {
             if (entityId === 'SPECIAL_INFANTRY') entityId = this.resolveSpecialUnit(nation, false);
             if (entityId === 'SPECIAL_CAVALRY') entityId = this.resolveSpecialUnit(nation, true);
 
-            player.sendMessage(`§e[Kışla Kuyruğu] §f${chosen.name} §7talime başladı (${chosen.timeSec} saniye)...`);
+            player.sendMessage(`§e[Kışla] ⏳ ${chosen.name} talime başladı (${chosen.timeSec} saniye)...`);
 
             system.runTimeout(() => {
                 const currentCount = player.dimension.getEntities({
@@ -124,13 +148,19 @@ export class BarracksUI {
                         all[k.id].reserveArmy = (all[k.id].reserveArmy || 0) + 1;
                         PolygonClaimEngine.saveKingdoms(all);
                     }
-                    player.sendMessage(`§6[Kışla] §a${chosen.name} eğitimi tamamlandı! (Aktif sınır dolu olduğu için Rezerv Orduya eklendi)`);
+                    player.sendMessage(`§6[Kışla] §a${chosen.name} eğitimi tamamlandı ve Rezerv Orduya eklendi.`);
                 } else {
-                    const spawned = player.dimension.spawnEntity(entityId, player.location);
+                    const pLoc = player.location;
+                    const angle = Math.random() * Math.PI * 2;
+                    const spawnPos = {
+                        x: pLoc.x + Math.cos(angle) * 5.0,
+                        y: pLoc.y,
+                        z: pLoc.z + Math.sin(angle) * 5.0
+                    };
+                    const spawned = player.dimension.spawnEntity(entityId, spawnPos);
                     spawned.nameTag = `§e★1 ${chosen.name.split(': ')[1]}`;
                     MilitaryController.bindSoldierToCommander(spawned, player, 'follow');
-                    player.sendMessage(`§a[Kışla] ⚔️ ${chosen.name} talimini tamamladı ve emrinize girdi!`);
-                    player.runCommand('playsound random.anvil_use @s ~ ~ ~ 0.8 1.2');
+                    player.sendMessage(`§a[Kışla] ⚔️ ${chosen.name} eğitimi tamamlandı ve 5m mesafede emrinize girdi!`);
                 }
             }, chosen.timeSec * 20);
         });

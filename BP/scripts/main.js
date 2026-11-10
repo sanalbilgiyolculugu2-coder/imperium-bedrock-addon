@@ -69,21 +69,27 @@ world.afterEvents.playerSpawn.subscribe((event) => {
         system.runTimeout(() => {
             try {
                 const pLoc = player.location;
-                const g1 = player.dimension.spawnEntity('megamod:shield_infantry', { x: pLoc.x + 2, y: pLoc.y, z: pLoc.z + 1 });
-                g1.nameTag = '§6🛡️ Sadık Hükümdar Muhafızı';
+                const g1 = player.dimension.spawnEntity('megamod:shield_infantry', { x: pLoc.x + 5, y: pLoc.y, z: pLoc.z + 4 });
+                g1.nameTag = '§6🛡️ Hükümdar Muhafızı';
                 MilitaryController.bindSoldierToCommander(g1, player, 'follow');
 
-                const g2 = player.dimension.spawnEntity('megamod:regular_footman', { x: pLoc.x - 2, y: pLoc.y, z: pLoc.z + 1 });
-                g2.nameTag = '§6⚔️ Sadık Hükümdar Muhafızı';
+                const g2 = player.dimension.spawnEntity('megamod:regular_footman', { x: pLoc.x - 5, y: pLoc.y, z: pLoc.z + 4 });
+                g2.nameTag = '§6⚔️ Hükümdar Muhafızı';
                 MilitaryController.bindSoldierToCommander(g2, player, 'follow');
 
-                const adv = player.dimension.spawnEntity('megamod:royal_advisor', { x: pLoc.x, y: pLoc.y, z: pLoc.z + 2.5 });
-                adv.nameTag = '§e📜 Kraliyet Başdanışmanı (Vezir)';
-                MilitaryController.bindSoldierToCommander(adv, player, 'follow');
+                const adv = player.dimension.spawnEntity('megamod:royal_advisor', { x: pLoc.x, y: pLoc.y, z: pLoc.z + 5 });
+                adv.nameTag = '§e📜 Başdanışman Vezir (Tıkla: Rehber & Divan)';
+                MilitaryController.bindSoldierToCommander(adv, player, 'hold');
             } catch (e) {}
 
             if (!NationManager.getPlayerNation(player)) {
                 NationSelectUI.openSelectionMenu(player);
+            } else {
+                ImperialHubUI.openOnboardingGuide(player);
+            } else {
+                ImperialHubUI.openOnboardingGuide(player);
+            } else {
+                ImperialHubUI.openOnboardingGuide(player);
             }
         }, 30);
     } else {
@@ -106,7 +112,11 @@ world.afterEvents.itemUse.subscribe((event) => {
             MilitaryController.handleWarHornUse(player);
             break;
         case 'megamod:claim_flag':
-            FlagUI.openFlagMenu(player);
+            if (player.isSneaking) {
+                FlagUI.placeFlagDirectly(player);
+            } else {
+                FlagUI.openFlagMenu(player);
+            }
             break;
         case 'megamod:market_terminal':
             MarketUI.openMainMenu(player);

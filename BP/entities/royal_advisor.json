@@ -17,10 +17,10 @@
         },
         "minecraft:behavior.follow_owner": {
           "priority": 1,
-          "speed_multiplier": 1.25,
-          "start_distance": 3.0,
-          "stop_distance": 1.5,
-          "can_teleport": true
+          "speed_multiplier": 1.0,
+          "start_distance": 10.0,
+          "stop_distance": 6.5,
+          "can_teleport": false
         },
         "minecraft:is_tamed": {}
       },

@@ -3,10 +3,10 @@ import { PolygonClaimEngine } from '../territory/PolygonClaimEngine.js';
 import { EconomyEngine } from '../economy/EconomyEngine.js';
 
 export class WeatherEngine {
-    static currentWeather = 'Açık ve Güneşli';
+    static currentWeather = 'Açık';
 
     static init() {
-        // Her 2 saniyede bir (40 tick): Actionbar HUD, Yol Hız Bonusu ve Süvari Çiğneme Kontrolü
+        // Her 2 saniyede bir (40 tick): İsteğe Bağlı Actionbar HUD, Sınır Çizgisi Partikülü ve Yol Hızı
         system.runInterval(() => {
             this.tickPlayerHUDAndMechanics();
         }, 40);
@@ -16,7 +16,7 @@ export class WeatherEngine {
             this.cycleWeather();
         }, 6000);
 
-        // Her 1000 tick: Boşta kalan okları temizle (Ganimetler KESİNLİKLE silinmez)
+        // Her 1000 tick: Boşta kalan okları temizle
         system.runInterval(() => {
             this.cleanupSpentProjectiles();
         }, 1000);
@@ -25,20 +25,32 @@ export class WeatherEngine {
     static tickPlayerHUDAndMechanics() {
         for (const player of world.getAllPlayers()) {
             const k = PolygonClaimEngine.getPlayerKingdom(player.id);
-            const fin = EconomyEngine.getFinance(player.id);
             const wallet = EconomyEngine.getPlayerMoney(player);
-            const area = k ? PolygonClaimEngine.calculatePolygonArea(k.flags) : 0;
-            const title = PolygonClaimEngine.getTitleByArea(area);
+            const flagCount = k ? k.flags.length : 0;
+            const area = flagCount >= 3 ? PolygonClaimEngine.calculatePolygonArea(k.flags) : 0;
+            const title = PolygonClaimEngine.getTitleByArea(area, flagCount);
 
-            const activeSoldiers = player.dimension.getEntities({
-                location: player.location,
-                maxDistance: 64,
-                families: ['soldier']
-            }).length;
+            // Sınır çizgilerini ve köşeleri dünyada görünür kıl!
+            if (flagCount >= 1) {
+                PolygonClaimEngine.renderAllKingdomBorders(player);
+            }
 
-            // Canlı Mobil Krallık Bilgi Çubuğu (Actionbar HUD)
-            const hudText = `§6👑 ${title} §7| §e💰 ${wallet}B (🏦${fin.bankBalance}) §7| §c⚔️ Ordu: ${activeSoldiers}/${k ? (k.reserveArmy || 0) : 0} §7| §a🌾 Erzak: ${fin.granaryRations} §7| §b🌤️ ${this.currentWeather}`;
-            player.onScreenDisplay.setActionBar(hudText);
+            // Kullanıcı alt barı gizlemediyse sade ve ekranı kaplamayan bilgi göster
+            let hideHud = false;
+            try {
+                hideHud = Boolean(player.getDynamicProperty('imperium:hide_hud'));
+            } catch (e) {}
+
+            if (!hideHud) {
+                const activeSoldiers = player.dimension.getEntities({
+                    location: player.location,
+                    maxDistance: 64,
+                    families: ['soldier']
+                }).length;
+                const borderStatus = flagCount < 3 ? `🚩 ${flagCount}/3 Bayrak` : `🚩 ${area}m²`;
+                const hudText = `§6👑 ${title} §7| §e💰 ${wallet}B §7| §a${borderStatus} §7| §c⚔️ ${activeSoldiers} Asker`;
+                player.onScreenDisplay.setActionBar(hudText);
+            }
 
             // Yankesici (Pickpocket) Hırsızlık Kontrolü
             const thieves = player.dimension.getEntities({ location: player.location, maxDistance: 3, type: 'megamod:pickpocket_thief' });
@@ -47,7 +59,7 @@ export class WeatherEngine {
                 player.sendMessage('§c[Yankesici!] 🕵️ Bir pazar hırsızı kesenizden 5 Bakır Dinar çaldı! Muhafızları çağırın!');
             }
 
-            // Kazık ve Dikenli Tuzak Blok Kontrolü (Süvari ve Haydutlara Hasar)
+            // Kazık ve Dikenli Tuzak Blok Kontrolü
             const enemies = player.dimension.getEntities({ location: player.location, maxDistance: 32, families: ['bandit'] });
             for (const en of enemies) {
                 try {
@@ -61,7 +73,7 @@ export class WeatherEngine {
                 } catch (e) {}
             }
 
-            // Yol Hız Bonusu (%30 Hız): Oyuncu taş/çakıl/yol bloğu üstündeyse
+            // Yol Hız Bonusu
             try {
                 const blockBelow = player.dimension.getBlock({
                     x: Math.floor(player.location.x),
@@ -81,11 +93,11 @@ export class WeatherEngine {
 
     static cycleWeather() {
         const events = [
-            { name: 'Açık & Bereketli', msg: '§a[Hava Durumu] Gökyüzü açıldı! Tarlalar bereketli, ordular tam hızda ilerliyor.' },
-            { name: 'Sağanak & Çamur', msg: '§9[Hava Durumu] Sağanak yağmur başladı! Zemin çamurlaştı, ağır kuşatma araçları yavaşladı.' },
-            { name: 'Yoğun Sis (Pusu Havası)', msg: '§7[Hava Durumu] Savaş alanına yoğun sis çöktü! Görüş mesafesi düştü, pusu için kusursuz an!' },
-            { name: 'Şiddetli Kar & Tipi', msg: '§b[Hava Durumu] Dondurucu tipi başladı! Kamp ateşlerinden uzaklaşan ordular üşüyor.' },
-            { name: 'Kuraklık & Sıcak', msg: '§6[Hava Durumu] Sıcak dalgası! Pazarda buğday ve su fiyatları yükselişe geçti.' }
+            { name: 'Açık', msg: '§a[Hava Durumu] Gökyüzü açıldı! Tarlalar bereketli, ordular tam hızda ilerliyor.' },
+            { name: 'Sağanak', msg: '§9[Hava Durumu] Sağanak yağmur başladı! Zemin çamurlaştı.' },
+            { name: 'Sisli', msg: '§7[Hava Durumu] Savaş alanına sis çöktü!' },
+            { name: 'Karlı', msg: '§b[Hava Durumu] Soğuk rüzgarlar esmeye başladı.' },
+            { name: 'Sıcak', msg: '§6[Hava Durumu] Sıcak dalgası! Pazarda buğday fiyatları yükseliyor.' }
         ];
         const chosen = events[Math.floor(Math.random() * events.length)];
         this.currentWeather = chosen.name;

@@ -18,9 +18,9 @@
         "minecraft:behavior.follow_owner": {
           "priority": 3,
           "speed_multiplier": 1.25,
-          "start_distance": 3.5,
-          "stop_distance": 2.0,
-          "can_teleport": true
+          "start_distance": 7.5,
+          "stop_distance": 4.5,
+          "can_teleport": false
         }
       },
       "imperium:stance_hold": {
@@ -69,9 +69,9 @@
         "minecraft:behavior.follow_owner": {
           "priority": 1,
           "speed_multiplier": 1.25,
-          "start_distance": 3.0,
-          "stop_distance": 1.5,
-          "can_teleport": true
+          "start_distance": 7.5,
+          "stop_distance": 4.5,
+          "can_teleport": false
         },
         "minecraft:movement": {
           "value": 0.28
