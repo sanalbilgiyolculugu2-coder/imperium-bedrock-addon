@@ -7,22 +7,46 @@
         "sounds/imperium/war_horn"
       ]
     },
+    "imperium.charge_shout": {
+      "category": "player",
+      "sounds": [
+        "sounds/imperium/charge_shout"
+      ]
+    },
     "imperium.cannon_boom": {
       "category": "block",
       "sounds": [
         "sounds/imperium/cannon_boom"
       ]
     },
-    "imperium.sword_clash": {
-      "category": "neutral",
+    "imperium.catapult_fire": {
+      "category": "block",
       "sounds": [
-        "sounds/imperium/sword_clash"
+        "sounds/imperium/catapult_fire"
       ]
     },
     "imperium.march_drum": {
       "category": "neutral",
       "sounds": [
         "sounds/imperium/march_drum"
+      ]
+    },
+    "imperium.war_horse": {
+      "category": "neutral",
+      "sounds": [
+        "sounds/imperium/war_horse"
+      ]
+    },
+    "imperium.elephant": {
+      "category": "neutral",
+      "sounds": [
+        "sounds/imperium/elephant"
+      ]
+    },
+    "imperium.musket": {
+      "category": "player",
+      "sounds": [
+        "sounds/imperium/musket"
       ]
     }
   }

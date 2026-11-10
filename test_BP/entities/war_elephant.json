@@ -58,6 +58,37 @@
         "minecraft:attack": {
           "damage": 35
         }
+      },
+      "imperium:mode_follow": {
+        "minecraft:behavior.follow_owner": {
+          "priority": 1,
+          "speed_multiplier": 1.25,
+          "start_distance": 3.0,
+          "stop_distance": 1.5,
+          "can_teleport": true
+        },
+        "minecraft:movement": {
+          "value": 0.28
+        },
+        "minecraft:is_tamed": {}
+      },
+      "imperium:mode_hold_line": {
+        "minecraft:movement": {
+          "value": 0.0
+        },
+        "minecraft:knockback_resistance": {
+          "value": 1.0
+        }
+      },
+      "imperium:mode_charge": {
+        "minecraft:movement": {
+          "value": 0.35
+        },
+        "minecraft:behavior.melee_attack": {
+          "priority": 1,
+          "speed_multiplier": 1.35,
+          "track_target": true
+        }
       }
     },
     "components": {
@@ -155,15 +186,32 @@
         "look_distance": 8.0
       },
       "minecraft:tameable": {
-        "probability": 1.0
-      }
+        "probability": 1.0,
+        "tame_items": [
+          "megamod:war_horn",
+          "megamod:campaign_compass"
+        ],
+        "tame_event": {
+          "event": "imperium:order_follow",
+          "target": "self"
+        }
+      },
+      "minecraft:damage_sensor": {
+        "triggers": [
+          {
+            "cause": "all",
+            "deals_damage": false,
+            "damager_type": "player"
+          }
+        ]
+      },
+      "minecraft:is_tamed": {}
     },
     "events": {
       "minecraft:entity_spawned": {
         "add": {
           "component_groups": [
-            "imperium:stance_follow",
-            "imperium:stance_aggressive"
+            "imperium:mode_follow"
           ]
         }
       },
@@ -216,6 +264,45 @@
         "add": {
           "component_groups": [
             "imperium:elite_tier"
+          ]
+        }
+      },
+      "imperium:order_follow": {
+        "remove": {
+          "component_groups": [
+            "imperium:mode_hold_line",
+            "imperium:mode_charge"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "imperium:mode_follow"
+          ]
+        }
+      },
+      "imperium:order_hold_line": {
+        "remove": {
+          "component_groups": [
+            "imperium:mode_follow",
+            "imperium:mode_charge"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "imperium:mode_hold_line"
+          ]
+        }
+      },
+      "imperium:order_charge": {
+        "remove": {
+          "component_groups": [
+            "imperium:mode_follow",
+            "imperium:mode_hold_line"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "imperium:mode_charge"
           ]
         }
       }

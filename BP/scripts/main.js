@@ -32,7 +32,21 @@ world.afterEvents.playerSpawn.subscribe((event) => {
     const player = event.player;
     MilitaryController.applyKingHealth(player);
 
-    if (event.initialSpawn) {
+    const needsKitV2 = !player.hasTag('imperium_kit_v2');
+    if (event.initialSpawn || needsKitV2) {
+        try { player.addTag('imperium_kit_v2'); } catch (e) {}
+        // Eski kalabalik baslangic esyalarini temizle (mevcut dunyalar icin)
+        const oldClutter = [
+            'megamod:market_terminal', 'megamod:barracks_desk', 'megamod:royal_bank_vault',
+            'megamod:guild_crafting_table', 'megamod:tactical_map_table', 'megamod:trade_contract',
+            'megamod:diplomatic_seal', 'megamod:spy_kit', 'megamod:quest_ledger',
+            'megamod:construction_blueprint', 'megamod:horse_saddlebag', 'megamod:kingdom_passport',
+            'megamod:field_bandage', 'megamod:silver_coin', 'megamod:copper_coin',
+            'megamod:campaign_compass', 'megamod:war_horn', 'megamod:claim_flag'
+        ];
+        for (const itemId of oldClutter) {
+            try { player.runCommand(`clear @s ${itemId}`); } catch (e) {}
+        }
         // Başlangıç hazinesi doğrudan Kraliyet Cüzdanına yatırılır (envanteri kirletmez!)
         if (EconomyEngine.getPlayerMoney(player) < 1000) {
             EconomyEngine.addMoney(player, 1000);
@@ -89,7 +103,7 @@ world.afterEvents.itemUse.subscribe((event) => {
             ImperialHubUI.openMainHub(player);
             break;
         case 'megamod:war_horn':
-            MilitaryController.openWarHornMenu(player);
+            MilitaryController.handleWarHornUse(player);
             break;
         case 'megamod:claim_flag':
             FlagUI.openFlagMenu(player);

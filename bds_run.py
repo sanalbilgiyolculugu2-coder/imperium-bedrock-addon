@@ -262,9 +262,9 @@ def run_real_bds(bds_dir):
     world_dir = os.path.join(bds_dir, "worlds", "Bedrock level")
     os.makedirs(world_dir, exist_ok=True)
     with open(os.path.join(world_dir, "world_behavior_packs.json"), "w") as f:
-        json.dump([{"pack_id": "99999999-aaaa-4bbb-8ccc-111111111111", "version": [1, 0, 0]}], f)
+        json.dump([{"pack_id": "99999999-aaaa-4bbb-8ccc-111111111111", "version": [1, 1, 0]}], f)
     with open(os.path.join(world_dir, "world_resource_packs.json"), "w") as f:
-        json.dump([{"pack_id": "7b257778-5182-47d6-93c6-95763a025566", "version": [1, 0, 0]}], f)
+        json.dump([{"pack_id": "7b257778-5182-47d6-93c6-95763a025566", "version": [1, 1, 0]}], f)
 
     bds_bin = os.path.join(bds_dir, "bedrock_server")
     os.chmod(bds_bin, 0o755)

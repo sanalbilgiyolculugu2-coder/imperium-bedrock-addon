@@ -3,19 +3,32 @@ import { EconomyEngine } from './EconomyEngine.js';
 import { PolygonClaimEngine } from '../territory/PolygonClaimEngine.js';
 
 export class TaxCycle {
-    static DAY_TICKS = 24000;
+    static LAST_TAX_DAY_KEY = 'imperium:last_tax_day';
 
     static init() {
-        // Her 2 dakikada bir (2400 tick) borsa normalizasyonu ve arka plan üretimi
+        // Her 2 dakikada bir (2400 tick) piyasa arz-talep dengelemesi
         system.runInterval(() => {
             EconomyEngine.normalizeMarket();
             this.processCitizenProduction();
         }, 2400);
 
-        // Günlük vergi, maaş ve isyan kontrolü
+        // Her 200 tick (10 saniye): Oyun içi günü kontrol et!
+        // Oyuncu 5 dakika oynayıp çıksa bile yeni gün geldiğinde vergi/maaş döngüsü tam zamanında çalışır.
         system.runInterval(() => {
-            this.collectTaxesAndPayUpkeep();
-        }, this.DAY_TICKS);
+            this.checkAndProcessDailyCycle();
+        }, 200);
+    }
+
+    static checkAndProcessDailyCycle() {
+        try {
+            const currentDay = world.getDay ? world.getDay() : Math.floor(world.getTimeOfDay ? world.getTimeOfDay() / 24000 : 0);
+            const lastRecordedDay = world.getDynamicProperty(this.LAST_TAX_DAY_KEY) || 0;
+
+            if (currentDay > lastRecordedDay) {
+                world.setDynamicProperty(this.LAST_TAX_DAY_KEY, currentDay);
+                this.collectTaxesAndPayUpkeep();
+            }
+        } catch (e) {}
     }
 
     static processCitizenProduction() {
@@ -43,7 +56,6 @@ export class TaxCycle {
                 fin.bankBalance -= upkeep;
                 player.sendMessage(`§6[Şafak Bilançosu] §a+${taxRevenue} Bakır Vergi Geliri §7| §c-${upkeep} Bakır Ordu Maaşı §7(Kasa: ${fin.bankBalance})`);
             } else {
-                // Maaş ödenemezse asker isyanı!
                 player.sendMessage('§4[İSYAN UYARISI!] §cHazine boşaldı ve askerlerin maaşı ödenemedi! Bazı askerler firar edip hayduta dönüştü!');
                 if (soldiers.length > 0) {
                     const rebel = soldiers[0];
@@ -53,7 +65,6 @@ export class TaxCycle {
                 }
             }
 
-            // Yüksek vergi (%35 üstü) köylü isyanı kontrolü
             if (taxRate > 35 && Math.random() < 0.5) {
                 player.sendMessage('§4[KÖYLÜ İSYANI!] §cVergiler %35 üzerinde olduğu için öfkeli köylüler tırpanlarla ayaklandı!');
                 player.dimension.spawnEntity('megamod:bandit_gang_member', player.location);

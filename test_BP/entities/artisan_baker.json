@@ -10,25 +10,26 @@
     "component_groups": {
       "imperium:mode_follow": {
         "minecraft:movement": {
-          "value": 0.29
+          "value": 0.28
         },
         "minecraft:mark_variant": {
           "value": 0
         },
         "minecraft:behavior.follow_owner": {
-          "priority": 3,
+          "priority": 1,
           "speed_multiplier": 1.25,
-          "start_distance": 3.5,
-          "stop_distance": 2.0,
+          "start_distance": 3.0,
+          "stop_distance": 1.5,
           "can_teleport": true
-        }
+        },
+        "minecraft:is_tamed": {}
       },
       "imperium:mode_hold_line": {
         "minecraft:movement": {
-          "value": 0.02
+          "value": 0.0
         },
         "minecraft:knockback_resistance": {
-          "value": 0.9
+          "value": 1.0
         },
         "minecraft:mark_variant": {
           "value": 1
@@ -36,13 +37,18 @@
       },
       "imperium:mode_charge": {
         "minecraft:movement": {
-          "value": 0.338
+          "value": 0.35
         },
         "minecraft:attack": {
           "damage": 4
         },
         "minecraft:mark_variant": {
           "value": 2
+        },
+        "minecraft:behavior.melee_attack": {
+          "priority": 1,
+          "speed_multiplier": 1.35,
+          "track_target": true
         }
       },
       "imperium:mode_patrol": {
@@ -148,8 +154,26 @@
         "priority": 1
       },
       "minecraft:tameable": {
-        "probability": 1.0
-      }
+        "probability": 1.0,
+        "tame_items": [
+          "megamod:war_horn",
+          "megamod:campaign_compass"
+        ],
+        "tame_event": {
+          "event": "imperium:order_follow",
+          "target": "self"
+        }
+      },
+      "minecraft:damage_sensor": {
+        "triggers": [
+          {
+            "cause": "all",
+            "deals_damage": false,
+            "damager_type": "player"
+          }
+        ]
+      },
+      "minecraft:is_tamed": {}
     },
     "events": {
       "minecraft:entity_spawned": {
@@ -163,8 +187,7 @@
         "remove": {
           "component_groups": [
             "imperium:mode_hold_line",
-            "imperium:mode_charge",
-            "imperium:mode_patrol"
+            "imperium:mode_charge"
           ]
         },
         "add": {
@@ -177,8 +200,7 @@
         "remove": {
           "component_groups": [
             "imperium:mode_follow",
-            "imperium:mode_charge",
-            "imperium:mode_patrol"
+            "imperium:mode_charge"
           ]
         },
         "add": {
@@ -191,8 +213,7 @@
         "remove": {
           "component_groups": [
             "imperium:mode_follow",
-            "imperium:mode_hold_line",
-            "imperium:mode_patrol"
+            "imperium:mode_hold_line"
           ]
         },
         "add": {

@@ -41,60 +41,55 @@ export class EconomyEngine {
                 trend: 0
             };
         }
-        this.saveState(initial);
         return initial;
     }
 
     static saveState(state) {
-        world.setDynamicProperty(this.PROPERTY_KEY, JSON.stringify(state));
+        try {
+            world.setDynamicProperty(this.PROPERTY_KEY, JSON.stringify(state));
+        } catch (e) {}
     }
 
     static getFinance(playerId) {
         try {
-            const raw = world.getDynamicProperty(this.FINANCE_KEY);
-            const all = raw ? JSON.parse(raw) : {};
-            if (all[playerId]) return all[playerId];
+            const raw = world.getDynamicProperty(`${this.FINANCE_KEY}_${playerId}`);
+            if (raw) return JSON.parse(raw);
         } catch (e) {}
         return {
-            bankBalance: 500,
+            bankBalance: 0,
             loanDebt: 0,
             loanDueDays: 0,
-            activeCaravans: 0,
-            insuredCaravans: false,
             granaryRations: 100,
-            ironStock: 25,
-            prisoners: 2,
-            publicOrder: 85,
-            morale: 90,
-            renown: 50
+            ironStock: 50
         };
     }
 
-    static saveFinance(playerId, data) {
-        let all = {};
+    static saveFinance(playerId, fin) {
         try {
-            const raw = world.getDynamicProperty(this.FINANCE_KEY);
-            if (raw) all = JSON.parse(raw);
+            world.setDynamicProperty(`${this.FINANCE_KEY}_${playerId}`, JSON.stringify(fin));
         } catch (e) {}
-        all[playerId] = data;
-        world.setDynamicProperty(this.FINANCE_KEY, JSON.stringify(all));
     }
 
-    // Bölgesel Fiyat Arbitrajı (Çöl, Orman, Dağ/Kar farkları)
     static getRegionalMultiplier(player, commodityId) {
         if (!player) return 1.0;
-        const pos = player.location;
-        // Yükseklik ve koordinat tabanlı biyom/bölge simülasyonu
+        try {
+            const biome = player.dimension.getBiome ? player.dimension.getBiome(player.location)?.id : '';
+            if (biome.includes('desert') && (commodityId.includes('wheat') || commodityId.includes('bread'))) return 1.45;
+            if (biome.includes('desert') && commodityId.includes('iron')) return 1.25;
+            if (biome.includes('mountain') && commodityId.includes('iron')) return 0.75;
+            if (biome.includes('mountain') && commodityId.includes('diamond')) return 0.80;
+            if (biome.includes('forest') && commodityId.includes('log')) return 0.70;
+            if (biome.includes('ocean') && commodityId.includes('fish')) return 0.65;
+        } catch (e) {}
+
+        const pos = player.location || { x: 0, y: 64, z: 0 };
         if (pos.y > 95) {
-            // Dağlık / Soğuk Bölge: Yiyecek ve odun pahalı, maden ucuz
             if (commodityId.includes('wheat') || commodityId.includes('bread')) return 1.4;
             if (commodityId.includes('iron') || commodityId.includes('coal')) return 0.75;
         } else if (Math.abs(pos.x + pos.z) % 400 > 200) {
-            // Çöl / Kurak Pazar: Odun ve buğday çok değerli
             if (commodityId.includes('log')) return 1.6;
             if (commodityId.includes('wheat')) return 1.5;
         } else {
-            // Orman / Ova Pazarı: Odun ucuz, demir pahalı
             if (commodityId.includes('log')) return 0.7;
             if (commodityId.includes('iron')) return 1.35;
         }
@@ -113,8 +108,8 @@ export class EconomyEngine {
         if (!item) return 10;
         const ratio = demand / Math.max(supply, 10);
         const calculated = Math.round(item.basePrice * ratio);
-        const minPrice = Math.max(1, Math.round(item.basePrice * 0.5)); // %50 Taban
-        const maxPrice = Math.round(item.basePrice * 3.0);              // 3x Tavan
+        const minPrice = Math.max(1, Math.round(item.basePrice * 0.5));
+        const maxPrice = Math.round(item.basePrice * 3.0);
         return Math.max(minPrice, Math.min(maxPrice, calculated));
     }
 
@@ -164,22 +159,80 @@ export class EconomyEngine {
         return totalCopper;
     }
 
+    // Clean slot-targeted coin deduction: Never wipes unrelated coins or messes up hotbars!
     static deductMoney(player, amountInCopper) {
         const current = this.getPlayerMoney(player);
         if (current < amountInCopper) return false;
         const container = player.getComponent('inventory')?.container;
         if (!container) return false;
 
-        for (let i = 0; i < container.size; i++) {
+        let needed = amountInCopper;
+
+        // 1. Önce bakır sikkelerden düş
+        for (let i = 0; i < container.size && needed > 0; i++) {
             const item = container.getItem(i);
-            if (!item) continue;
-            if (item.typeId === 'megamod:copper_coin' ||
-                item.typeId === 'megamod:silver_coin' ||
-                item.typeId === 'megamod:gold_coin') {
-                container.setItem(i, undefined);
+            if (item && item.typeId === 'megamod:copper_coin') {
+                const take = Math.min(item.amount, needed);
+                needed -= take;
+                if (item.amount === take) {
+                    container.setItem(i, undefined);
+                } else {
+                    item.amount -= take;
+                    container.setItem(i, item);
+                }
             }
         }
-        this.addMoney(player, current - amountInCopper);
+
+        // 2. Hala gerekliyse gümüş sikkelerden düş (1 Gümüş = 100 Bakır)
+        for (let i = 0; i < container.size && needed > 0; i++) {
+            const item = container.getItem(i);
+            if (item && item.typeId === 'megamod:silver_coin') {
+                const silverCopper = item.amount * 100;
+                if (silverCopper <= needed) {
+                    needed -= silverCopper;
+                    container.setItem(i, undefined);
+                } else {
+                    const silversToTake = Math.ceil(needed / 100);
+                    const changeCopper = (silversToTake * 100) - needed;
+                    needed = 0;
+                    if (item.amount === silversToTake) {
+                        container.setItem(i, undefined);
+                    } else {
+                        item.amount -= silversToTake;
+                        container.setItem(i, item);
+                    }
+                    if (changeCopper > 0) {
+                        this.addMoney(player, changeCopper);
+                    }
+                }
+            }
+        }
+
+        // 3. Hala gerekliyse altın sikkelerden düş (1 Altın = 10000 Bakır)
+        for (let i = 0; i < container.size && needed > 0; i++) {
+            const item = container.getItem(i);
+            if (item && item.typeId === 'megamod:gold_coin') {
+                const goldCopper = item.amount * 10000;
+                if (goldCopper <= needed) {
+                    needed -= goldCopper;
+                    container.setItem(i, undefined);
+                } else {
+                    const goldsToTake = Math.ceil(needed / 10000);
+                    const changeCopper = (goldsToTake * 10000) - needed;
+                    needed = 0;
+                    if (item.amount === goldsToTake) {
+                        container.setItem(i, undefined);
+                    } else {
+                        item.amount -= goldsToTake;
+                        container.setItem(i, item);
+                    }
+                    if (changeCopper > 0) {
+                        this.addMoney(player, changeCopper);
+                    }
+                }
+            }
+        }
+
         return true;
     }
 

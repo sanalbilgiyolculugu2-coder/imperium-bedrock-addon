@@ -11,14 +11,28 @@ export class WorldGenManager {
         { id: 'sparta', name: 'Sparta Şehir Devleti', power: 1490, wealth: 5800 }
     ];
 
+    // Arazi Yüzey Tarayıcısı: Asla havada uçan ya da dağa gömülen yapı yapmaz!
+    static findGroundY(dim, x, startY, z) {
+        const checkTop = Math.min(310, Math.floor(startY) + 12);
+        const checkBottom = Math.max(-55, Math.floor(startY) - 24);
+        for (let y = checkTop; y >= checkBottom; y--) {
+            try {
+                const b = dim.getBlock({ x: Math.floor(x), y: y, z: Math.floor(z) });
+                if (b && !b.isAir && !b.isLiquid) {
+                    return y + 1;
+                }
+            } catch (e) {}
+        }
+        return Math.floor(startY);
+    }
+
     static initWorldLoops() {
-        // 1. Uzman Birlikler (Sıhhiye Hekimi & Tulumbacı) Otomatik Yapay Zeka Döngüsü (Her 6 saniye / 120 tick)
+        // Sıhhiye ve Tulumbacı döngüsü
         system.runInterval(() => {
             for (const player of world.getAllPlayers()) {
                 const dim = player.dimension;
                 const pos = player.location;
 
-                // Sıhhiye Hekimi (combat_medic): Yakındaki yaralı askerleri iyileştirir ve yerdeki ağır yaralıları kaldırır
                 try {
                     const medics = dim.getEntities({ location: pos, maxDistance: 40, type: 'megamod:combat_medic' });
                     if (medics.length > 0) {
@@ -36,7 +50,6 @@ export class WorldGenManager {
                         }
                     }
 
-                    // Tulumbacı (fire_brigade_soldier): Yakındaki yangınları söndürür ve askerlere ateş direnci verir
                     const firefighters = dim.getEntities({ location: pos, maxDistance: 40, type: 'megamod:fire_brigade_soldier' });
                     if (firefighters.length > 0) {
                         const fPos = firefighters[0].location;
@@ -48,26 +61,36 @@ export class WorldGenManager {
                     }
                 } catch (e) {}
 
-                // Keşif Kontrolü: Oyuncu son keşif noktasından 350 blok uzaklaştığında prosedürel dünya yapısı oluşturur
-                const lastGenX = player.getDynamicProperty('imperium:last_gen_x') || 0;
-                const lastGenZ = player.getDynamicProperty('imperium:last_gen_z') || 0;
+                // Prosedürel Keşif: Oyuncu dünya başladığında bombalanmaz, 450 blok gerçek keşif yapınca yüzeye oturtulur
+                const lastGenX = player.getDynamicProperty('imperium:last_gen_x');
+                const lastGenZ = player.getDynamicProperty('imperium:last_gen_z');
+                if (lastGenX === undefined) {
+                    player.setDynamicProperty('imperium:last_gen_x', Math.round(pos.x));
+                    player.setDynamicProperty('imperium:last_gen_z', Math.round(pos.z));
+                    continue;
+                }
+
                 const dist = Math.hypot(pos.x - lastGenX, pos.z - lastGenZ);
-                if (dist > 350) {
+                if (dist > 450) {
                     player.setDynamicProperty('imperium:last_gen_x', Math.round(pos.x));
                     player.setDynamicProperty('imperium:last_gen_z', Math.round(pos.z));
                     const roll = Math.random();
+                    const targetX = Math.floor(pos.x + 28);
+                    const targetZ = Math.floor(pos.z + 28);
+                    const targetY = this.findGroundY(dim, targetX, pos.y, targetZ);
+
                     if (roll < 0.35) {
-                        this.spawnMarketOutpost(player, Math.floor(pos.x + 18), Math.floor(pos.y), Math.floor(pos.z + 18));
+                        this.spawnMarketOutpost(player, targetX, targetY, targetZ);
                     } else if (roll < 0.70) {
-                        this.spawnBanditCamp(player, Math.floor(pos.x + 22), Math.floor(pos.y), Math.floor(pos.z + 22));
+                        this.spawnBanditCamp(player, targetX, targetY, targetZ);
                     } else {
-                        this.spawnRivalOutpost(player, Math.floor(pos.x + 25), Math.floor(pos.y), Math.floor(pos.z + 25));
+                        this.spawnRivalOutpost(player, targetX, targetY, targetZ);
                     }
                 }
             }
-        }, 120);
+        }, 140);
 
-        // 2. Arka Plan Matematiksel Yapay Zeka Krallık Simülasyonu (Her 5 dakikada bir / 6000 tick)
+        // AI Krallık Simülasyonu
         system.runInterval(() => {
             const k1 = this.AI_KINGDOMS[Math.floor(Math.random() * this.AI_KINGDOMS.length)];
             const k2 = this.AI_KINGDOMS[Math.floor(Math.random() * this.AI_KINGDOMS.length)];
@@ -111,7 +134,7 @@ export class WorldGenManager {
             dim.spawnEntity('megamod:bandit_gang_member', { x: x - 2, y: y + 1, z: z });
             const captive = dim.spawnEntity('megamod:slave_worker', { x: x, y: y + 1, z: z + 2 });
             captive.nameTag = '§e⛓️ Esir Köylü (Kurtarılmayı Bekliyor)';
-            player.sendMessage(`§c[Keşif] 🏴‍☠️ İleride Gizli Haydut Çetesi Kampı tespit edildi! (X:${x}, Z:${z}) - Esirleri kurtarabilir ve ganimet toplayabilirsiniz!`);
+            player.sendMessage(`§c[Keşif] 🏴‍☠️ İleride Gizli Haydut Çetesi Kampı tespit edildi! (X:${x}, Z:${z})`);
         } catch (e) {}
     }
 
@@ -126,44 +149,47 @@ export class WorldGenManager {
             lord.nameTag = '§5👑 Rakip Krallık Kale Komutanı';
             dim.spawnEntity('megamod:bandit_gang_member', { x: x + 2, y: y + 1, z: z - 2 });
             dim.spawnEntity('megamod:bandit_gang_member', { x: x - 2, y: y + 1, z: z - 2 });
-            player.sendMessage(`§4[Keşif] 🏰 Dikkat! Yakınlarda Rakip Yapay Zeka Krallık Sınır Kalesi belirdi! (X:${x}, Z:${z})`);
+            player.sendMessage(`§4[Keşif] 🏰 Dikkat! Yakınlarda Rakip Krallık Sınır Kalesi belirdi! (X:${x}, Z:${z})`);
         } catch (e) {}
     }
 
     static openWorldSimMenu(player) {
-        let simText = `§e--- 🌍 DÜNYA GÜÇ SIRALAMASI (ARKA PLAN AI SİMÜLASYONU) ---\n`;
+        let simText = `§e--- 🌍 DÜNYA GÜÇ SIRALAMASI ---\n`;
         for (const k of this.AI_KINGDOMS) {
             simText += `§6• ${k.name}: §c⚔️ Güç: ${k.power} §7| §e💰 Hazine: ${k.wealth}\n`;
         }
 
         const form = new ActionFormData()
             .title('§2🧭 KEŞİF RADARI & DÜNYA SİMÜLASYONU')
-            .body(`${simText}
-§7Yakındaki yapıları tarayabilir veya bölgede keşif kolu çıkartarak yeni karakol/kamp bulabilirsiniz:`)
+            .body(`${simText}\n§7Yakındaki yapıları tarayabilir veya bölgede keşif kolu çıkartabilirsiniz:`)
             .button('§6📡 Yakındaki Tüm Karakol, Kamp ve Birlikleri Tara')
-            .button('§e🏪 İleride Tarafsız Pazar Karakolu Keşfet (+18m)')
-            .button('§c🏴‍☠️ İleride Gizli Haydut Kampı Tespit Et (+20m)')
-            .button('§4🏰 İleride Rakip Krallık Sınır Kalesi Tespit Et (+24m)')
+            .button('§e🏪 İleride Tarafsız Pazar Karakolu Keşfet')
+            .button('§c🏴‍☠️ İleride Gizli Haydut Kampı Tespit Et')
+            .button('§4🏰 İleride Rakip Krallık Sınır Kalesi Tespit Et')
             .button('§l§0« Kapat');
 
         form.show(player).then((res) => {
             if (res.canceled || res.selection === 4) return;
             const pos = player.location;
+            const dim = player.dimension;
             const x = Math.floor(pos.x);
-            const y = Math.floor(pos.y);
             const z = Math.floor(pos.z);
+            const y = this.findGroundY(dim, x, pos.y, z);
 
             if (res.selection === 0) {
-                const bandits = player.dimension.getEntities({ location: pos, maxDistance: 150, families: ['bandit'] });
-                const traders = player.dimension.getEntities({ location: pos, maxDistance: 150, families: ['trader'] });
-                const soldiers = player.dimension.getEntities({ location: pos, maxDistance: 150, families: ['soldier'] });
-                player.sendMessage(`§6[Radar Raporu] §fKonum: (${x}, ${y}, ${z}) | §aDost Asker: ${soldiers.length} | §6Pazar Tüccarı: ${traders.length} | §cHaydut/Rakip: ${bandits.length}`);
+                const bandits = dim.getEntities({ location: pos, maxDistance: 150, families: ['bandit'] });
+                const traders = dim.getEntities({ location: pos, maxDistance: 150, families: ['trader'] });
+                const soldiers = dim.getEntities({ location: pos, maxDistance: 150, families: ['soldier'] });
+                player.sendMessage(`§6[Radar Raporu] §fKonum: (${x}, ${y}, ${z}) | §aDost Asker: ${soldiers.length} | §6Tüccar: ${traders.length} | §cHaydut/Düşman: ${bandits.length}`);
             } else if (res.selection === 1) {
-                this.spawnMarketOutpost(player, x + 18, y, z + 18);
+                const tx = x + 24, tz = z + 24;
+                this.spawnMarketOutpost(player, tx, this.findGroundY(dim, tx, y, tz), tz);
             } else if (res.selection === 2) {
-                this.spawnBanditCamp(player, x + 20, y, z + 20);
+                const tx = x + 24, tz = z + 24;
+                this.spawnBanditCamp(player, tx, this.findGroundY(dim, tx, y, tz), tz);
             } else if (res.selection === 3) {
-                this.spawnRivalOutpost(player, x + 24, y, z + 24);
+                const tx = x + 28, tz = z + 28;
+                this.spawnRivalOutpost(player, tx, this.findGroundY(dim, tx, y, tz), tz);
             }
         });
     }
