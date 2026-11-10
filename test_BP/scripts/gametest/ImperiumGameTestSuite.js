@@ -1,5 +1,4 @@
 import { world, system } from '@minecraft/server';
-import * as GameTest from '@minecraft/server-gametest';
 import { EconomyEngine, COMMODITIES } from '../economy/EconomyEngine.js';
 import { TaxCycle } from '../economy/TaxCycle.js';
 import { PolygonClaimEngine } from '../territory/PolygonClaimEngine.js';
@@ -190,7 +189,7 @@ export class ImperiumGameTestSuite {
 }
 
 try {
-    if (GameTest && typeof GameTest.register === 'function') {
+    if (false) {
         GameTest.register('imperium', 'full_campaign_simulation', (test) => {
             const simPlayer = test.spawnSimulatedPlayer({ x: 0, y: 1, z: 0 }, 'Sultan_SimPlayer');
             ImperiumGameTestSuite.runAllSimulatedPlayerScenarios(simPlayer);

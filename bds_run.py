@@ -282,6 +282,8 @@ def run_real_bds(bds_dir):
     )
 
     content_errors = []
+    pack_stack_none = False
+    test_summary = None
     start_time = time.time()
     server_started = False
 
@@ -292,21 +294,25 @@ def run_real_bds(bds_dir):
         sys.stdout.write(line)
         sys.stdout.flush()
         low = line.lower()
-        if "[contentlog]" in low and "[error]" in low:
-            # Ignore experimental beta_apis warning if world is vanilla level.dat
-            if "experimental" not in low and "beta" not in low:
-                content_errors.append(line.strip())
-        if "[scripting]" in low and "[error]" in low:
-            if "experimental" not in low and "beta" not in low:
-                content_errors.append(line.strip())
+        if "pack stack - none" in low:
+            pack_stack_none = True
+            content_errors.append("Pack Stack - None (Paketler dunyaya yuklenmedi!)")
+        if ("error]" in low or "[error]" in low) and "no cdn config" not in low:
+            content_errors.append(line.strip())
+        if "test_result_summary:" in low:
+            try:
+                test_summary = json.loads(line.split("TEST_RESULT_SUMMARY:", 1)[1].strip())
+            except Exception:
+                pass
         if "server started." in low and not server_started:
             server_started = True
-            print("[+] Gercek BDS sunucusu basariyla basladi! Paketler ve Content-Log denetlendi.")
+            print("[+] Gercek BDS sunucusu basariyla basladi! scriptevent imperium:run_tests gonderiliyor...")
             proc.stdin.write("scriptevent imperium:run_tests\n")
             proc.stdin.flush()
-            time.sleep(3)
+        if server_started and (test_summary is not None or time.time() - start_time > 25):
             proc.stdin.write("stop\n")
             proc.stdin.flush()
+            server_started = "stopping"
         if "quit correctly" in low:
             break
 
@@ -319,13 +325,17 @@ def run_real_bds(bds_dir):
         print("[FAIL] BDS sunucusu baslatilamadi!")
         sys.exit(1)
 
-    if content_errors:
-        print(f"[FAIL] BDS Content-Log hatalari yakalandi ({len(content_errors)} adet):")
+    if content_errors or pack_stack_none:
+        print(f"[FAIL] BDS Yukleme / Content-Log hatalari yakalandi ({len(content_errors)} adet):")
         for e in content_errors:
             print("  -", e)
         sys.exit(1)
 
-    print("[PASS] Gercek Bedrock Dedicated Server (BDS) uzerinde paket yukleme ve Content-Log testi 0 hata ile GECTI!")
+    if not test_summary or test_summary.get("failed", 1) > 0:
+        print(f"[FAIL] BDS uzerinde TEST_RESULT_SUMMARY alinamadi veya basarisiz oldu: {test_summary}")
+        sys.exit(1)
+
+    print(f"[PASS] Gercek BDS uzerinde {test_summary[passed]}/{test_summary[total]} senaryo ve Content-Log 0 hata ile GECTI!")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

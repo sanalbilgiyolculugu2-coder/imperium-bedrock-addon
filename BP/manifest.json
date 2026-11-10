@@ -1,60 +1,60 @@
 {
-    "format_version": 2,
-    "header": {
-        "name": "Mega Mod [BP]",
-        "description": "Minecraft Bedrock Mobile 1.26.62.1 - Davranis Paketi",
-        "uuid": "c97cf40a-8089-4424-9a28-16ba9a7c53b3",
-        "version": [
-            1,
-            0,
-            0
-        ],
-        "min_engine_version": [
-            1,
-            26,
-            62
-        ]
-    },
-    "modules": [
-        {
-            "description": "Mega Mod Data Module",
-            "type": "data",
-            "uuid": "52f33783-dd36-459b-bf4b-fe0088366830",
-            "version": [
-                1,
-                0,
-                0
-            ]
-        },
-        {
-            "description": "Mega Mod Script Module",
-            "type": "script",
-            "language": "javascript",
-            "uuid": "f874eba3-855e-4280-8ac2-bed6d6db67e9",
-            "version": [
-                1,
-                0,
-                0
-            ],
-            "entry": "scripts/main.js"
-        }
+  "format_version": 2,
+  "header": {
+    "name": "Mega Mod [BP]",
+    "description": "Minecraft Bedrock Mobile 1.26.62.1 - Davranis Paketi",
+    "uuid": "c97cf40a-8089-4424-9a28-16ba9a7c53b3",
+    "version": [
+      1,
+      0,
+      0
     ],
-    "dependencies": [
-        {
-            "uuid": "68569b0c-c120-4bfb-929e-0cd601c2dc04",
-            "version": [
-                1,
-                0,
-                0
-            ]
-        },
-        {
-            "module_name": "@minecraft/server",
-            "version": "1.14.0"
-        },
-        {
-            "module_name": "@minecraft/server-ui",
-            "version": "1.3.0"
-        }
+    "min_engine_version": [
+      1,
+      21,
+      0
     ]
+  },
+  "modules": [
+    {
+      "description": "Mega Mod Data Module",
+      "type": "data",
+      "uuid": "52f33783-dd36-459b-bf4b-fe0088366830",
+      "version": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "description": "Mega Mod Script Module",
+      "type": "script",
+      "language": "javascript",
+      "uuid": "f874eba3-855e-4280-8ac2-bed6d6db67e9",
+      "version": [
+        1,
+        0,
+        0
+      ],
+      "entry": "scripts/main.js"
+    }
+  ],
+  "dependencies": [
+    {
+      "uuid": "68569b0c-c120-4bfb-929e-0cd601c2dc04",
+      "version": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "module_name": "@minecraft/server",
+      "version": "1.15.0"
+    },
+    {
+      "module_name": "@minecraft/server-ui",
+      "version": "1.3.0"
+    }
+  ]
 }
