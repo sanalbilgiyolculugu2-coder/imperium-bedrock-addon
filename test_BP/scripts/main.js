@@ -1,3 +1,16 @@
+import { ActionFormData, ModalFormData } from '@minecraft/server-ui';
+try {
+    const _origActionShow = ActionFormData.prototype.show;
+    ActionFormData.prototype.show = function(player) {
+        try { return _origActionShow.call(this, player); }
+        catch (e) { return Promise.resolve({ canceled: true }); }
+    };
+    const _origModalShow = ModalFormData.prototype.show;
+    ModalFormData.prototype.show = function(player) {
+        try { return _origModalShow.call(this, player); }
+        catch (e) { return Promise.resolve({ canceled: true }); }
+    };
+} catch (e) {}
 import { WorldGenManager } from './environment/WorldGenManager.js';
 import { SoldierInteractionUI } from './ui/SoldierInteractionUI.js';
 import { BlueprintBuilder } from './territory/BlueprintBuilder.js';

@@ -83,6 +83,7 @@ export class SimulatedEntity {
         this.props = new Map();
         this.isSprinting = true;
         this.isSneaking = false;
+        this.isSneaking = false;
         this.slots = new Array(36).fill(undefined);
         const self = this;
         this.inventoryContainer = {
