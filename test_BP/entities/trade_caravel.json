@@ -46,6 +46,9 @@
       "minecraft:behavior.look_at_player": {
         "priority": 7,
         "look_distance": 16.0
+      },
+      "minecraft:tameable": {
+        "probability": 1.0
       }
     }
   }

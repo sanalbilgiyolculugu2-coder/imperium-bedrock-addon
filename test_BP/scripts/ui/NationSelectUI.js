@@ -4,13 +4,13 @@ import { NATIONS, NationManager } from '../nations/NationManager.js';
 export class NationSelectUI {
     static openSelectionMenu(player) {
         const form = new ActionFormData()
-            .title('§6İMPERİUM §0- Uygarlık Seçimi')
+            .title('§6İMPERİUM §e- Uygarlık Seçimi')
             .body('§7Yöneteceğiniz büyük imparatorluğu seçin. Her ulus kendine has özel askeri birime ve pasif avantaja sahiptir:');
 
         const keys = Object.keys(NATIONS);
         for (const k of keys) {
             const n = NATIONS[k];
-            form.button(`${n.name}\n§8Birim: ${n.unit}`);
+            form.button(`${n.name}\n§r§0Birim: ${n.unit}`);
         }
 
         form.show(player).then((res) => {

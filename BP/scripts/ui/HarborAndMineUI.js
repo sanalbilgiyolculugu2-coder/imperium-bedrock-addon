@@ -14,7 +14,7 @@ export class HarborAndMineUI {
             .button('§c🚢 Savaş Kadırgası İnşa Et (400 Bakır)')
             .button('§6⛵ Deniz Ticaret Karaveli Gönder (200 Bakır -> Gelir: 480 Bakır)')
             .button('§b🐟 Balıkçı İskelesi Hasadı (+16 Tuzlanmış Sefer Balığı - 40 Bakır)')
-            .button('§8« Kapat');
+            .button('§l§0« Kapat');
 
         form.show(player).then((res) => {
             if (res.canceled || res.selection === 3) return;
@@ -64,7 +64,7 @@ export class HarborAndMineUI {
             .button('§7⛏️ Demir ve Kömür Çıkar (12 Demir + 16 Kömür)')
             .button('§6✨ Altın Damarı Kaz (6 Altın Külçesi)')
             .button('§b🧭 Yeni Cevher Damarı Ara & Sondaj Yap (150 Bakır)')
-            .button('§8« Kapat');
+            .button('§l§0« Kapat');
 
         form.show(player).then((res) => {
             if (res.canceled || res.selection === 3) return;

@@ -6,11 +6,11 @@ export class SpyUI {
             .title('§8🗡️ CASUSLUK VE GİZLİ OPERASYONLAR')
             .body('§eDüşman kalelerine sızan casuslarınıza gizli görev verin:\n\n' +
                   '§7Başarılı sabotajlar düşman kuşatmasını içeriden çökertir.')
-            .button('§4🗝️ Gece Kale Kapısını İçeriden Aç\n§8Gece yarısı ordunuza kapıyı aralar')
-            .button('§6🔥 Erzak Ambarını Kundakla\n§8Garnizonu açlık ve panikle baş başa bırak')
-            .button('§2🧪 Su Kuyusunu Zehirle\n§8Düşman askerlerini zayıflat')
-            .button('§c🎯 Düşman Generali Suikastı\n§8Ordu moralini sıfıra indir')
-            .button('§8« Vazgeç');
+            .button('§4🗝️ Gece Kale Kapısını İçeriden Aç\n§r§0Gece yarısı ordunuza kapıyı aralar')
+            .button('§6🔥 Erzak Ambarını Kundakla\n§r§0Garnizonu açlık ve panikle baş başa bırak')
+            .button('§2🧪 Su Kuyusunu Zehirle\n§r§0Düşman askerlerini zayıflat')
+            .button('§c🎯 Düşman Generali Suikastı\n§r§0Ordu moralini sıfıra indir')
+            .button('§l§0« Vazgeç');
 
         form.show(player).then((res) => {
             if (res.canceled || res.selection === 4) return;

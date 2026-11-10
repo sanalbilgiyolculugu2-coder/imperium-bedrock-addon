@@ -17,11 +17,13 @@
         "walk": "animation.imperium.soldier.walk",
         "shield_block": "animation.imperium.soldier.shield_block",
         "attack": "animation.imperium.soldier.attack",
-        "controller": "controller.animation.imperium.soldier"
+        "controller": "controller.animation.imperium.soldier",
+        "look_at_target": "animation.imperium.soldier.look_at_target"
       },
       "scripts": {
         "animate": [
-          "controller"
+          "controller",
+          "look_at_target"
         ]
       },
       "render_controllers": [

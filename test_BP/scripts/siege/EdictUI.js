@@ -7,11 +7,11 @@ export class EdictUI {
             .title('§6👑 KRALİYET TAHTI & FERMANLAR')
             .body('§eTahtınızdan tüm imparatorluğa bağlayıcı fermanlar yayınlayın:\n\n' +
                   '• Fermanlar krallığın huzurunu, ekonomisini ve askeri gücünü doğrudan etkiler.')
-            .button('§4📜 Sıkıyönetim Fermanı\n§8Suçları sıfırlar, huzursuzluk yaratır')
-            .button('§2🌾 Hasat Seferberliği\n§8Tarım üretimini ikiye katlar')
-            .button('§6🎉 Büyük Şenlik Fermanı\n§8Ordu ve halk moralini tavan yaptırır')
-            .button('§b📉 Vergi İndirimi\n§8Şehre dışarıdan göçmen akını çeker')
-            .button('§8« Kapat');
+            .button('§4📜 Sıkıyönetim Fermanı\n§r§0Suçları sıfırlar, huzursuzluk yaratır')
+            .button('§2🌾 Hasat Seferberliği\n§r§0Tarım üretimini ikiye katlar')
+            .button('§6🎉 Büyük Şenlik Fermanı\n§r§0Ordu ve halk moralini tavan yaptırır')
+            .button('§b📉 Vergi İndirimi\n§r§0Şehre dışarıdan göçmen akını çeker')
+            .button('§l§0« Kapat');
 
         form.show(player).then((res) => {
             if (res.canceled || res.selection === 4) return;

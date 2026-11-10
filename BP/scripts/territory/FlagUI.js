@@ -11,7 +11,7 @@ export class FlagUI {
         const title = PolygonClaimEngine.getTitleByArea(area);
 
         const form = new ActionFormData()
-            .title(`§6İMPERİUM §0- ${title} Sınır Yönetimi`)
+            .title(`§6İMPERİUM §e- ${title} Sınır Yönetimi`)
             .body(`§eHanedan: §f${k ? k.name : 'Henüz Kurulmadı'} §7(${title})\n` +
                   `§eKöşe Bayrak Sayısı: §6${flagCount} §7(Min 3 bayrak = Üçgen, 4 = Dörtgen, 5+ = Çokgen)\n` +
                   `§eToplam Toprak Alanı: §a${area} m²\n` +
@@ -23,7 +23,7 @@ export class FlagUI {
         form.button('§6📐 Son Bayrağı Buraya Taşı (Genişlet / Daralt)');
         form.button('§c💰 Son Bayrağı Kaldır & Toprağı Sat (%70 İade)');
         form.button('§b⚖️ Vergi Oranını Ayarla (%5 - %50)');
-        form.button('§8« Kapat');
+        form.button('§l§0« Kapat');
 
         form.show(player).then((res) => {
             if (res.canceled) return;
@@ -64,7 +64,7 @@ export class FlagUI {
             return;
         }
         const modal = new ModalFormData()
-            .title('§0Krallık Vergi Oranı')
+            .title('§l§6Krallık Vergi Oranı')
             .slider('Vergi Yüzdesi (%35 üstü köylü isyanı riski doğurur!)', 5, 50, 5, k.taxRate || 15);
 
         modal.show(player).then((res) => {

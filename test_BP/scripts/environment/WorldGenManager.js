@@ -144,7 +144,7 @@ export class WorldGenManager {
             .button('§e🏪 İleride Tarafsız Pazar Karakolu Keşfet (+18m)')
             .button('§c🏴‍☠️ İleride Gizli Haydut Kampı Tespit Et (+20m)')
             .button('§4🏰 İleride Rakip Krallık Sınır Kalesi Tespit Et (+24m)')
-            .button('§8« Kapat');
+            .button('§l§0« Kapat');
 
         form.show(player).then((res) => {
             if (res.canceled || res.selection === 4) return;

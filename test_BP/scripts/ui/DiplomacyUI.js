@@ -4,13 +4,13 @@ import { AI_KINGDOMS, DiplomacyManager } from '../diplomacy/DiplomacyManager.js'
 export class DiplomacyUI {
     static openDiplomacyMenu(player) {
         const form = new ActionFormData()
-            .title('§6İMPERİUM §0- Diplomasi ve İlişkiler')
+            .title('§6İMPERİUM §e- Diplomasi ve İlişkiler')
             .body('§7Görüşmek istediğiniz komşu krallığı seçin:');
 
         const pacts = DiplomacyManager.getPacts();
         for (const k of AI_KINGDOMS) {
             const rel = pacts[k.id] || 'Nötr';
-            form.button(`${k.name}\n§8Durum: §e${rel} §8| ${k.personality.split(' ')[0]}`);
+            form.button(`${k.name}\n§r§0Durum: §e${rel} §7| ${k.personality.split(' ')[0]}`);
         }
 
         form.show(player).then((res) => {
@@ -30,7 +30,7 @@ export class DiplomacyUI {
             .button('§b🕊️ Saldırmazlık & Barış Paktı')
             .button('§6👑 Haraç & Vasallık Dayat')
             .button('§c⚔️ SAVAŞ İLAN ET')
-            .button('§8« Geri');
+            .button('§l§0« Geri');
 
         form.show(player).then((res) => {
             if (res.canceled || res.selection === 4) {

@@ -17,7 +17,7 @@ export class BankAndCaravanUI {
             .button('§6📤 Kasadan 100 Bakır Çek')
             .button('§c📜 Tefeciden 500 Bakır Kredi Çek (Geri Ödeme: 650)')
             .button('§a💸 Tefeci Borcunu Kapat (650 Bakır)')
-            .button('§8« Kapat');
+            .button('§l§0« Kapat');
 
         form.show(player).then((res) => {
             if (res.canceled || res.selection === 4) return;
@@ -75,7 +75,7 @@ export class BankAndCaravanUI {
             .button('§2🐪 Ticaret Kervanı Gönder (Maliyet: 150 Bakır -> Gelir: 320 Bakır)')
             .button('§b🛡️ Lonca Kervan Sigortası Yaptır (50 Bakır)')
             .button('§6🏰 Yarı Güvenli Pazar Karakolu & Muhafızları Çağır')
-            .button('§8« Kapat');
+            .button('§l§0« Kapat');
 
         form.show(player).then((res) => {
             if (res.canceled || res.selection === 3) return;

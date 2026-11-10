@@ -50,7 +50,7 @@ export class SiegeEngine {
             .button('§a🔨 Kapıyı ve Surları Onar (+200 HP - 60 Bakır)')
             .button('§c🐏 Koçbaşı & Mancınık Darbesi Vur (-150 HP)')
             .button('§e🏳️ Garnizona "Şerefli Çıkış / Teslim Ol" Teklif Et')
-            .button('§8« Kapat');
+            .button('§l§0« Kapat');
 
         form.show(player).then((res) => {
             if (res.canceled || res.selection === 3) return;

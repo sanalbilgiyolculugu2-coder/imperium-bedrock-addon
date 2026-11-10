@@ -57,7 +57,7 @@ export class SoldierInteractionUI {
             .button('§2🍖 Sefer Erzağı Ver (Tam İyileşme & Moral - 10 Bakır)')
             .button('§6⭐ Kıdemli Rütbesine Terfi Ettir (60 Bakır)')
             .button('§a👣 Şahsi Yakın Korumam Olarak Ata')
-            .button('§8« Kapat');
+            .button('§l§0« Kapat');
 
         form.show(player).then((res) => {
             if (res.canceled || res.selection === 4) return;

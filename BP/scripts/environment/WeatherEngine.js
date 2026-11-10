@@ -37,7 +37,7 @@ export class WeatherEngine {
             }).length;
 
             // Canlı Mobil Krallık Bilgi Çubuğu (Actionbar HUD)
-            const hudText = `§6👑 ${title} §8| §e💰 ${wallet}B (🏦${fin.bankBalance}) §8| §c⚔️ Ordu: ${activeSoldiers}/${k ? (k.reserveArmy || 0) : 0} §8| §a🌾 Erzak: ${fin.granaryRations} §8| §b🌤️ ${this.currentWeather}`;
+            const hudText = `§6👑 ${title} §7| §e💰 ${wallet}B (🏦${fin.bankBalance}) §7| §c⚔️ Ordu: ${activeSoldiers}/${k ? (k.reserveArmy || 0) : 0} §7| §a🌾 Erzak: ${fin.granaryRations} §7| §b🌤️ ${this.currentWeather}`;
             player.onScreenDisplay.setActionBar(hudText);
 
             // Yankesici (Pickpocket) Hırsızlık Kontrolü

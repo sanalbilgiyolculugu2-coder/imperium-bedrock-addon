@@ -1,3 +1,4 @@
+import { MilitaryController } from '../military/MilitaryController.js';
 import { ActionFormData } from '@minecraft/server-ui';
 import { system } from '@minecraft/server';
 import { EconomyEngine } from '../economy/EconomyEngine.js';
@@ -74,10 +75,10 @@ export class BarracksUI {
 
         for (const u of BARRACKS_UNITS) {
             const finalCost = Math.round(u.cost * discount);
-            form.button(`${u.name}\n§e${finalCost} Bakır §8| ⏱️ ${u.timeSec}sn`);
+            form.button(`§l§0⚔️ ${u.name}\n§r§0Bedel: ${finalCost} Bakır | Süre: ${u.timeSec}sn`, 'textures/items/ottoman_yatagan');
         }
 
-        form.button('§c🚨 ACİL SEFERBERLİK (Anında 3 Milis - 100 Bakır)');
+        form.button('§l§4🚨 ACİL SEFERBERLİK (Anında 3 Milis)\n§r§0Bedel: 100 Bakır Dinar', 'textures/items/war_horn');
 
         form.show(player).then((res) => {
             if (res.canceled) return;
@@ -89,7 +90,8 @@ export class BarracksUI {
                 }
                 for (let i = 0; i < 3; i++) {
                     const e = player.dimension.spawnEntity('megamod:peasant_militia', player.location);
-                    e.nameTag = `§7[Acemi] Köylü Milis §c♥20`;
+                    e.nameTag = `§e[Muhafız] Köylü Milis`;
+                    MilitaryController.bindSoldierToCommander(e, player, 'follow');
                 }
                 player.sendMessage('§6[Kışla] §aAcil Seferberlik! 3 Köylü Milis silahlandırılıp saflara katıldı!');
                 return;
@@ -126,6 +128,7 @@ export class BarracksUI {
                 } else {
                     const spawned = player.dimension.spawnEntity(entityId, player.location);
                     spawned.nameTag = `§e★1 ${chosen.name.split(': ')[1]}`;
+                    MilitaryController.bindSoldierToCommander(spawned, player, 'follow');
                     player.sendMessage(`§a[Kışla] ⚔️ ${chosen.name} talimini tamamladı ve emrinize girdi!`);
                     player.runCommand('playsound random.anvil_use @s ~ ~ ~ 0.8 1.2');
                 }

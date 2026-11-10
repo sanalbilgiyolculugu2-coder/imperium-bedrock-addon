@@ -20,58 +20,59 @@ import { BarracksUI } from './ui/BarracksUI.js';
 import { BankAndCaravanUI } from './ui/BankAndCaravanUI.js';
 import { CityAndDungeonUI } from './ui/CityAndDungeonUI.js';
 import { WeatherEngine } from './environment/WeatherEngine.js';
+import { ImperialHubUI } from './ui/ImperialHubUI.js';
 
-console.warn('>>> [İMPERİUM MASTER v1.26.62.1] Tüm Sistemler, 33 Varlık, 55+ Eşya ve 3D Modeller Aktif! <<<');
+console.warn('>>> [İMPERİUM MASTER v1.26.62.1] Tüm Sistemler, Muhafız Eskort AI ve Saray Divanı Aktif! <<<');
 
 TaxCycle.init();
 WeatherEngine.init();
+MilitaryController.initEscortLoop();
 
 world.afterEvents.playerSpawn.subscribe((event) => {
     const player = event.player;
     MilitaryController.applyKingHealth(player);
 
     if (event.initialSpawn) {
-        player.sendMessage('§6========================================');
-        player.sendMessage('§e§lİMPERİUM: BÜYÜK İMPARATORLUKLAR (v1.26.62.1)');
-        player.sendMessage('§7Hoş geldiniz Sürgün Soylu! 32 HP Kral Canı aktif.');
-        player.sendMessage('§aEnvanterinize İmparatorluk Başlangıç Kiti eklendi.');
-        player.sendMessage('§6========================================');
-        
-        // Sürgün Edilmiş Soylu Başlangıç Kiti + Sadık Muhafız
-        player.runCommand('give @s megamod:market_terminal 1');
-        player.runCommand('give @s megamod:claim_flag 5');
-        player.runCommand('give @s megamod:war_horn 1');
-        player.runCommand('give @s megamod:barracks_desk 1');
-        player.runCommand('give @s megamod:royal_bank_vault 1');
-        player.runCommand('give @s megamod:guild_crafting_table 1');
-        player.runCommand('give @s megamod:tactical_map_table 1');
-        player.runCommand('give @s megamod:trade_contract 1');
-        player.runCommand('give @s megamod:diplomatic_seal 1');
-        player.runCommand('give @s megamod:spy_kit 1');
-        player.runCommand('give @s megamod:quest_ledger 1');
-        player.runCommand('give @s megamod:construction_blueprint 3');
-        player.runCommand('give @s megamod:campaign_compass 1');
-        player.runCommand('give @s megamod:horse_saddlebag 1');
-        player.runCommand('give @s megamod:kingdom_passport 1');
-        player.runCommand('give @s megamod:field_bandage 5');
-        player.runCommand('give @s megamod:silver_coin 5');
-        player.runCommand('give @s megamod:copper_coin 50');
+        // Başlangıç hazinesi doğrudan Kraliyet Cüzdanına yatırılır (envanteri kirletmez!)
+        if (EconomyEngine.getPlayerMoney(player) < 1000) {
+            EconomyEngine.addMoney(player, 1000);
+        }
 
-        // Yanına 1 Kraliyet Danışmanı ve 1 Muhafız Asker çağır
+        player.sendMessage('§6========================================');
+        player.sendMessage('§e§l👑 İMPERİUM: BÜYÜK İMPARATORLUKLAR');
+        player.sendMessage('§fHoş geldiniz Hükümdarım! §a+1.000 Bakır Dinar §fhazinenize eklendi.');
+        player.sendMessage('§e▸ 1. Slot (İmparatorluk Asası): §fTüm Krallık, Kışla ve Pazar Menüsü');
+        player.sendMessage('§e▸ 2. Slot (Savaş Borusu): §fMuhafız ve Ordu Emirleri');
+        player.sendMessage('§e▸ 3. Slot (Sınır Kazığı): §fToprak Alma ve Kale Kurma');
+        player.sendMessage('§6========================================');
+
+        // Envanteri kirleten 18 eşya yerine SADECE 3 NET ANAHTAR EŞYA!
+        player.runCommand('give @s megamod:campaign_compass 1');
+        player.runCommand('give @s megamod:war_horn 1');
+        player.runCommand('give @s megamod:claim_flag 5');
+
+        // Yanına 2 Sadık Muhafız ve 1 Kraliyet Danışmanı çağır ve ANINDA YAKIN TAKİP MODUNA BAĞLA!
         system.runTimeout(() => {
             try {
-                const adv = player.dimension.spawnEntity('megamod:royal_advisor', player.location);
-                adv.nameTag = '§6📜 Kraliyet Danışmanı (Vezir)';
-                const guard = player.dimension.spawnEntity('megamod:shield_infantry', player.location);
-                guard.nameTag = '§b🛡️ Sadık Soylu Muhafızı';
+                const pLoc = player.location;
+                const g1 = player.dimension.spawnEntity('megamod:shield_infantry', { x: pLoc.x + 2, y: pLoc.y, z: pLoc.z + 1 });
+                g1.nameTag = '§6🛡️ Sadık Hükümdar Muhafızı';
+                MilitaryController.bindSoldierToCommander(g1, player, 'follow');
+
+                const g2 = player.dimension.spawnEntity('megamod:regular_footman', { x: pLoc.x - 2, y: pLoc.y, z: pLoc.z + 1 });
+                g2.nameTag = '§6⚔️ Sadık Hükümdar Muhafızı';
+                MilitaryController.bindSoldierToCommander(g2, player, 'follow');
+
+                const adv = player.dimension.spawnEntity('megamod:royal_advisor', { x: pLoc.x, y: pLoc.y, z: pLoc.z + 2.5 });
+                adv.nameTag = '§e📜 Kraliyet Başdanışmanı (Vezir)';
+                MilitaryController.bindSoldierToCommander(adv, player, 'follow');
             } catch (e) {}
 
             if (!NationManager.getPlayerNation(player)) {
                 NationSelectUI.openSelectionMenu(player);
             }
-        }, 40);
+        }, 30);
     } else {
-        // Kral normal yolla ölürse tahtında/kalesinde tam canla doğar
         player.sendMessage('§6[İMPERİUM] §eHükümdar kalesinde yeniden doğdu! (32 HP Kral Canı yenilendi)');
     }
 });
@@ -83,14 +84,18 @@ world.afterEvents.itemUse.subscribe((event) => {
     if (!item) return;
 
     switch (item.typeId) {
-        case 'megamod:market_terminal':
-            MarketUI.openMainMenu(player);
+        case 'megamod:campaign_compass':
+            // Ana Hükümdar Asası -> Tüm Menülere Ulaşan Saray Divanı!
+            ImperialHubUI.openMainHub(player);
+            break;
+        case 'megamod:war_horn':
+            MilitaryController.openWarHornMenu(player);
             break;
         case 'megamod:claim_flag':
             FlagUI.openFlagMenu(player);
             break;
-        case 'megamod:war_horn':
-            MilitaryController.openWarHornMenu(player);
+        case 'megamod:market_terminal':
+            MarketUI.openMainMenu(player);
             break;
         case 'megamod:barracks_desk':
             BarracksUI.openBarracksMenu(player);
@@ -149,9 +154,6 @@ world.afterEvents.itemUse.subscribe((event) => {
         case 'megamod:construction_blueprint':
             BlueprintBuilder.openBlueprintMenu(player);
             break;
-        case 'megamod:campaign_compass':
-            WorldGenManager.openWorldSimMenu(player);
-            break;
         case 'megamod:kingdom_passport':
             MultiplayerAndCompassUI.openPassportAndClanMenu(player);
             break;
@@ -175,7 +177,7 @@ world.afterEvents.itemUse.subscribe((event) => {
     }
 });
 
-// NPC Varlıklara Tıklama (Tüccar, Danışman, Yaralı Asker)
+// NPC Varlıklara Tıklama (Vezir -> Ana Saray Divanı, Tüccar -> Pazar, Asker -> Asker Menüsü)
 world.afterEvents.playerInteractWithEntity.subscribe((event) => {
     const player = event.player;
     const target = event.target;
@@ -184,17 +186,14 @@ world.afterEvents.playerInteractWithEntity.subscribe((event) => {
     if (target.typeId === 'megamod:market_trader') {
         MarketUI.openMainMenu(player);
     } else if (target.typeId === 'megamod:royal_advisor') {
-        QuestUI.openQuestMenu(player);
+        ImperialHubUI.openMainHub(player);
     } else if (target.typeId === 'megamod:wounded_soldier') {
         MilitaryController.reviveWoundedSoldier(player);
-    } else if (target.typeId === 'megamod:artisan_blacksmith' || target.typeId === 'megamod:artisan_baker') {
-        CityAndDungeonUI.openGuildMenu(player);
     } else if (target.typeId.startsWith('megamod:') && !target.typeId.includes('bandit') && !target.typeId.includes('thief')) {
         SoldierInteractionUI.openSoldierMenu(player, target);
     }
 });
 
-// Hasar ve Ölüm Olayları
 world.afterEvents.entityHurt.subscribe((event) => {
     MilitaryController.handleEntityHurt(event);
 });

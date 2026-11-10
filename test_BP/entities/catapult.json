@@ -10,10 +10,17 @@
     "component_groups": {
       "imperium:mode_follow": {
         "minecraft:movement": {
-          "value": 0.14
+          "value": 0.29
         },
         "minecraft:mark_variant": {
           "value": 0
+        },
+        "minecraft:behavior.follow_owner": {
+          "priority": 3,
+          "speed_multiplier": 1.25,
+          "start_distance": 3.5,
+          "stop_distance": 2.0,
+          "can_teleport": true
         }
       },
       "imperium:mode_hold_line": {
@@ -139,13 +146,16 @@
       },
       "minecraft:behavior.hurt_by_target": {
         "priority": 1
+      },
+      "minecraft:tameable": {
+        "probability": 1.0
       }
     },
     "events": {
       "minecraft:entity_spawned": {
         "add": {
           "component_groups": [
-            "imperium:mode_patrol"
+            "imperium:mode_follow"
           ]
         }
       },

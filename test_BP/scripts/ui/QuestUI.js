@@ -9,7 +9,7 @@ export class QuestUI {
         const money = EconomyEngine.getPlayerMoney(player);
 
         const form = new ActionFormData()
-            .title('§6İMPERİUM §0- Görev ve Fetih Defteri')
+            .title('§6İMPERİUM §e- Görev ve Fetih Defteri')
             .body('§eKraliyet Danışmanı Görevleri:\n\n' +
                   `1. §f[3 Köşe Bayrağı Dik] -> ${flags >= 3 ? '§a(Tamamlandı)' : `§c(${flags}/3)`}\n` +
                   `2. §f[Pazar Cüzdanında 100 Bakır Biriktir] -> ${money >= 100 ? '§a(Tamamlandı)' : `§c(${money}/100)`}\n` +
@@ -18,7 +18,7 @@ export class QuestUI {
                   `§7Görevleri tamamladıkça krallığınızın unvanı ve şanı yükselir.`);
 
         form.button('§aÖdül Talep Et');
-        form.button('§8« Kapat');
+        form.button('§l§0« Kapat');
 
         form.show(player).then((res) => {
             if (res.canceled) return;

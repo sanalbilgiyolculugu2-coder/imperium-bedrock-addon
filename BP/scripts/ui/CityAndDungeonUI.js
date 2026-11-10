@@ -11,12 +11,12 @@ export class CityAndDungeonUI {
             .body(`§eAmbar Erzak Stoğu: §a${fin.granaryRations} Paket\n` +
                   `§eDökümhane Demir Stoğu: §7${fin.ironStock} Külçe\n` +
                   `§eZindandaki Esirler: §c${fin.prisoners} Tutsak\n` +
-                  `§eŞehir Asayişi: §b%${fin.publicOrder} §8| §eOrdu Morali: §6%${fin.morale}`)
+                  `§eŞehir Asayişi: §b%${fin.publicOrder} §7| §eOrdu Morali: §6%${fin.morale}`)
             .button('§6⚒️ Usta Demirci: Kaliteli Silah Döv (80 Bakır)')
             .button('§b👨‍🌾 Lonca: Usta Demirci / Fırıncı Ata (60 Bakır)')
             .button('§4⛓️ Krallık Zindanı & Esir Yargılama Paneli')
             .button('§d🍖 Zafer Şöleni & Ziyafet Ver (+%30 Moral - 100 Bakır)')
-            .button('§8« Kapat');
+            .button('§l§0« Kapat');
 
         form.show(player).then((res) => {
             if (res.canceled || res.selection === 4) return;
@@ -68,7 +68,7 @@ export class CityAndDungeonUI {
             .button('§e⛏️ Taş Ocağında Esir Amele Yap (İşgücü)')
             .button('§4⚖️ İbret Cezası Ver (+%20 Şehir Asayişi)')
             .button('§a🕊️ Bağışla ve Serbest Bırak (+15 Onur/Şöhret)')
-            .button('§8« Geri');
+            .button('§l§0« Geri');
 
         form.show(player).then((res) => {
             if (res.canceled || res.selection === 4) {
@@ -119,7 +119,7 @@ export class CityAndDungeonUI {
                   `§e• Şöhret (Renown): §6★ ${fin.renown} §7| Asayiş: §a%${fin.publicOrder}`)
             .button('§e🕊️ Müttefiklere Posta Güvercini Uçur (Yardım Çağır)')
             .button('§6🔥 Tepe İşaret Ateşlerini Yak (Savaş Alarmı)')
-            .button('§8« Masadan Ayrıl');
+            .button('§l§0« Masadan Ayrıl');
 
         form.show(player).then((res) => {
             if (res.canceled || res.selection === 2) return;

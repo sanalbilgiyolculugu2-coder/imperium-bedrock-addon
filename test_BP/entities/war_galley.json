@@ -53,6 +53,9 @@
       "minecraft:behavior.melee_attack": {
         "priority": 2,
         "speed_multiplier": 1.1
+      },
+      "minecraft:tameable": {
+        "probability": 1.0
       }
     }
   }

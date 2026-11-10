@@ -9,12 +9,12 @@ export class BlueprintBuilder {
             .title('§1📐 MİMARİ İNŞAAT PARŞÖMENİ (HAZIR BİNA)')
             .body(`§eCüzdanınız: §6${wallet} Bakır Dinar\n\n` +
                   `§7Tek tıkla bulunduğunuz konumun önüne hazır krallık yapısı inşa edin (Hibrit İnşaat Sistemi):`)
-            .button('§4🏰 Gözetleme & Okçu Kulesi İnşa Et (120 Bakır)\n§8Taş kule + Mazgal + 1 Uzun Yaycı Nöbetçi')
-            .button('§c⚔️ Askeri Kışla Binası İnşa Et (180 Bakır)\n§8Taş/Meşe kışla + Kışla Talim Masası')
-            .button('§a🏥 Saha Reviri & Şifacı Çadırı (100 Bakır)\n§8Kırmızı/Beyaz çadır + Revir Yatağı')
-            .button('§6🏪 Korunaklı Pazar Karakolu (200 Bakır)\n§8Pazar alanı + Tüccar + 2 Elit Muhafız')
-            .button('§8⛓️ Krallık Zindanı Hücresi (140 Bakır)\n§8Demir parmaklıklı zindan + 1 Esir')
-            .button('§8« Kapat');
+            .button('§4🏰 Gözetleme & Okçu Kulesi İnşa Et (120 Bakır)\n§r§0Taş kule + Mazgal + 1 Uzun Yaycı Nöbetçi')
+            .button('§c⚔️ Askeri Kışla Binası İnşa Et (180 Bakır)\n§r§0Taş/Meşe kışla + Kışla Talim Masası')
+            .button('§a🏥 Saha Reviri & Şifacı Çadırı (100 Bakır)\n§r§0Kırmızı/Beyaz çadır + Revir Yatağı')
+            .button('§6🏪 Korunaklı Pazar Karakolu (200 Bakır)\n§r§0Pazar alanı + Tüccar + 2 Elit Muhafız')
+            .button('§8⛓️ Krallık Zindanı Hücresi (140 Bakır)\n§r§0Demir parmaklıklı zindan + 1 Esir')
+            .button('§l§0« Kapat');
 
         form.show(player).then((res) => {
             if (res.canceled || res.selection === 5) return;

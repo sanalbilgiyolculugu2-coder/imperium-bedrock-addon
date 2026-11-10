@@ -39,7 +39,7 @@ export class MultiplayerAndCompassUI {
             .button('§e💰 Rütbe Ata: Kraliyet Hazinedarı (Banka Yetkisi)')
             .button('§b🛂 Yabancı Oyuncuya Şehir Giriş Pasaportu Ver')
             .button('§c⛓️ Baygın Düşman Oyuncuyu Esir Al & Fidye İste')
-            .button('§8« Kapat');
+            .button('§l§0« Kapat');
 
         form.show(player).then((res) => {
             if (res.canceled || res.selection === 4) return;
@@ -72,7 +72,7 @@ export class MultiplayerAndCompassUI {
             .button('§2📥 Heybeye 200 Bakır Ganimet Koy')
             .button('§6📤 Heybeden 200 Bakır Çıkar')
             .button('§e🍖 Heybeden 2 Sefer Erzağı Al')
-            .button('§8« Kapat');
+            .button('§l§0« Kapat');
 
         form.show(player).then((res) => {
             if (res.canceled || res.selection === 3) return;

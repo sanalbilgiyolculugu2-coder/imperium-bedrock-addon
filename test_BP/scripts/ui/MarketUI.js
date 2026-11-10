@@ -11,16 +11,16 @@ export class MarketUI {
         const coppers = totalCopper % 100;
 
         const form = new ActionFormData()
-            .title('§6İMPERİUM §0- Kraliyet Borsası & Pazar')
+            .title('§6İMPERİUM §e- Kraliyet Borsası & Pazar')
             .body(`§eCüzdanınız: §6${golds} Altın §f${silvers} Gümüş §c${coppers} Bakır\n` +
-                  `§eBanka Kasası: §a${fin.bankBalance} Bakır §8| §eKredi Borcu: §c${fin.loanDebt}\n` +
+                  `§eBanka Kasası: §a${fin.bankBalance} Bakır §7| §eKredi Borcu: §c${fin.loanDebt}\n` +
                   `§7Fiyatlar arz-talebe ve bulunduğunuz biyoma (Çöl/Orman/Dağ Arbitrajı) göre anlık değişir:`);
 
-        form.button('§1📦 Hammaddeler\n§8Demir, Altın, Elmas, Odun...', 'textures/items/iron_ingot');
-        form.button('§2🌾 Tarım & Sefer Erzağı\n§8Buğday, Ekmek, Kuru Et, Balık...', 'textures/items/wheat');
-        form.button('§4⚔️ Askeri Silah & İkmal\n§8Ok, Kılıç, Mızrak, Kalkan, Barut...', 'textures/items/iron_sword');
-        form.button('§6💰 Sikke Bozdurma (Döviz)\n§8Bakır <-> Gümüş <-> Altın', 'textures/items/gold_coin');
-        form.button('§b🏦 Kraliyet Bankası & Kervanlar\n§8Kasa, Tefeci Kredisi & Kervan Gönder');
+        form.button('§1📦 Hammaddeler\n§r§0Demir, Altın, Elmas, Odun...', 'textures/items/iron_ingot');
+        form.button('§2🌾 Tarım & Sefer Erzağı\n§r§0Buğday, Ekmek, Kuru Et, Balık...', 'textures/items/wheat');
+        form.button('§4⚔️ Askeri Silah & İkmal\n§r§0Ok, Kılıç, Mızrak, Kalkan, Barut...', 'textures/items/iron_sword');
+        form.button('§6💰 Sikke Bozdurma (Döviz)\n§r§0Bakır <-> Gümüş <-> Altın', 'textures/items/gold_coin');
+        form.button('§b🏦 Kraliyet Bankası & Kervanlar\n§r§0Kasa, Tefeci Kredisi & Kervan Gönder');
 
         form.show(player).then((res) => {
             if (res.canceled) return;
@@ -37,7 +37,7 @@ export class MarketUI {
     static openCategoryMenu(player, categoryKey, categoryName) {
         const state = EconomyEngine.getState();
         const form = new ActionFormData()
-            .title(`§6Pazar: §0${categoryName}`)
+            .title(`§l§6Pazar: §e${categoryName}`)
             .body('§7Almak veya satmak istediğiniz ürünü seçin (📈 Yükselişte | 📉 Ucuzladı):');
 
         const items = Object.entries(COMMODITIES).filter(([_, v]) => v.category === categoryKey);
@@ -48,7 +48,7 @@ export class MarketUI {
             form.button(`${data.name} ${trendIcon}\n§eBirim Fiyat: ${price} Bakır (Baz: ${data.basePrice})`);
         }
 
-        form.button('§8« Ana Menüye Dön');
+        form.button('§l§0« Ana Menüye Dön');
 
         form.show(player).then((res) => {
             if (res.canceled) return;
@@ -103,7 +103,7 @@ export class MarketUI {
             .button('1 Gümüş -> 100 Bakır')
             .button('100 Gümüş -> 1 Altın')
             .button('1 Altın -> 100 Gümüş')
-            .button('§8« Geri');
+            .button('§l§0« Geri');
 
         form.show(player).then((res) => {
             if (res.canceled || res.selection === 4) {
