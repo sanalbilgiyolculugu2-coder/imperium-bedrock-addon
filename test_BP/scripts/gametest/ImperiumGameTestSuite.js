@@ -192,6 +192,24 @@ export class ImperiumGameTestSuite {
                 `Pazar Karakolu, Gizli Haydut Kampi ve Rakip Krallik Kalesi prosedurel insasi tamamlandi`
             );
 
+            // 13. Player Spawn (main.js), Item Use & All UI Flows Integration
+            handlePlayerSpawn({ player: simPlayer, initialSpawn: true });
+            handleItemUse({ source: simPlayer, itemStack: { typeId: 'megamod:campaign_compass' } });
+            handleItemUse({ source: simPlayer, itemStack: { typeId: 'megamod:war_horn' } });
+            handleItemUse({ source: simPlayer, itemStack: { typeId: 'megamod:claim_flag' } });
+            ImperialHubUI.openMainHub(simPlayer);
+            ImperialHubUI.openOnboardingGuide(simPlayer);
+            FlagUI.openFlagMenu(simPlayer);
+            BlueprintBuilder.openBlueprintMenu(simPlayer);
+            BarracksUI.openBarracksMenu(simPlayer);
+            MilitaryController.openWarHornMenu(simPlayer);
+            const unlockedTierAfterClaim = BarracksUI.getPlayerUnlockedTier(simPlayer);
+            record(
+                '13_player_spawn_and_ui_integration',
+                simPlayer.hasTag('imperium_kit_v3') && unlockedTierAfterClaim >= 1,
+                `Baslangic Kiti v3 aktif, Kisla Kademesi: ${unlockedTierAfterClaim}, Tum UI menuleri hatasiz acildi`
+            );
+
         } catch (err) {
             record('unexpected_exception', false, String(err && err.stack ? err.stack : err));
         }

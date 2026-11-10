@@ -27,6 +27,7 @@ function createHeadlessBDSSimPlayer() {
         addEffect() {},
         removeEffect() {},
         applyDamage() {},
+        applyKnockback() {},
         sendMessage(m) {},
         runCommand(cmd) {
             if (cmd.startsWith('give @s ')) {
