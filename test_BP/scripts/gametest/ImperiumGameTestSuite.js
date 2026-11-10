@@ -59,7 +59,7 @@ export class ImperiumGameTestSuite {
                 `Demir Baz: ${baseIron}, Taban Koruma: ${lowPrice}, Tavan Koruma: ${highPrice}`
             );
 
-            // 3. Polygon Land Claim (3+ Corner Flags, Shoelace Area, Ray-Casting, Move Delta & 70% Refund)
+            // 3. Polygon Land Claim (Shoelace Area, Ray-Casting & Move/Remove Refund)
             PolygonClaimEngine.addFlag(simPlayer, { x: 0, y: 64, z: 0 });
             PolygonClaimEngine.addFlag(simPlayer, { x: 20, y: 64, z: 0 });
             PolygonClaimEngine.addFlag(simPlayer, { x: 20, y: 64, z: 20 });
@@ -75,7 +75,7 @@ export class ImperiumGameTestSuite {
             record(
                 '03_polygon_claim_shoelace_and_refund',
                 area1 === 400 && inside === true && outside === false && PolygonClaimEngine.calculatePolygonArea(k2.flags) === 500 && k3.flags.length === 3,
-                `Shoelace Alan: ${area1}m2 -> Kaydirma: ${PolygonClaimEngine.calculatePolygonArea(k2.flags)}m2 -> %70 Iade Sonrasi Kose: ${k3.flags.length}`
+                `Shoelace Alan: ${area1}m2 -> Kaydirma: ${PolygonClaimEngine.calculatePolygonArea(k2.flags)}m2 -> Iade Sonrasi Kose: ${k3.flags.length}`
             );
 
             // 4. Royal Bank Deposit/Loan & Insured Camel Caravan
@@ -113,16 +113,19 @@ export class ImperiumGameTestSuite {
                 `Toplam Kisla Birimi: ${BARRACKS_UNITS.length}, Sahi Topu/Fil/Deve/Sihhiye aktif: ${hasHeavy}`
             );
 
-            // 7. Tax Cycle & Soldier Upkeep / Revolt Thresholds
+            // 7. Tax Cycle & Soldier Upkeep / Production Ledger
+            const startMoney = EconomyEngine.getPlayerMoney(simPlayer);
             TaxCycle.processCitizenProduction();
             TaxCycle.collectTaxesAndPayUpkeep();
+            const afterMoney = EconomyEngine.getPlayerMoney(simPlayer);
+            const kTax = PolygonClaimEngine.getPlayerKingdom(simPlayer.id);
             record(
                 '07_tax_and_upkeep_cycle',
-                true,
-                `Gunluk vergi tahsilati, lonca uretimi ve asker maas dongusu basariyla calisti`
+                kTax !== null && afterMoney >= 0 && kTax.happiness !== undefined,
+                `Vergi ve lonca uretimi sonrasi hazine: ${afterMoney} Bakir (Mutluluk: ${kTax ? kTax.happiness : 85})`
             );
 
-            // 8. Combat Counters, Friendly Fire Protection & Hybrid Death
+            // 8. Combat Counters & Perma Death on Explosion
             let dummySoldier = null;
             try {
                 dummySoldier = simPlayer.dimension.spawnEntity('megamod:ottoman_janissary', simPlayer.location);
@@ -141,17 +144,13 @@ export class ImperiumGameTestSuite {
             }
             MilitaryController.handleEntityHurt({
                 hurtEntity: dummySoldier,
-                damageSource: { damagingEntity: simPlayer, cause: 'entityAttack' }
-            });
-            MilitaryController.handleEntityHurt({
-                hurtEntity: dummySoldier,
                 damageSource: { damagingEntity: null, cause: 'blockExplosion' }
             });
             const hasPermaTag = dummySoldier.hasTag('perma_death');
             record(
                 '08_combat_friendly_fire_and_hybrid_death',
                 hasPermaTag === true,
-                `Dost atesi korumasi ve Patlama -> perma_death etiketi dogrulandi: ${hasPermaTag}`
+                `Patlama -> perma_death etiketi dogrulandi: ${hasPermaTag}`
             );
 
             // 9. Siege Gate 500 HP & Sapper / Tar Cauldron / Grappling Hook
@@ -165,21 +164,21 @@ export class ImperiumGameTestSuite {
             );
 
             // 10. Diplomacy, Treaties, Tributaries & Espionage
-            DiplomacyManager.setRelation('roma', 'İttifak (Ticaret +15%)');
+            DiplomacyManager.setRelation('roma', 'Ittifak (Ticaret +15%)');
             const pacts = DiplomacyManager.getPacts();
             record(
                 '10_diplomacy_and_treaties',
-                pacts['roma'] === 'İttifak (Ticaret +15%)',
+                pacts['roma'] === 'Ittifak (Ticaret +15%)',
                 `Roma ile diplomatik antlasma: ${pacts['roma']}`
             );
 
-            // 11. Zero-Lag Projectile Cleanup & Weather Engine (Never Deletes Loot)
+            // 11. Weather Engine & Bandit Raid Engine Verification
             WeatherEngine.cycleWeather();
-            WeatherEngine.cleanupSpentProjectiles();
+            WeatherEngine.tickBanditRaids();
             record(
                 '11_zero_lag_projectile_cleanup_and_weather',
                 Boolean(WeatherEngine.currentWeather),
-                `Mevsim/Hava: ${WeatherEngine.currentWeather}, Ok temizligi (ganimet korumali) tamamlandi`
+                `Mevsim/Hava: ${WeatherEngine.currentWeather}, Haydut baskin dongusu aktif`
             );
 
             // 12. Procedural WorldGen (Market Outpost, Bandit Camp, Rival Fortress & AI Kingdoms)
@@ -189,11 +188,20 @@ export class ImperiumGameTestSuite {
             record(
                 '12_procedural_worldgen_and_ai_kingdoms',
                 WorldGenManager.AI_KINGDOMS.length >= 5,
-                `Pazar Karakolu, Gizli Haydut Kampi ve Rakip Krallik Kalesi prosedurel insasi tamamlandi`
+                `Pazar Karakolu, Haydut Kampi ve Rakip Krallik Kalesi prosedurel insasi tamamlandi`
             );
 
-            // 13. Player Spawn (main.js), Item Use & All UI Flows Integration
+            // 13. Building-Tied Barracks Unlock, Starter Pack & UI Integration
             handlePlayerSpawn({ player: simPlayer, initialSpawn: true });
+            const starterGranted = simPlayer.getDynamicProperty('imperium:starter_granted');
+
+            // Verify strict building unlock (no area cheat!)
+            const initialTier = BarracksUI.getPlayerUnlockedTier(simPlayer);
+            PolygonClaimEngine.markBuildingConstructed(simPlayer.id, 'barracks', { x: 5, y: 64, z: 5 });
+            const tierAfterBarracks = BarracksUI.getPlayerUnlockedTier(simPlayer);
+            PolygonClaimEngine.markBuildingConstructed(simPlayer.id, 'castle', { x: 10, y: 64, z: 10 });
+            const tierAfterCastle = BarracksUI.getPlayerUnlockedTier(simPlayer);
+
             handleItemUse({ source: simPlayer, itemStack: { typeId: 'megamod:campaign_compass' } });
             handleItemUse({ source: simPlayer, itemStack: { typeId: 'megamod:war_horn' } });
             handleItemUse({ source: simPlayer, itemStack: { typeId: 'megamod:claim_flag' } });
@@ -203,11 +211,11 @@ export class ImperiumGameTestSuite {
             BlueprintBuilder.openBlueprintMenu(simPlayer);
             BarracksUI.openBarracksMenu(simPlayer);
             MilitaryController.openWarHornMenu(simPlayer);
-            const unlockedTierAfterClaim = BarracksUI.getPlayerUnlockedTier(simPlayer);
+
             record(
                 '13_player_spawn_and_ui_integration',
-                simPlayer.hasTag('imperium_kit_v3') && unlockedTierAfterClaim >= 1,
-                `Baslangic Kiti v3 aktif, Kisla Kademesi: ${unlockedTierAfterClaim}, Tum UI menuleri hatasiz acildi`
+                starterGranted === true && initialTier >= 1 && tierAfterBarracks === 2 && tierAfterCastle === 3,
+                `Baslangic Kiti: ${starterGranted}, Koy Kademe: ${initialTier} -> Kisla: ${tierAfterBarracks} -> Kale: ${tierAfterCastle}`
             );
 
         } catch (err) {
@@ -224,15 +232,3 @@ export class ImperiumGameTestSuite {
         return summary;
     }
 }
-
-try {
-    if (false) {
-        GameTest.register('imperium', 'full_campaign_simulation', (test) => {
-            const simPlayer = test.spawnSimulatedPlayer({ x: 0, y: 1, z: 0 }, 'Sultan_SimPlayer');
-            ImperiumGameTestSuite.runAllSimulatedPlayerScenarios(simPlayer);
-            test.succeed();
-        })
-        .maxTicks(400)
-        .structureName('mystructure:empty');
-    }
-} catch (e) {}

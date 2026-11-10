@@ -1,3 +1,21 @@
+import { ActionFormData, ModalFormData } from '@minecraft/server-ui';
+try {
+    const _origActionShow = ActionFormData.prototype.show;
+    ActionFormData.prototype.show = function(player) {
+        if (!player || (player.id && player.id.startsWith('sim_'))) {
+            return Promise.resolve({ canceled: true });
+        }
+        return _origActionShow.call(this, player);
+    };
+    const _origModalShow = ModalFormData.prototype.show;
+    ModalFormData.prototype.show = function(player) {
+        if (!player || (player.id && player.id.startsWith('sim_'))) {
+            return Promise.resolve({ canceled: true });
+        }
+        return _origModalShow.call(this, player);
+    };
+} catch (e) {}
+
 import './main.js';
 import { ImperiumGameTestSuite } from './gametest/ImperiumGameTestSuite.js';
 import { world, system } from '@minecraft/server';
