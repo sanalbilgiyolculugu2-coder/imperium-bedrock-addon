@@ -1,0 +1,249 @@
+{
+  "format_version": "1.16.0",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "megamod:british_longbowman",
+      "is_spawnable": true,
+      "is_summonable": true,
+      "is_experimental": false
+    },
+    "component_groups": {
+      "imperium:mode_follow": {
+        "minecraft:movement": {
+          "value": 0.29
+        },
+        "minecraft:mark_variant": {
+          "value": 0
+        }
+      },
+      "imperium:mode_hold_line": {
+        "minecraft:movement": {
+          "value": 0.02
+        },
+        "minecraft:knockback_resistance": {
+          "value": 0.9
+        },
+        "minecraft:mark_variant": {
+          "value": 1
+        }
+      },
+      "imperium:mode_charge": {
+        "minecraft:movement": {
+          "value": 0.392
+        },
+        "minecraft:attack": {
+          "damage": 14
+        },
+        "minecraft:mark_variant": {
+          "value": 2
+        }
+      },
+      "imperium:mode_patrol": {
+        "minecraft:movement": {
+          "value": 0.29
+        },
+        "minecraft:behavior.random_stroll": {
+          "priority": 5,
+          "speed_multiplier": 0.8
+        },
+        "minecraft:mark_variant": {
+          "value": 0
+        }
+      },
+      "imperium:rank_veteran": {
+        "minecraft:health": {
+          "value": 42,
+          "max": 42
+        },
+        "minecraft:attack": {
+          "damage": 13
+        },
+        "minecraft:scale": {
+          "value": 1.03
+        }
+      },
+      "imperium:rank_elite": {
+        "minecraft:health": {
+          "value": 54,
+          "max": 54
+        },
+        "minecraft:attack": {
+          "damage": 16
+        },
+        "minecraft:scale": {
+          "value": 1.07
+        },
+        "minecraft:knockback_resistance": {
+          "value": 0.6
+        }
+      }
+    },
+    "components": {
+      "minecraft:type_family": {
+        "family": [
+          "soldier",
+          "british",
+          "archer",
+          "elite_unit"
+        ]
+      },
+      "minecraft:health": {
+        "value": 34,
+        "max": 34
+      },
+      "minecraft:scale": {
+        "value": 1.0
+      },
+      "minecraft:movement": {
+        "value": 0.29
+      },
+      "minecraft:navigation.walk": {
+        "can_path_over_water": true,
+        "avoid_damage_blocks": true,
+        "can_open_doors": true
+      },
+      "minecraft:movement.basic": {},
+      "minecraft:jump.static": {},
+      "minecraft:can_climb": {},
+      "minecraft:collision_box": {
+        "width": 0.6,
+        "height": 1.9
+      },
+      "minecraft:nameable": {
+        "always_show": true,
+        "allow_name_tag_renaming": true
+      },
+      "minecraft:loot": {
+        "table": "loot_tables/entities/soldier_elite.json"
+      },
+      "minecraft:physics": {},
+      "minecraft:pushable": {
+        "is_pushable": true,
+        "is_pushable_by_piston": true
+      },
+      "minecraft:behavior.float": {
+        "priority": 0
+      },
+      "minecraft:behavior.look_at_player": {
+        "priority": 7,
+        "look_distance": 12.0
+      },
+      "minecraft:behavior.random_look_around": {
+        "priority": 8
+      },
+      "minecraft:attack": {
+        "damage": 11
+      },
+      "minecraft:behavior.melee_attack": {
+        "priority": 2,
+        "speed_multiplier": 1.15,
+        "track_target": true
+      },
+      "minecraft:behavior.hurt_by_target": {
+        "priority": 1
+      },
+      "minecraft:behavior.nearest_attackable_target": {
+        "priority": 3,
+        "must_see": true,
+        "entity_types": [
+          {
+            "filters": {
+              "any_of": [
+                {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "bandit"
+                },
+                {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "monster"
+                }
+              ]
+            },
+            "max_dist": 28
+          }
+        ]
+      }
+    },
+    "events": {
+      "minecraft:entity_spawned": {
+        "add": {
+          "component_groups": [
+            "imperium:mode_patrol"
+          ]
+        }
+      },
+      "imperium:order_follow": {
+        "remove": {
+          "component_groups": [
+            "imperium:mode_hold_line",
+            "imperium:mode_charge",
+            "imperium:mode_patrol"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "imperium:mode_follow"
+          ]
+        }
+      },
+      "imperium:order_hold_line": {
+        "remove": {
+          "component_groups": [
+            "imperium:mode_follow",
+            "imperium:mode_charge",
+            "imperium:mode_patrol"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "imperium:mode_hold_line"
+          ]
+        }
+      },
+      "imperium:order_charge": {
+        "remove": {
+          "component_groups": [
+            "imperium:mode_follow",
+            "imperium:mode_hold_line",
+            "imperium:mode_patrol"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "imperium:mode_charge"
+          ]
+        }
+      },
+      "imperium:order_patrol": {
+        "remove": {
+          "component_groups": [
+            "imperium:mode_follow",
+            "imperium:mode_hold_line",
+            "imperium:mode_charge"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "imperium:mode_patrol"
+          ]
+        }
+      },
+      "imperium:promote_veteran": {
+        "add": {
+          "component_groups": [
+            "imperium:rank_veteran"
+          ]
+        }
+      },
+      "imperium:promote_elite": {
+        "add": {
+          "component_groups": [
+            "imperium:rank_elite"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "format_version": "1.16.0",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "megamod:recipe_tar_cauldron"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "I I",
+      "ICI",
+      "III"
+    ],
+    "key": {
+      "I": {
+        "item": "minecraft:iron_ingot"
+      },
+      "C": {
+        "item": "minecraft:coal_block"
+      }
+    },
+    "result": {
+      "item": "megamod:tar_cauldron",
+      "count": 1
+    }
+  }
+}

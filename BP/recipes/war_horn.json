@@ -1,0 +1,28 @@
+{
+  "format_version": "1.16.0",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "megamod:recipe_war_horn"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      " G ",
+      "G#G",
+      " # "
+    ],
+    "key": {
+      "#": {
+        "item": "minecraft:bone"
+      },
+      "G": {
+        "item": "minecraft:gold_ingot"
+      }
+    },
+    "result": {
+      "item": "megamod:war_horn",
+      "count": 1
+    }
+  }
+}

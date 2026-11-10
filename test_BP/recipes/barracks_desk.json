@@ -1,0 +1,28 @@
+{
+  "format_version": "1.16.0",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "megamod:recipe_barracks_desk"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "III",
+      "WWW",
+      "W W"
+    ],
+    "key": {
+      "I": {
+        "item": "minecraft:iron_ingot"
+      },
+      "W": {
+        "item": "minecraft:oak_planks"
+      }
+    },
+    "result": {
+      "item": "megamod:barracks_desk",
+      "count": 1
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "format_version": "1.16.0",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "megamod:recipe_scutum_shield"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "WGW",
+      "WWW",
+      " W "
+    ],
+    "key": {
+      "W": {
+        "item": "minecraft:oak_planks"
+      },
+      "G": {
+        "item": "minecraft:gold_ingot"
+      }
+    },
+    "result": {
+      "item": "megamod:scutum_shield",
+      "count": 1
+    }
+  }
+}

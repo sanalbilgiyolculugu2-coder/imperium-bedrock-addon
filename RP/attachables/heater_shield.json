@@ -1,0 +1,20 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:attachable": {
+    "description": {
+      "identifier": "megamod:heater_shield",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/items/heater_shield"
+      },
+      "geometry": {
+        "default": "geometry.imperium.attachable_shield"
+      },
+      "render_controllers": [
+        "controller.render.imperium.default"
+      ]
+    }
+  }
+}

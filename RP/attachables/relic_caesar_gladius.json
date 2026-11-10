@@ -1,0 +1,30 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:attachable": {
+    "description": {
+      "identifier": "megamod:relic_caesar_gladius",
+      "materials": {
+        "default": "entity_alphatest",
+        "enchanted": "entity_alphatest_glint"
+      },
+      "textures": {
+        "default": "textures/items/relic_caesar_gladius",
+        "enchanted": "textures/misc/enchanted_item_glint"
+      },
+      "geometry": {
+        "default": "geometry.imperium.weapon_blade"
+      },
+      "animations": {
+        "wield": "animation.imperium.soldier.attack"
+      },
+      "scripts": {
+        "animate": [
+          "wield"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.imperium_default"
+      ]
+    }
+  }
+}

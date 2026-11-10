@@ -1,0 +1,255 @@
+{
+  "format_version": "1.16.0",
+  "minecraft:geometry": [
+    {
+      "description": {
+        "identifier": "geometry.imperium.imperial_cannon",
+        "texture_width": 128,
+        "texture_height": 128,
+        "visible_bounds_width": 6,
+        "visible_bounds_height": 4,
+        "visible_bounds_offset": [
+          0,
+          1.5,
+          0
+        ]
+      },
+      "bones": [
+        {
+          "name": "Root",
+          "pivot": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "carriage",
+          "parent": "Root",
+          "pivot": [
+            0,
+            8,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -6,
+                6,
+                -12
+              ],
+              "size": [
+                3,
+                5,
+                28
+              ],
+              "uv": [
+                104,
+                96
+              ]
+            },
+            {
+              "origin": [
+                3,
+                6,
+                -12
+              ],
+              "size": [
+                3,
+                5,
+                28
+              ],
+              "uv": [
+                104,
+                96
+              ],
+              "mirror": true
+            },
+            {
+              "origin": [
+                -6,
+                4,
+                14
+              ],
+              "size": [
+                12,
+                4,
+                10
+              ],
+              "rotation": [
+                -22,
+                0,
+                0
+              ],
+              "pivot": [
+                0,
+                6,
+                14
+              ],
+              "uv": [
+                104,
+                96
+              ]
+            },
+            {
+              "origin": [
+                -8,
+                7,
+                -6
+              ],
+              "size": [
+                16,
+                2,
+                2
+              ],
+              "uv": [
+                32,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "barrel",
+          "parent": "carriage",
+          "pivot": [
+            0,
+            13,
+            -2
+          ],
+          "rotation": [
+            -8,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -4.5,
+                10,
+                -24
+              ],
+              "size": [
+                9,
+                9,
+                28
+              ],
+              "uv": [
+                32,
+                0
+              ]
+            },
+            {
+              "origin": [
+                -5.2,
+                9.3,
+                -25
+              ],
+              "size": [
+                10.4,
+                10.4,
+                3
+              ],
+              "uv": [
+                48,
+                64
+              ]
+            },
+            {
+              "origin": [
+                -5.0,
+                9.5,
+                -12
+              ],
+              "size": [
+                10,
+                10,
+                2
+              ],
+              "uv": [
+                48,
+                64
+              ]
+            },
+            {
+              "origin": [
+                -5.0,
+                9.5,
+                0
+              ],
+              "size": [
+                10,
+                10,
+                3
+              ],
+              "uv": [
+                48,
+                64
+              ]
+            },
+            {
+              "origin": [
+                -2.5,
+                12,
+                4
+              ],
+              "size": [
+                5,
+                5,
+                4
+              ],
+              "uv": [
+                48,
+                64
+              ]
+            }
+          ]
+        },
+        {
+          "name": "wheels",
+          "parent": "carriage",
+          "pivot": [
+            0,
+            8,
+            -5
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -9,
+                0,
+                -13
+              ],
+              "size": [
+                2,
+                16,
+                16
+              ],
+              "uv": [
+                48,
+                72
+              ]
+            },
+            {
+              "origin": [
+                7,
+                0,
+                -13
+              ],
+              "size": [
+                2,
+                16,
+                16
+              ],
+              "uv": [
+                48,
+                72
+              ],
+              "mirror": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

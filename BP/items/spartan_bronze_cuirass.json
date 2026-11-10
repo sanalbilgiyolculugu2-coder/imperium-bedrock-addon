@@ -1,0 +1,27 @@
+{
+  "format_version": "1.20.80",
+  "minecraft:item": {
+    "description": {
+      "identifier": "megamod:spartan_bronze_cuirass",
+      "menu_category": {
+        "category": "equipment"
+      }
+    },
+    "components": {
+      "minecraft:icon": {
+        "texture": "spartan_bronze_cuirass"
+      },
+      "minecraft:display_name": {
+        "value": "item.megamod:spartan_bronze_cuirass.name"
+      },
+      "minecraft:max_stack_size": 1,
+      "minecraft:durability": {
+        "max_durability": 900
+      },
+      "minecraft:wearable": {
+        "slot": "slot.armor.chest",
+        "protection": 8
+      }
+    }
+  }
+}

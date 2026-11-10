@@ -1,0 +1,27 @@
+{
+  "format_version": "1.16.0",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "megamod:recipe_wooden_stakes"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "S S",
+      "WWW"
+    ],
+    "key": {
+      "S": {
+        "item": "minecraft:stick"
+      },
+      "W": {
+        "item": "minecraft:oak_log"
+      }
+    },
+    "result": {
+      "item": "megamod:wooden_stakes",
+      "count": 4
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+    "format_version": "1.20.80",
+    "minecraft:item": {
+        "description": {
+            "identifier": "megamod:war_horn",
+            "menu_category": {
+                "category": "items",
+                "group": "itemGroup.name.misc"
+            }
+        },
+        "components": {
+            "minecraft:icon": {
+                "texture": "war_horn"
+            },
+            "minecraft:display_name": {
+                "value": "item.megamod:war_horn.name"
+            },
+            "minecraft:max_stack_size": 1,
+            "minecraft:hand_equipped": true
+        }
+    }
+}

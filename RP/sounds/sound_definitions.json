@@ -1,0 +1,29 @@
+{
+  "format_version": "1.14.0",
+  "sound_definitions": {
+    "imperium.war_horn": {
+      "category": "player",
+      "sounds": [
+        "sounds/imperium/war_horn"
+      ]
+    },
+    "imperium.cannon_boom": {
+      "category": "block",
+      "sounds": [
+        "sounds/imperium/cannon_boom"
+      ]
+    },
+    "imperium.sword_clash": {
+      "category": "neutral",
+      "sounds": [
+        "sounds/imperium/sword_clash"
+      ]
+    },
+    "imperium.march_drum": {
+      "category": "neutral",
+      "sounds": [
+        "sounds/imperium/march_drum"
+      ]
+    }
+  }
+}

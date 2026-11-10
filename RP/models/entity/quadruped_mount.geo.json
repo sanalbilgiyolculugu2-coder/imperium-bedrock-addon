@@ -1,0 +1,300 @@
+{
+  "format_version": "1.16.0",
+  "minecraft:geometry": [
+    {
+      "description": {
+        "identifier": "geometry.imperium.quadruped_mount",
+        "texture_width": 128,
+        "texture_height": 128,
+        "visible_bounds_width": 6,
+        "visible_bounds_height": 4,
+        "visible_bounds_offset": [
+          0,
+          1.8,
+          0
+        ]
+      },
+      "bones": [
+        {
+          "name": "Root",
+          "pivot": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "horse",
+          "parent": "Root",
+          "pivot": [
+            0,
+            14,
+            0
+          ]
+        },
+        {
+          "name": "body_horse",
+          "parent": "horse",
+          "pivot": [
+            0,
+            15,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -5,
+                10,
+                -11
+              ],
+              "size": [
+                10,
+                10,
+                22
+              ],
+              "uv": [
+                0,
+                96
+              ]
+            },
+            {
+              "origin": [
+                -5.2,
+                9.5,
+                -11.2
+              ],
+              "size": [
+                10.4,
+                10.5,
+                22.4
+              ],
+              "inflate": 0.45,
+              "uv": [
+                64,
+                96
+              ]
+            },
+            {
+              "origin": [
+                -8.0,
+                13,
+                -5
+              ],
+              "size": [
+                3,
+                7,
+                11
+              ],
+              "uv": [
+                104,
+                96
+              ]
+            },
+            {
+              "origin": [
+                5.0,
+                13,
+                -5
+              ],
+              "size": [
+                3,
+                7,
+                11
+              ],
+              "uv": [
+                104,
+                96
+              ],
+              "mirror": true
+            }
+          ]
+        },
+        {
+          "name": "Neck",
+          "parent": "body_horse",
+          "pivot": [
+            0,
+            18,
+            -9
+          ],
+          "rotation": [
+            32,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -2.2,
+                16,
+                -12
+              ],
+              "size": [
+                4.4,
+                12,
+                7
+              ],
+              "uv": [
+                0,
+                96
+              ]
+            }
+          ]
+        },
+        {
+          "name": "horsehead",
+          "parent": "Neck",
+          "pivot": [
+            0,
+            27,
+            -11
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -3,
+                26,
+                -13
+              ],
+              "size": [
+                6,
+                5,
+                7
+              ],
+              "uv": [
+                0,
+                96
+              ]
+            },
+            {
+              "origin": [
+                -2,
+                26,
+                -18
+              ],
+              "size": [
+                4,
+                4.5,
+                5
+              ],
+              "uv": [
+                104,
+                96
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Leg1A",
+          "parent": "horse",
+          "pivot": [
+            -3.5,
+            11,
+            -8.5
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -5.0,
+                0,
+                -10.5
+              ],
+              "size": [
+                3.5,
+                11,
+                4
+              ],
+              "uv": [
+                0,
+                108
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Leg2A",
+          "parent": "horse",
+          "pivot": [
+            3.5,
+            11,
+            -8.5
+          ],
+          "cubes": [
+            {
+              "origin": [
+                1.5,
+                0,
+                -10.5
+              ],
+              "size": [
+                3.5,
+                11,
+                4
+              ],
+              "uv": [
+                0,
+                108
+              ],
+              "mirror": true
+            }
+          ]
+        },
+        {
+          "name": "Leg3A",
+          "parent": "horse",
+          "pivot": [
+            -3.5,
+            11,
+            8.5
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -5.0,
+                0,
+                6.5
+              ],
+              "size": [
+                3.5,
+                11,
+                4
+              ],
+              "uv": [
+                0,
+                108
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Leg4A",
+          "parent": "horse",
+          "pivot": [
+            3.5,
+            11,
+            8.5
+          ],
+          "cubes": [
+            {
+              "origin": [
+                1.5,
+                0,
+                6.5
+              ],
+              "size": [
+                3.5,
+                11,
+                4
+              ],
+              "uv": [
+                0,
+                108
+              ],
+              "mirror": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

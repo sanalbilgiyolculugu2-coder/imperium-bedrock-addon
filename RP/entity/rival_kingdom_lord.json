@@ -1,0 +1,36 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "megamod:rival_kingdom_lord",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/entity/imperium/rival_kingdom_lord"
+      },
+      "geometry": {
+        "default": "geometry.imperium.banner_commander"
+      },
+      "animations": {
+        "idle": "animation.imperium.soldier.idle",
+        "walk": "animation.imperium.soldier.walk",
+        "attack": "animation.imperium.soldier.attack",
+        "controller": "controller.animation.imperium.soldier"
+      },
+      "scripts": {
+        "animate": [
+          "controller"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.imperium_default"
+      ],
+      "spawn_egg": {
+        "base_color": "#551478",
+        "overlay_color": "#ebbe28"
+      },
+      "enable_attachables": true
+    }
+  }
+}

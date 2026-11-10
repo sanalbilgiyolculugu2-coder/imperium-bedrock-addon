@@ -1,0 +1,36 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "megamod:combat_medic",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/entity/imperium/combat_medic"
+      },
+      "geometry": {
+        "default": "geometry.imperium.swordsman_infantry"
+      },
+      "animations": {
+        "idle": "animation.imperium.soldier.idle",
+        "walk": "animation.imperium.soldier.walk",
+        "attack": "animation.imperium.soldier.attack",
+        "controller": "controller.animation.imperium.soldier"
+      },
+      "scripts": {
+        "animate": [
+          "controller"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.imperium_default"
+      ],
+      "spawn_egg": {
+        "base_color": "#ebebf0",
+        "overlay_color": "#c81e1e"
+      },
+      "enable_attachables": true
+    }
+  }
+}

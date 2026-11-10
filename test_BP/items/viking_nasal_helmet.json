@@ -1,0 +1,27 @@
+{
+  "format_version": "1.20.80",
+  "minecraft:item": {
+    "description": {
+      "identifier": "megamod:viking_nasal_helmet",
+      "menu_category": {
+        "category": "equipment"
+      }
+    },
+    "components": {
+      "minecraft:icon": {
+        "texture": "viking_nasal_helmet"
+      },
+      "minecraft:display_name": {
+        "value": "item.megamod:viking_nasal_helmet.name"
+      },
+      "minecraft:max_stack_size": 1,
+      "minecraft:durability": {
+        "max_durability": 600
+      },
+      "minecraft:wearable": {
+        "slot": "slot.armor.head",
+        "protection": 4
+      }
+    }
+  }
+}

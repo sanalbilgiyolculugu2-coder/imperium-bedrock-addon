@@ -1,0 +1,21 @@
+{
+    "format_version": "1.20.80",
+    "minecraft:item": {
+        "description": {
+            "identifier": "megamod:gold_coin",
+            "menu_category": {
+                "category": "items",
+                "group": "itemGroup.name.misc"
+            }
+        },
+        "components": {
+            "minecraft:icon": {
+                "texture": "gold_coin"
+            },
+            "minecraft:display_name": {
+                "value": "item.megamod:gold_coin.name"
+            },
+            "minecraft:max_stack_size": 64
+        }
+    }
+}

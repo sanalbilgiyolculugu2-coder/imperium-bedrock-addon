@@ -1,0 +1,20 @@
+{
+  "format_version": "1.20.80",
+  "minecraft:item": {
+    "description": {
+      "identifier": "megamod:campaign_compass",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": {
+        "texture": "campaign_compass"
+      },
+      "minecraft:display_name": {
+        "value": "item.megamod:campaign_compass.name"
+      },
+      "minecraft:max_stack_size": 16
+    }
+  }
+}

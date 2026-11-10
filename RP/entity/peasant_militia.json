@@ -1,0 +1,37 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "megamod:peasant_militia",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/entity/imperium/peasant_militia"
+      },
+      "geometry": {
+        "default": "geometry.imperium.spartan_phalanx"
+      },
+      "animations": {
+        "idle": "animation.imperium.soldier.idle",
+        "walk": "animation.imperium.soldier.walk",
+        "shield_block": "animation.imperium.soldier.shield_block",
+        "attack": "animation.imperium.soldier.attack",
+        "controller": "controller.animation.imperium.soldier"
+      },
+      "scripts": {
+        "animate": [
+          "controller"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.imperium.default"
+      ],
+      "spawn_egg": {
+        "base_color": "#826446",
+        "overlay_color": "#5F4B32"
+      },
+      "enable_attachables": true
+    }
+  }
+}

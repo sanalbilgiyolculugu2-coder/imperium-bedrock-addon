@@ -1,0 +1,37 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "megamod:bandit_chief",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/entity/imperium/bandit_chief"
+      },
+      "geometry": {
+        "default": "geometry.imperium.banner_commander"
+      },
+      "animations": {
+        "idle": "animation.imperium.soldier.idle",
+        "walk": "animation.imperium.soldier.walk",
+        "shield_block": "animation.imperium.soldier.shield_block",
+        "attack": "animation.imperium.soldier.attack",
+        "controller": "controller.animation.imperium.soldier"
+      },
+      "scripts": {
+        "animate": [
+          "controller"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.imperium.default"
+      ],
+      "spawn_egg": {
+        "base_color": "#7D1919",
+        "overlay_color": "#AF9137"
+      },
+      "enable_attachables": true
+    }
+  }
+}

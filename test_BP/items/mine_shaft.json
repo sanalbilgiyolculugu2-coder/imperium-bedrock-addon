@@ -1,0 +1,20 @@
+{
+  "format_version": "1.20.80",
+  "minecraft:item": {
+    "description": {
+      "identifier": "megamod:mine_shaft",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": {
+        "texture": "mine_shaft"
+      },
+      "minecraft:display_name": {
+        "value": "item.megamod:mine_shaft.name"
+      },
+      "minecraft:max_stack_size": 16
+    }
+  }
+}

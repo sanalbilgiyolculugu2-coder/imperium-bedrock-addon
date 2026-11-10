@@ -1,0 +1,50 @@
+name: Imperium BDS & GameTest CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  bedrock-gametest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js & Python
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run Static Content-Log & SimulatedPlayer Suite
+        run: python3 bds_run.py --local-sim
+
+      - name: Download Official Minecraft Bedrock Dedicated Server (BDS)
+        run: |
+          mkdir -p bds
+          cd bds
+          BDS_URL=$(curl -s -A "Mozilla/5.0" https://www.minecraft.net/en-us/download/server/bedrock | grep -oE 'https://[^"]+bin-linux/bedrock-server-[0-9.]+\.zip' | head -n 1)
+          if [ -z "$BDS_URL" ]; then
+            BDS_URL="https://www.minecraft.net/bedrockdedicatedserver/bin-linux/bedrock-server-1.21.60.10.zip"
+          fi
+          echo "Downloading BDS from $BDS_URL"
+          curl -L -A "Mozilla/5.0" -o bds.zip "$BDS_URL" && unzip -q bds.zip && chmod +x bedrock_server || true
+
+      - name: Run Headless BDS GameTest & Content-Log Check
+        run: |
+          if [ -f "./bds/bedrock_server" ]; then
+            python3 bds_run.py --bds-dir ./bds | tee bds_console.log
+          fi
+
+      - name: Upload BDS Content-Log Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bds-content-logs
+          path: |
+            bds_console.log
+            bds/ContentLog*
+          if-no-files-found: ignore

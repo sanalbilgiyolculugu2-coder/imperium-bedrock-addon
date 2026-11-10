@@ -1,0 +1,35 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "megamod:imperial_cannon",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/entity/imperium/imperial_cannon"
+      },
+      "geometry": {
+        "default": "geometry.imperium.imperial_cannon"
+      },
+      "animations": {
+        "idle": "animation.imperium.soldier.idle",
+        "walk": "animation.imperium.wheel.roll",
+        "attack": "animation.imperium.soldier.attack",
+        "controller": "controller.animation.imperium.soldier"
+      },
+      "scripts": {
+        "animate": [
+          "controller"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.imperium_default"
+      ],
+      "spawn_egg": {
+        "base_color": "#41444b",
+        "overlay_color": "#e1af2d"
+      }
+    }
+  }
+}

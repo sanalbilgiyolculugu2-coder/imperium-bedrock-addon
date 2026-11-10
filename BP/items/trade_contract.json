@@ -1,0 +1,20 @@
+{
+  "format_version": "1.20.80",
+  "minecraft:item": {
+    "description": {
+      "identifier": "megamod:trade_contract",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:icon": {
+        "texture": "trade_contract"
+      },
+      "minecraft:display_name": {
+        "value": "item.megamod:trade_contract.name"
+      },
+      "minecraft:max_stack_size": 16
+    }
+  }
+}

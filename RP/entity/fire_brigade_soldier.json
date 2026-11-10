@@ -1,0 +1,36 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "megamod:fire_brigade_soldier",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/entity/imperium/fire_brigade_soldier"
+      },
+      "geometry": {
+        "default": "geometry.imperium.musketeer_guard"
+      },
+      "animations": {
+        "idle": "animation.imperium.soldier.idle",
+        "walk": "animation.imperium.soldier.walk",
+        "attack": "animation.imperium.soldier.attack",
+        "controller": "controller.animation.imperium.soldier"
+      },
+      "scripts": {
+        "animate": [
+          "controller"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.imperium_default"
+      ],
+      "spawn_egg": {
+        "base_color": "#af2d1e",
+        "overlay_color": "#dcb432"
+      },
+      "enable_attachables": true
+    }
+  }
+}

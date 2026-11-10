@@ -1,0 +1,83 @@
+{
+  "format_version": [
+    1,
+    1,
+    0
+  ],
+  "megamod:claim_flag_block": {
+    "textures": "claim_flag_block",
+    "sound": "wood"
+  },
+  "megamod:town_bell_block": {
+    "textures": "town_bell_block",
+    "sound": "wood"
+  },
+  "megamod:tactical_map_table_block": {
+    "textures": "tactical_map_table_block",
+    "sound": "wood"
+  },
+  "megamod:royal_throne_block": {
+    "textures": "royal_throne_block",
+    "sound": "wood"
+  },
+  "megamod:barracks_desk_block": {
+    "textures": "barracks_desk_block",
+    "sound": "wood"
+  },
+  "megamod:infirmary_bed_block": {
+    "textures": "infirmary_bed_block",
+    "sound": "wood"
+  },
+  "megamod:granary_silo_block": {
+    "textures": "granary_silo_block",
+    "sound": "wood"
+  },
+  "megamod:royal_bank_vault_block": {
+    "textures": "royal_bank_vault_block",
+    "sound": "wood"
+  },
+  "megamod:guild_crafting_table_block": {
+    "textures": "guild_crafting_table_block",
+    "sound": "wood"
+  },
+  "megamod:feast_table_block": {
+    "textures": "feast_table_block",
+    "sound": "wood"
+  },
+  "megamod:castle_gate_block": {
+    "textures": "castle_gate_block",
+    "sound": "wood"
+  },
+  "megamod:tar_cauldron_block": {
+    "textures": "tar_cauldron_block",
+    "sound": "wood"
+  },
+  "megamod:arrow_slit_block": {
+    "textures": "arrow_slit_block",
+    "sound": "wood"
+  },
+  "megamod:wooden_stakes_block": {
+    "textures": "wooden_stakes_block",
+    "sound": "wood"
+  },
+  "megamod:caltrops_block": {
+    "textures": "caltrops_block",
+    "sound": "wood"
+  },
+  "megamod:mantlet_shield_block": {
+    "textures": "mantlet_shield_block",
+    "sound": "wood"
+  },
+  "megamod:harbor_dock_block": {
+    "textures": "harbor_dock_block",
+    "sound": "wood"
+  },
+  "megamod:mine_shaft_block": {
+    "textures": "mine_shaft_block",
+    "sound": "wood"
+  },
+  "megamod:toll_gate_block": {
+    "textures": "toll_gate_block",
+    "sound": "wood"
+  }
+}

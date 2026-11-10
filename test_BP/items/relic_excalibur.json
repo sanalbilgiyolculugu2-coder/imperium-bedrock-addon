@@ -1,0 +1,25 @@
+{
+  "format_version": "1.20.80",
+  "minecraft:item": {
+    "description": {
+      "identifier": "megamod:relic_excalibur",
+      "menu_category": {
+        "category": "equipment"
+      }
+    },
+    "components": {
+      "minecraft:icon": {
+        "texture": "relic_excalibur"
+      },
+      "minecraft:display_name": {
+        "value": "item.megamod:relic_excalibur.name"
+      },
+      "minecraft:max_stack_size": 1,
+      "minecraft:damage": 20,
+      "minecraft:hand_equipped": true,
+      "minecraft:durability": {
+        "max_durability": 5000
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "format_version": "1.16.0",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "megamod:recipe_soldier_ration"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "B#C"
+    ],
+    "key": {
+      "B": {
+        "item": "minecraft:bread"
+      },
+      "#": {
+        "item": "minecraft:cooked_beef"
+      },
+      "C": {
+        "item": "minecraft:carrot"
+      }
+    },
+    "result": {
+      "item": "megamod:soldier_ration",
+      "count": 4
+    }
+  }
+}

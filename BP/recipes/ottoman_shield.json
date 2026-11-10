@@ -1,0 +1,28 @@
+{
+  "format_version": "1.16.0",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "megamod:recipe_ottoman_shield"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      " W ",
+      "WIW",
+      " W "
+    ],
+    "key": {
+      "W": {
+        "item": "minecraft:oak_planks"
+      },
+      "I": {
+        "item": "minecraft:iron_ingot"
+      }
+    },
+    "result": {
+      "item": "megamod:ottoman_shield",
+      "count": 1
+    }
+  }
+}

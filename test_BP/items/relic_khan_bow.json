@@ -1,0 +1,25 @@
+{
+  "format_version": "1.20.80",
+  "minecraft:item": {
+    "description": {
+      "identifier": "megamod:relic_khan_bow",
+      "menu_category": {
+        "category": "equipment"
+      }
+    },
+    "components": {
+      "minecraft:icon": {
+        "texture": "relic_khan_bow"
+      },
+      "minecraft:display_name": {
+        "value": "item.megamod:relic_khan_bow.name"
+      },
+      "minecraft:max_stack_size": 1,
+      "minecraft:damage": 17,
+      "minecraft:hand_equipped": true,
+      "minecraft:durability": {
+        "max_durability": 5000
+      }
+    }
+  }
+}

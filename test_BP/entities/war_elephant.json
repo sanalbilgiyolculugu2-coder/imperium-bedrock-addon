@@ -1,0 +1,213 @@
+{
+  "format_version": "1.16.0",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "megamod:war_elephant",
+      "is_spawnable": true,
+      "is_summonable": true,
+      "is_experimental": false
+    },
+    "component_groups": {
+      "imperium:stance_follow": {
+        "minecraft:behavior.follow_mob": {
+          "priority": 4,
+          "search_range": 24,
+          "stop_distance": 4,
+          "speed_multiplier": 1.0
+        }
+      },
+      "imperium:stance_hold": {
+        "minecraft:movement": {
+          "value": 0.0
+        },
+        "minecraft:knockback_resistance": {
+          "value": 1.0
+        }
+      },
+      "imperium:stance_aggressive": {
+        "minecraft:movement": {
+          "value": 0.24
+        },
+        "minecraft:behavior.melee_attack": {
+          "priority": 2,
+          "speed_multiplier": 1.15,
+          "track_target": true
+        }
+      },
+      "imperium:veteran_tier": {
+        "minecraft:health": {
+          "value": 234,
+          "max": 234
+        },
+        "minecraft:attack": {
+          "damage": 28
+        }
+      },
+      "imperium:elite_tier": {
+        "minecraft:health": {
+          "value": 288,
+          "max": 288
+        },
+        "minecraft:attack": {
+          "damage": 35
+        }
+      }
+    },
+    "components": {
+      "minecraft:type_family": {
+        "family": [
+          "soldier",
+          "cavalry",
+          "imperium_army"
+        ]
+      },
+      "minecraft:health": {
+        "value": 180,
+        "max": 180
+      },
+      "minecraft:attack": {
+        "damage": 22
+      },
+      "minecraft:movement": {
+        "value": 0.24
+      },
+      "minecraft:knockback_resistance": {
+        "value": 0.85
+      },
+      "minecraft:navigation.walk": {
+        "can_path_over_water": true,
+        "avoid_water": true
+      },
+      "minecraft:movement.basic": {},
+      "minecraft:jump.static": {},
+      "minecraft:collision_box": {
+        "width": 1.4,
+        "height": 2.8
+      },
+      "minecraft:nameable": {
+        "always_show": true,
+        "allow_name_tag_renaming": true
+      },
+      "minecraft:physics": {},
+      "minecraft:pushable": {
+        "is_pushable": false,
+        "is_pushable_by_piston": true
+      },
+      "minecraft:behavior.float": {
+        "priority": 0
+      },
+      "minecraft:behavior.melee_attack": {
+        "priority": 2,
+        "speed_multiplier": 1.15,
+        "track_target": true
+      },
+      "minecraft:behavior.hurt_by_target": {
+        "priority": 1
+      },
+      "minecraft:behavior.nearest_attackable_target": {
+        "priority": 3,
+        "must_see": true,
+        "reselect_targets": true,
+        "entity_types": [
+          {
+            "filters": {
+              "any_of": [
+                {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "monster"
+                },
+                {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "bandit"
+                },
+                {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "pillager"
+                },
+                {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "zombie"
+                },
+                {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "rival_lord"
+                }
+              ]
+            },
+            "max_dist": 28
+          }
+        ]
+      },
+      "minecraft:behavior.look_at_player": {
+        "priority": 7,
+        "look_distance": 8.0
+      }
+    },
+    "events": {
+      "minecraft:entity_spawned": {
+        "add": {
+          "component_groups": [
+            "imperium:stance_aggressive"
+          ]
+        }
+      },
+      "imperium:set_follow": {
+        "remove": {
+          "component_groups": [
+            "imperium:stance_hold"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "imperium:stance_follow",
+            "imperium:stance_aggressive"
+          ]
+        }
+      },
+      "imperium:set_hold": {
+        "remove": {
+          "component_groups": [
+            "imperium:stance_follow",
+            "imperium:stance_aggressive"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "imperium:stance_hold"
+          ]
+        }
+      },
+      "imperium:set_aggressive": {
+        "remove": {
+          "component_groups": [
+            "imperium:stance_hold"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "imperium:stance_aggressive"
+          ]
+        }
+      },
+      "imperium:promote_veteran": {
+        "add": {
+          "component_groups": [
+            "imperium:veteran_tier"
+          ]
+        }
+      },
+      "imperium:promote_elite": {
+        "add": {
+          "component_groups": [
+            "imperium:elite_tier"
+          ]
+        }
+      }
+    }
+  }
+}
